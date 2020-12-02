@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 class Home extends React.Component {
     render() {
-        return <div>
-            <div>This is Home!</div>
+        return <div id="home">
+            <div>Hello, World!</div>
             <div>
                 <Link to="/md" style={{ color: 'black' }}>
-                    <div>点击跳转到md</div>
+                    <div>jump to md</div>
                 </Link>
             </div>
         </div>;

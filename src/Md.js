@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
 import TestMd from './markdown/Test.md';
+import gfm from 'remark-gfm';
+import emoji from 'emoji-dictionary';
 
 class Markdown extends Component {
     constructor() {
@@ -15,7 +17,8 @@ class Markdown extends Component {
 
     render() {
         const { markdown } = this.state;
-        return <ReactMarkdown source={markdown} />;
+        const emojiSupport = text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name))
+        return <ReactMarkdown plugins={[gfm]} source={markdown} renderers={{text: emojiSupport}} />;
     }
 }
 
