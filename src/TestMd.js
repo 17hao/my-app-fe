@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
 import ReactMarkdown from 'react-markdown';
-import TestMd from './markdown/Test.md';
+import testMd from './markdown/Test.md';
 import gfm from 'remark-gfm';
 import emoji from 'emoji-dictionary';
 
-class Markdown extends Component {
+class TestMd extends Component {
     constructor() {
         super();
-        this.state = {markdown: ''};
+        this.state = { markdown: '' };
     }
 
     componentWillMount() {
         // Get the contents from the Markdown file and put them in the React state, so we can reference it in render() below.
-        fetch(TestMd).then(res => res.text()).then(text => this.setState({ markdown: text }));
+        fetch(testMd).then(res => res.text()).then(text => this.setState({ markdown: text }));
     }
 
     render() {
         const { markdown } = this.state;
         const emojiSupport = text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name))
-        return <ReactMarkdown plugins={[gfm]} source={markdown} renderers={{text: emojiSupport}} />;
+        return <ReactMarkdown plugins={[gfm]} source={markdown} renderers={{ text: emojiSupport }} />;
     }
 }
 
-export default Markdown;
+export default TestMd;

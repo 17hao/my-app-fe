@@ -6,8 +6,13 @@ class Home extends React.Component {
         return <div id="home">
             <div>Hello, World!</div>
             <div>
-                <Link to="/md" style={{ color: 'black' }}>
-                    <div>jump to md</div>
+                <Link to="/test.md" style={{ color: 'black' }}>
+                    <div>Test.md</div>
+                </Link>
+            </div>
+            <div>
+                <Link to="/math.md" style={{ color: 'black' }}>
+                    <div>Math.md</div>
                 </Link>
             </div>
         </div>;

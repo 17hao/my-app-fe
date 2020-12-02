@@ -3,7 +3,7 @@
 ### Heading level 3
 #### Heading level 4
 ##### Heading level 5
-# Here's a Heading
+
 zzx == :pig:
 
 I just love **bold text**.
