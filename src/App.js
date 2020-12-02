@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './Home';
 import TestMd from './TestMd';
 import MathMd from './MathMd'
+import Calculus from './CalculusNote'
+
 class App extends React.Component {
     render() {
         return (
@@ -11,6 +13,7 @@ class App extends React.Component {
                     <Route exact path="/" component={Home} />
                     <Route path="/test.md" component={TestMd} />
                     <Route path="/math.md" component={MathMd} />
+                    <Route path="/calculus.md" component={Calculus} />
                 </div>
             </Router>
         )

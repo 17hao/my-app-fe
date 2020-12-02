@@ -9,12 +9,18 @@ class Home extends React.Component {
                 <Link to="/test.md" style={{ color: 'black' }}>
                     <div>Test.md</div>
                 </Link>
-            </div>
-            <div>
                 <Link to="/math.md" style={{ color: 'black' }}>
                     <div>Math.md</div>
                 </Link>
+                <Link to="/calculus.md" style={{ color: 'black' }}>
+                    <div>CalculusNode.md</div>
+                </Link>
             </div>
+            {/* <div>
+                <Link to="/math.md" style={{ color: 'black' }}>
+                    <div>Math.md</div>
+                </Link>
+            </div> */}
         </div>;
     }
 }
