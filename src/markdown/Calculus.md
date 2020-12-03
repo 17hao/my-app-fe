@@ -52,9 +52,7 @@ $\lim_{x->0}\frac{f(x)}{g(x)^k}=l$
 
 2个重要的极限，要会推导
 $$
-\lim_{x\rightarrow 0}\frac{sin~x}{x}=1
-$$
-$$
+\lim_{x\rightarrow 0}\frac{sin~x}{x}=1\\
 \lim_{x\rightarrow \infty}(1+\frac{1}{x})^x=e
 $$
 
@@ -101,9 +99,7 @@ $$
 #### 函数乘除后的导数
 
 $$
-(uv)'=u'v+uv'
-$$
-$$
+(uv)'=u'v+uv'\\
 (\frac{u}{v})'=\frac{u'v-uv'}{v^2}
 $$
 #### 高阶导数

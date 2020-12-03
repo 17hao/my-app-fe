@@ -13,7 +13,10 @@ class Home extends React.Component {
                     <div>Math.md</div>
                 </Link>
                 <Link to="/calculus.md" style={{ color: 'black' }}>
-                    <div>CalculusNode.md</div>
+                    <div>Calculus.md</div>
+                </Link>
+                <Link to="/linearAlg.md" style={{ color: 'black' }}>
+                    <div>LinearAlg.md</div>
                 </Link>
             </div>
             {/* <div>

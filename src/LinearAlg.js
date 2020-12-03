@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import ReactMarkdown from 'react-markdown';
-import mathMd from './markdown/Math.md';
+import linearAlg from './markdown/LinearAlg.md';
 import MarkdownRender from './MarkdownRender';
 
-class MathMd extends Component {
+class LinearAlgMd extends Component {
     constructor() {
         super();
         this.state = { markdown: '' };
@@ -11,7 +10,7 @@ class MathMd extends Component {
 
     componentWillMount() {
         // Get the contents from the Markdown file and put them in the React state, so we can reference it in render() below.
-        fetch(mathMd).then(res => res.text()).then(text => this.setState({ markdown: text }));
+        fetch(linearAlg).then(res => res.text()).then(text => this.setState({ markdown: text }));
     }
 
     render() {
@@ -20,4 +19,4 @@ class MathMd extends Component {
     }
 }
 
-export default MathMd;
+export default LinearAlgMd;

@@ -1,11 +1,11 @@
 $$
-Tyalor~seris:
-\\sum_{n=0}^\\infty \\frac{f^{(n)}(a)}{n!}(x-a)^n
+Tyalor~seris:\\
+\sum_{n=0}^\infty \frac{f^{(n)}(a)}{n!}(x-a)^n
 $$
 
 $$
-Maclaurin~series:
-\\sum_{n=0}^\\infty \\frac{f^{(n)}(0)}{n!}x^n
+Maclaurin~series:\\
+\sum_{n=0}^\infty \frac{f^{(n)}(0)}{n!}x^n
 $$
 
 $$
@@ -13,5 +13,5 @@ $$
 $$
 
 $$
-\\int_0^\\infty x^2 dx
+\int_0^\infty x^2 dx
 $$

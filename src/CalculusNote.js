@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactMarkdown from 'react-markdown';
-import calculus from './markdown/CalculusNote.md';
+import calculus from './markdown/Calculus.md';
 import MarkdownRender from './MarkdownRender';
 
 class CalculusMd extends Component {
@@ -16,7 +15,7 @@ class CalculusMd extends Component {
 
     render() {
         const { markdown } = this.state;
-        return <ReactMarkdown source={markdown} renderers={{ text: MarkdownRender }} />;
+        return <MarkdownRender source={markdown} />;
     }
 }
 
