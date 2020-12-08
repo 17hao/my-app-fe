@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactMarkdown from 'react-markdown';
 import mathMd from './markdown/Math.md';
 import MarkdownRender from './MarkdownRender';
 
