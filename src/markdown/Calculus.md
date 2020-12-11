@@ -35,8 +35,9 @@ $\lim_{x->0}\frac{f(x)}{g(x)^k}=A$
 
 1. 同阶无穷小：k=1 && A是常数
 2. 等价无穷小：k=1 && A==1
-3. g(x)是高阶无穷小：k=1 && A是无穷
-4. k阶无穷小：k > 1 && A是常数
+3. f(x)是比g(x)低阶的无穷小：k=1 && A是无穷
+4. f(x)是比g(x)高阶的无穷小：k=1 && A==0
+5. f(x)是关于g(x)的k阶无穷小：k > 0 && A是常数
 
 ##### 9个常用等价无穷小
 
@@ -74,12 +75,14 @@ $$
 #### 一元函数连续、可导、可微
 
 f(x)在x=x_0处连续的定义：
+
 $$
 \lim_{x\rightarrow x_0}f(x)=f(x_0)\\
 \lim_{\Delta h\rightarrow0}[f(x_0+\Delta h)-f(x_0)]=0\\
 \lim_{h\rightarrow0}f(x_0+h)=f(x_0)\\
 $$
 f(x)在x=x_0处导数的定义：
+
 $$
 f'(x_0)=\lim_{\Delta h\rightarrow0}\frac{f(x_0+\Delta h)-f(x_0)}{\Delta h}
 $$
@@ -159,6 +162,7 @@ $$
 #### 曲率半径和曲率的推导
 
 曲率半径
+
 $$
 R=\frac{ds}{da}\\
 ds=\sqrt{(x1-x2)^2-(y1-y2)^2}=\sqrt{1+y'^2}dx\\
@@ -172,6 +176,7 @@ $$
 K = 1/R
 
 参数方程的曲率用同样的公式求解
+
 $$
 \frac{dy}{dx}=\frac{y_t'}{x_t'}\\
 \frac{d^2y}{dx^2}=\frac{d\frac{dy}{dx}}{dx}=\frac{d\frac{dy}{dt}}{dt}\frac{dt}{dx}=\frac{(\frac{dy}{dx})_t'}{x_t'}
@@ -217,6 +222,7 @@ $$
 ##### 求弧长
 
 对于参数方程：
+
 $$
 \Delta x=x'(t)\Delta t\\
 \Delta y=y'(t)\Delta t\\
@@ -232,6 +238,7 @@ $$
 对于函数y=f(x)
 
 绕x轴旋转：
+
 $$
 \Delta v=\pi f(x)^2\Delta x 
 V=\pi\int_{x_1}^{x_2}f(x)^2dx
@@ -239,11 +246,13 @@ $$
 绕y轴旋转：
 
 选择x作为微元:
+
 $$
 \Delta v=[(x+\Delta x)^2-x^2]\pi f(x)=2\pi xf(x)\Delta x\\
 V=2\pi\int_{x_1}^{x_2}xf(x)dy
 $$
 选择y作为微元:
+
 $$
 将y=f(x)转换成x=f(y)\\
 \Delta v=\pi x^2\Delta y\\
@@ -258,6 +267,7 @@ $$
 #### 常微分方程
 
 可分离变量的微分方程是基础
+
 $$
 \frac{dy}{dx}=f(x)g(y)\\
 \Rightarrow\int\frac{dy}{g(y)}=\int f(x)g(x)
@@ -265,6 +275,7 @@ $$
 齐次方程用变量替换转换成可分离变量的微分方程
 
 一阶线性微分方程的解要会推导
+
 $$
 y'+P(x)y=Q(x)\\
 重点是找到v(x)使得p(x)v(x)=v'(x)
@@ -305,6 +316,7 @@ $$
 $$
 
 特解的求法
+
 $$
 1. 如果f(x)=P_m(x)e^{\lambda x},P_m(x)是x的m次多项式\\
 y*=x^ke^{\lambda x}Q_m(x)\\
@@ -329,6 +341,7 @@ $z=f(u, v)$
 $\frac{∂z}{∂x}=\frac{∂z}{∂u}\frac{∂u}{∂x}+\frac{∂z}{∂v}\frac{∂v}{∂x}$
 
 隐函数求导，要会推导
+
 $$
 \frac{dy}{dx}=-\frac{F_x'}{F_y'}
 推导过程：\\
@@ -340,8 +353,8 @@ $$
 求多元函数极值的步骤：
 
 1. 求一阶偏导数$\frac{∂z}{∂x}$ 和 $\frac{∂z}{∂y}$
-2. 求驻点(x0, y0)（一阶偏导数为0）
-3. 求二阶偏导$A=f_{xx}(x0, y0)$ $B=f_{xy}(x0, y0)$ $C=f_{yy}(x0, y0)$
+2. 求驻点(x_0, y_0)（一阶偏导数为0）
+3. 求二阶偏导$A=f_{xx}(x_0, y_0)$ $B=f_{xy}(x_0, y_0)$ $C=f_{yy}(x_0, y_0)$
 4. 通过表达式判断
    1. AC-B^2 > 0 && A > 0 极小值
    2. AC-B^2 > 0 && A < 0 极大值
