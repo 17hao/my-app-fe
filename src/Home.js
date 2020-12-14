@@ -5,7 +5,6 @@ class Home extends React.Component {
     render() {
         return <div id="home">
             <div>Hello, World!</div>
-            <div id="container" style="padding: 24px" />
             <div>
                 <Link to="/calculus.md" style={{ color: 'black' }}>
                     <div>微积分笔记</div>
