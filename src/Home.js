@@ -5,28 +5,18 @@ class Home extends React.Component {
     render() {
         return <div id="home">
             <div>Hello, World!</div>
+            <div id="container" style="padding: 24px" />
             <div>
-                {/* <Link to="/test.md" style={{ color: 'black' }}>
-                    <div>Test.md</div>
-                </Link>
-                <Link to="/math.md" style={{ color: 'black' }}>
-                    <div>Math.md</div>
-                </Link> */}
                 <Link to="/calculus.md" style={{ color: 'black' }}>
-                    <div>Calculus.md</div>
+                    <div>微积分笔记</div>
                 </Link>
                 <Link to="/linearAlg.md" style={{ color: 'black' }}>
-                    <div>LinearAlg.md</div>
+                    <div>线代笔记</div>
                 </Link>
                 <Link to="/mst.md" style={{ color: 'black' }}>
-                    <div>MST.md</div>
+                    <div>最小生成树</div>
                 </Link>
             </div>
-            {/* <div>
-                <Link to="/math.md" style={{ color: 'black' }}>
-                    <div>Math.md</div>
-                </Link>
-            </div> */}
         </div>;
     }
 }
