@@ -6,6 +6,7 @@ import MathMd from './MathMd';
 import Calculus from './CalculusNote';
 import LinearAlgMd from './LinearAlg';
 import MST from './Mst';
+import InitShell from './InitSh';
 
 class App extends React.Component {
     render() {
@@ -18,6 +19,7 @@ class App extends React.Component {
                     <Route path="/calculus.md" component={Calculus} />
                     <Route path="/linearAlg.md" component={LinearAlgMd} />
                     <Route path="/mst.md" component={MST} />
+					<Route path="/InitShell.md" component={InitShell} />
                 </div>
             </Router>
         )

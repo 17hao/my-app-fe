@@ -15,6 +15,9 @@ class Home extends React.Component {
                 <Link to="/mst.md" style={{ color: 'black' }}>
                     <div>最小生成树</div>
                 </Link>
+				<Link to="/InitShell.md" style={{ color: 'black' }}>
+					<div>迅速部署阿里云服务器</div>
+				</Link>
             </div>
         </div>;
     }
