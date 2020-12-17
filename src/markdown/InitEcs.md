@@ -1,4 +1,4 @@
-&emsp;&emsp;每次重置阿里云的服务器后都要重装、配置一些软件，特别麻烦，决定写成脚本。
+每次重置阿里云的服务器后都要重装、配置一些软件，特别麻烦，决定写成脚本。
 
 ```bash
 #!/bin/bash
@@ -9,10 +9,10 @@ then
 fi
 
 apt-get update
-software=(git npm openjdk-8-jdk)
-for i in ${software[@]}
+softwares=(cmake gdb tree git npm openjdk-8-jdk astyle ctags vim-nox ruby-dev)
+for i in ${softwares[@]}
 do
-    apt-get install $i
+    apt-get install $i -y
 done
 
 git config --global user.email "sqh1107@gmail.com"
@@ -35,5 +35,7 @@ fi
 wget -O $HOME/.vimrc http://shiqihao.xyz/vimrc.txt
 
 vi +PluginInstall +qall
+
+cd $HOME/.vim/bundle/command-t && rake make
 
 ```

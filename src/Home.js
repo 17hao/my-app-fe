@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 class Home extends React.Component {
     render() {
         return <div id="home">
-            <div>Hello, World!</div>
-            <div>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/17hao">github</a>
+			<div>email: sqh1107@gmail.com</div>
+			<div>
                 <Link to="/calculus.md" style={{ color: 'black' }}>
                     <div>微积分笔记</div>
                 </Link>
