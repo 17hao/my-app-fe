@@ -1,19 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 // import LikeButton from './LikeButton';
 // import Clock from './Clock.js';
-import App from './App';
-import MyNavbar from './MyNavbar';
+import App from "./App";
+import "antd/dist/antd.css";
+import MyNavbar from "./MyNavbar";
 
-ReactDOM.render(
-	<App />,
-	document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById("root"));
 
-ReactDOM.render(
-	<MyNavbar />,
-	document.getElementById('navbar')
-);
+// ReactDOM.render(
+// 	<MyNavbar />,
+// 	document.getElementById('navbar')
+// );
 
 // ReactDOM.render(
 //   <React.StrictMode>
