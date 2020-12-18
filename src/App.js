@@ -1,24 +1,23 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Home from './Home';
-import Calculus from './CalculusNote';
-import LinearAlgMd from './LinearAlg';
-import MST from './Mst';
-import InitShell from './InitSh';
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Calculus from "./CalculusNote";
+import Header from "./Header";
+import route from "./route";
 
 class App extends React.Component {
-    render() {
-        return (
-            <Router>
-                <div>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/calculus.md" component={Calculus} />
-                    <Route path="/linearAlg.md" component={LinearAlgMd} />
-                    <Route path="/mst.md" component={MST} />
-					<Route path="/InitShell.md" component={InitShell} />
-                </div>
-            </Router>
-        )
-    }
+	render() {
+		return (
+			<div>
+				{/* <MyNavbar /> */}
+				<Router>
+					<Header />
+					<Route exact path="/" component={Calculus} />
+					{route.map((v) => (
+						<Route path={v.path} component={v.component} />
+					))}
+				</Router>
+			</div>
+		);
+	}
 }
 export default App;
