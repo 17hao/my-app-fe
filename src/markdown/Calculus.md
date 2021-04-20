@@ -1,9 +1,16 @@
-考试前回忆一遍这些公式，作为热身
-
-[toc]
+#### 一些比较重要的公式
+考试前务必记一下
+1. $sin(x+y)=sinxcosy+cosxsiny$
+2. $cos(x+y)=cosxcosy-sinxsiny$
+3. $sin(2x)=2sinxcosx$
+4. $cos(2x)=2cos^2x-1$
+5. $a^n-b^n=(a-b)(a^{n-1}+a^{n-2}b+a^{n-3}b^2+...+a^2b^{n-3}+ab^{n-2}+b^{n-1})$
+6. $a^3-b^3=(a-b)(a^2+ab+b^2)$
+7. $lnx^n = nlnx$
+8. $\frac{a+b}{2} \geq \sqrt{ab}$
+9. $|a-b| \geq ||a| - |b||$
 
 #### 泰勒级数和麦克劳林级数
-
 $$
 Tyalor~seris:
 \sum_{n=0}^\infty \frac{f^{(n)}(a)}{n!}(x-a)^n\\
@@ -12,64 +19,62 @@ $$
 Maclaurin~series:
 \sum_{n=0}^\infty \frac{f^{(n)}(0)}{n!}x^n
 $$
-带拉格朗日余项的泰勒公式：
+
+带拉格朗日余项的泰勒公式:
+
 $$
 f(x)=f(a)+f'(a)(x-a)+f''(\xi)\frac{(x-a)^2}{2},(\xi介于x与a之间)
 $$
 
-#### 一些比较重要的公式
+#### 9个常用等价无穷小
+当$x \to 0$时：
 
-考试前务必记一下
-1. $sin(x+y)=sinxcosy+cosxsiny$
-2. $cos(x+y)=cosxcosy-sinxsiny$
-3. $sin(2x)=2sinxcosx$
-4. $cos(2x)=2cos^2x-1$
-5. $a^n-b^n=(a-b)(a^{n-1}+a^{n-2}b+a^{n-3}b^2+...+a^2b^{n-3}+ab^{n-2}+b^{n-1})$
-6. $a^3-b^3=(a-b)(a^2+ab+b^2)$
-7. $ln~x^n=nln~x$
-
+1. $sinx = x - \frac{x^3}{3!} + o(x^3)$
+2. $cosx = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} + o(x^4)$
+3. $tanx = x + \frac{x^3}{3} + o(x^3)$
+4. $arcsinx = x + \frac{x^3}{3!} + o(x^3)$
+5. $arctanx = x - \frac{x^3}{3} + o(x^3)$
+6. $e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + o(x^3)$
+7. $a^x-1 \verb ~ x$
+8. $(1+x)^a = 1 + ax + \frac{a(a-1)x^2}{2!} + o(x^2)$
+9. $ln(1+x) = x - \frac{x^2}{2} + \frac{x^3}{3} + o(x^3)$
 
 #### 无穷小
 
-$\lim_{x->0}\frac{f(x)}{g(x)^k}=A$
+$\lim_{x\to0}\frac{f(x)}{g(x)}=A$
 
-1. 同阶无穷小：k=1 && A是常数
-2. 等价无穷小：k=1 && A==1
-3. f(x)是比g(x)低阶的无穷小：k=1 && A是无穷
-4. f(x)是比g(x)高阶的无穷小：k=1 && A==0
-5. f(x)是关于g(x)的k阶无穷小：k > 0 && A是常数
+- A=0, f(x)是比g(x)高阶的无穷小 i.e. f(x)趋向于0的速度更快
+- A=$\infin$, f(x)是比g(x)低阶的无穷小
+- A=c(c $\not = 0$), f(x)和g(x)同阶无穷小
+- A=1, f(x)和g(x)等价无穷小
 
-##### 9个常用等价无穷小
+$\lim_{x\to0}\frac{f(x)}{g(x)^k}=A$
 
-当x -> 0 时：
-
-1. $sinx\approx x$
-2. $tanx\approx x$
-3. $arcsinx\approx x$
-4. $arctanx\approx x$
-5. $1-cosx\approx \frac{x^2}{2}$
-6. $e^x-1\approx x$
-7. $a^x-1\approx x$
-8. $(1+x)^a-1\approx ax$
-9. $ln(1+x)\approx x$
+- k>0 && A是常数, f(x)是关于g(x)的k阶无穷小
 
 #### 求极限
-
 2个重要的极限，要会推导
+
 $$
 \lim_{x\rightarrow 0}\frac{sin~x}{x}=1\\
 \lim_{x\rightarrow \infty}(1+\frac{1}{x})^x=e
 $$
 
-应用洛必达法则时要注意的陷阱：
+应用洛必达法则时要注意的陷阱:
+
+**尽量别用**
+因为洛必达法则是后验的, 举例说明情况:
+
+$\lim_{x \to a}\frac{f(x)}{g(x)} = \lim_{x \to a}\frac{f'(x)}{g'(x)}$ 只能从右边存在推出左边边存在,无法从左边存在推出右边存在.
+
+e.g. $\lim_{x\to0}\frac{x^2sin{\frac{1}{x}}}{x}$
 
 **要保证上下2个函数在a点去心邻域是可导的（左右邻域有一个就行），也就是导函数在a点邻域是连续的。如果是抽象函数，要靠x=a点二阶导数的存在性才能判断a点邻域的一阶导函数连续性。**
 
 #### 间断点
-
 - 第一类间断点（左右极限都存在）
-  - 跳跃间断点（左右极限不相等）
-  - 可去间断点（左右极限相等）
+  - 可去间断点（左右极限存在且相等）
+  - 跳跃间断点（左右极限存在且不相等）
 - 第二类间断点（至少有一边的极限不存在）
 
 #### 一元函数连续、可导、可微
