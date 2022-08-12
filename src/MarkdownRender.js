@@ -1,26 +1,46 @@
 import ReactMarkdown from 'react-markdown';
 import MathJax from 'react-mathjax';
 import RemarkMathPlugin from 'remark-math';
+import emoji from 'emoji-dictionary';
+import CodeBlock from './CodeBlock';
+import gfm from 'remark-gfm';
+import React from 'react';
 
-function MarkdownRender(props) {
+class MarkdownRender extends React.Component {
+  constructor() {
+    super()
+    this.state = { markdown: '' }
+  }
+
+  componentDidMount() {
+    fetch(this.props.file).then(res => res.text()).then(text => this.setState({ markdown: text }));
+  }
+
+  render() {
     const newProps = {
-        ...props,
-        plugins: [
-          RemarkMathPlugin,
-        ],
-        renderers: {
-          ...props.renderers,
-          math: (props) => 
-            <MathJax.Node formula={props.value} />,
-          inlineMath: (props) =>
-            <MathJax.Node inline formula={props.value} />
-        }
-      };
-      return (
-        <MathJax.Provider input="tex">
-            <ReactMarkdown {...newProps} />
-        </MathJax.Provider>
-      );
+      ...this.props,
+      plugins: [
+        RemarkMathPlugin,
+        gfm,
+      ],
+      renderers: {
+        ...{
+          text: text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name)),
+          code: CodeBlock,
+        },
+        math: (props) =>
+          <MathJax.Node formula={props.value} />,
+        inlineMath: (props) =>
+          <MathJax.Node inline formula={props.value} />,
+      },
+      source: this.state.markdown,
+    };
+    return (
+      <MathJax.Provider input="tex">
+        <ReactMarkdown {...newProps} />
+      </MathJax.Provider>
+    );
+  }
 }
 
 export default MarkdownRender
