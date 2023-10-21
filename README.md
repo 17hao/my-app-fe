@@ -8,4 +8,4 @@ npm run build
 
 docker build -t 17hao/my-app-fe .
 
-docker run --name my-app-fe -d -p 80:80 my-app-fe
+docker run --name my-app-fe -d -p 80:80 17hao/my-app-fe
