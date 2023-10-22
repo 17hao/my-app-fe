@@ -11,9 +11,9 @@ class NaiveNavbar extends React.Component {
             <Navbar bg="dark" data-bs-theme="dark">
                 <Container>
                     <Nav>
-                        <Nav.Link href="/" className="custom-link">Home</Nav.Link>
-                        <Nav.Link href="/articals" className="custom-link">Articals</Nav.Link>
-                        <Nav.Link href="/aboutme" className="custom-link">About</Nav.Link>
+                        <Nav.Link href="/" className="custom-nav">Home</Nav.Link>
+                        <Nav.Link href="/articals" className="custom-nav">Articals</Nav.Link>
+                        <Nav.Link href="/aboutme" className="custom-nav">About</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>
