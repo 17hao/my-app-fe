@@ -49,8 +49,8 @@ function NaiveRouter(props) {
         <BrowserRouter>
             <div>
                 <Route exact path="/" render={() => <Homepage />} />
-                <Route exact path="/articals" render={() => <Articals articals={articals} />} />
-                <Route exact path="/aboutme" render={() => <AboutMe />} />
+                <Route path="/articals" render={() => <Articals articals={articals} />} />
+                <Route path="/aboutme" render={() => <AboutMe />} />
                 {routes}
             </div>
         </BrowserRouter>
