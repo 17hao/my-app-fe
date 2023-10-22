@@ -1,6 +1,12 @@
 set nu
 set ts=4 sw=4
 set hlsearch
+syntax on
+
+map <C-E> $
+map <C-A> 0|
+map! <C-E> <esc>A
+map! <C-A> <esc>0i
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -12,27 +18,21 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'valloric/youcompleteme'
 Plugin 'scrooloose/syntastic'
-Plugin 'dracula/vim', { 'name': 'dracula' }
-Plugin 'wincent/command-t'
+Plugin 'joshdick/onedark.vim'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-let g:dracula_colorterm = 0
-colorscheme dracula
-
 " nerdtree settings
-autocmd vimenter * NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-autocmd VimEnter * wincmd p
-let NERDTreeShowHidden=1
-
-" ycm settings
-let g:ycm_global_ycm_extra_conf = '/root/.ycm_c-c++_conf.py'
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_key_list_stop_completion = [ '<C-y>', '<Enter>']
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " syntasic settings
 set statusline+=%#warningmsg#
@@ -42,12 +42,3 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" automatic closing brackets
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
