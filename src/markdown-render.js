@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import MathJax from 'react-mathjax';
 import RemarkMathPlugin from 'remark-math';
 import emoji from 'emoji-dictionary';
-import CodeBlock from './CodeBlock';
+import CodeBlock from './code-block';
 import gfm from 'remark-gfm';
 import React from 'react';
 

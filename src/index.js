@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MyRouter from './MyRouter';
-import MyNavbar from './MyNavbar';
+import NaiveRouter from './naive-router';
+import NaiveNavbar from './naive-navbar';
 
 ReactDOM.render(
-	<MyRouter />,
-	document.getElementById('root')
+    <NaiveRouter />,
+    document.getElementById('router')
 );
 
 ReactDOM.render(
-	<MyNavbar />,
-	document.getElementById('navbar')
+    <NaiveNavbar />,
+    document.getElementById('navbar')
 );

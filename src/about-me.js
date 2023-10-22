@@ -1,0 +1,12 @@
+function AboutMe(props) {
+    return (
+        <div id="about-me">
+            <p>
+                github: <a target="_blank" rel="noopener noreferrer" href="https://github.com/17hao">https://github.com/17hao</a>
+            </p>
+            <p>email: sqh1107@gmail.com</p>
+        </div>
+    )
+}
+
+export default AboutMe;
