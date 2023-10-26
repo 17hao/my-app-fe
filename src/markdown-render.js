@@ -13,7 +13,7 @@ class MarkdownRender extends React.Component {
     }
 
     componentDidMount() {
-        fetch(this.props.file).then(res => res.text()).then(text => this.setState({ markdown: text }));
+        fetch(this.props.content).then(res => res.text()).then(text => this.setState({ markdown: text }));
     }
 
     render() {
