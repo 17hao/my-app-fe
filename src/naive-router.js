@@ -51,8 +51,8 @@ function NaiveRouter(props) {
         <BrowserRouter>
             <NaiveNavbar />
             <Route exact path="/" render={() => <Home />} />
-            <Route key="blog" path="/blog" render={() => <Blog posts={posts} />} />
-            <Route key="about" path="/about" render={() => <About />} />
+            <Route exact key="blog" path="/blog" render={() => <Blog posts={posts} />} />
+            <Route exact key="about" path="/about" render={() => <About />} />
             {blogRoutes}
         </BrowserRouter>
     )
