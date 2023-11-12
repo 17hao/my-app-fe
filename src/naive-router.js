@@ -35,7 +35,7 @@ function NaiveRouter(props) {
         },
         {
             "path": "init_cloud_server",
-            "title": "云服务器部署脚本",
+            "title": "云服务器配置脚本",
             "content": initCloudServer,
         }
     ]

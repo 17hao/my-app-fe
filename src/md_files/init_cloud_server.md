@@ -1,4 +1,4 @@
-配置云服务器脚本。
+配置云服务器的一些脚本
 
 OS Version: Debian 12
 
@@ -34,7 +34,7 @@ programming languages
 ```bash
 #!/bin/bash
 
-#go
+# go
 wget -e use_proxy=yes -e https_proxy=http://127.0.0.1:8889 https://go.dev/dl/go1.20.11.linux-amd64.tar.gz
 
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.11.linux-amd64.tar.gz
@@ -47,8 +47,11 @@ go env -w GOPROXY=https://goproxy.cn,direct
 
 rm -rf go1.20.11.linux-amd64.tar.gz
 
-#python
+# python
 sudo apt install python3 python3-pip python3-venv -y
+
+# c
+sudo apt install gcc gdb clang lldb -y
 ```
 
 docker
