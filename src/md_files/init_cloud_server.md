@@ -54,6 +54,15 @@ sudo apt install python3 python3-pip python3-venv -y
 sudo apt install gcc gdb clang lldb -y
 ```
 
+git
+```bash
+git config --global http.proxy http://127.0.0.1:8889
+git config --global user.email sqh1107@gmail.com
+git config --global user.name 17hao
+git config --global core.editor vim
+git config --global core.pager less -+X
+```
+
 docker
 ```bash
 #!/bin/bash
