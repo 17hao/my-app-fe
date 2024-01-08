@@ -8,7 +8,7 @@ vim
 
 cat <<EOF > $HOME/.vimrc
 set nu
-set ts=4 sw=4
+set ts=8 sts=4 sw=4
 set hlsearch
 syntax on
 
