@@ -9,3 +9,9 @@ install dependencies `npm ci`
 debug `npm run start`
 
 build `npm run build`
+
+build image `bash build-image.sh`
+
+push image to remote `docker push 17hao/my-app-fe:latest`
+
+start container `docker run --name my-app-fe -p 80:80 -it -d 17hao/my-app-fe`

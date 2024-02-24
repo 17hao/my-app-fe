@@ -1,7 +1,7 @@
 FROM node:16.20.2 as node
 WORKDIR /app
 COPY package.json .
-RUN npm install
+RUN npm install --verbose
 COPY . .
 RUN npm run build
 
