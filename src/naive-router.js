@@ -10,6 +10,7 @@ import mst from './md_files/mst.md';
 import linearAlg from './md_files/linear_alg.md';
 import charset from './md_files/charset.md';
 import calculus from './md_files/calculus.md';
+import preseeding from './md_files/preseeding.md';
 
 function NaiveRouter(props) {
     const posts = [
@@ -37,6 +38,11 @@ function NaiveRouter(props) {
             "path": "init_cloud_server",
             "title": "云服务器配置脚本",
             "content": initCloudServer,
+        },
+        {
+            "path": "preseeding",
+            "title": "自动化安装Debian",
+            "content": preseeding,
         }
     ]
 
