@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+docker pull 17hao/my-app-fe:latest
+
 docker stop my-app-fe
 
 docker rm my-app-fe
