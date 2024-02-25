@@ -15,9 +15,8 @@ preseed.cfg 文件
 使用 Wi-Fi 的场景下，只能指定要连接的 Wi-Fi，需要手动回车。可参考[源码](https://salsa.debian.org/installer-team/netcfg/-/blob/master/wireless.c)进一步确认。整个安装流程只有这一步需要人工介入。
 
 TODO
-1. 安装 gnome 桌面环境前需要通过 preseed/late_command 将 /etc/apt/sources.list 文件里的 security.debian.org 域名替换成国内镜像源，否则安装 Firefox 会非常慢。
-2. 装有多块硬盘时怎么配置？
-3. boot loader 不会挂载到 `/boot/efi` 目录下，会有问题吗？
+1. 装有多块硬盘时怎么配置？
+2. boot loader 不会挂载到 `/boot/efi` 目录下，会有问题吗？
 
 ```text
 # language
@@ -77,6 +76,7 @@ d-i partman/confirm_nooverwrite boolean true
 
 # apt
 d-i apt-setup/cdrom/set-first boolean false
+d-i apt-setup/security_host string mirrors.tuna.tsinghua.edu.cn
 ## 无桌面环境
 tasksel tasksel/first multiselect standard
 popularity-contest popularity-contest/participate boolean false
