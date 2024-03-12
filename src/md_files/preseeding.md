@@ -1,3 +1,9 @@
+[2024-3-13 Update]
+
+1. boot loader 没有挂载到 `/boot/efi` 目录下有问题，说明是以 BIOS 启动，现在的机器基本都是 uefi 模式启动，笔记本电量耗光后会无法识别到启动硬盘。原因是制作启动U盘的方式不对，不能直接把 ISO 镜像拷贝到U盘，最好通过第三方工具将U盘配置成支持 uefi 模式启动。Linux 下可以使用 ventoy。
+2. vim 依赖 vim-common，删除 preseed 文件倒数第二行。
+
+
 目标
 
 通过 preseeding 自动化安装 Debian amd64 操作系统。
@@ -96,7 +102,7 @@ d-i preseed/early_command string umount /media
 # 默认使用系统检测到的第一块硬盘
 d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
 
-d-i preseed/late_command string in-target apt autoremove -y vim-common
+<del>d-i preseed/late_command string in-target apt autoremove -y vim-common<del>
 d-i preseed/late_command string in-target apt install -y vim git curl net-tools psmisc tree
 ```
 
