@@ -11,7 +11,7 @@ var style = {
     width: "100%",
 }
 
-function Footer() {
+export default function Footer() {
     return (
         <div>
             <div style={style}>
@@ -20,5 +20,3 @@ function Footer() {
         </div>
     )
 }
-
-export default Footer

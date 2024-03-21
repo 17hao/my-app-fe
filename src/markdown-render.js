@@ -6,7 +6,7 @@ import CodeBlock from './code-block';
 import gfm from 'remark-gfm';
 import React from 'react';
 
-class MarkdownRender extends React.Component {
+export default class MarkdownRender extends React.Component {
     constructor() {
         super()
         this.state = { markdown: '' }
@@ -42,5 +42,3 @@ class MarkdownRender extends React.Component {
         );
     }
 }
-
-export default MarkdownRender
