@@ -1,4 +1,4 @@
-function About(props) {
+export default function About(props) {
     return (
         <div id="about">
             <p>
@@ -8,5 +8,3 @@ function About(props) {
         </div>
     )
 }
-
-export default About;

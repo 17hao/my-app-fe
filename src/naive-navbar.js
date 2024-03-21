@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import './naive-navbar.css'
 
-class NaiveNavbar extends React.Component {
+export default class NaiveNavbar extends React.Component {
     render() {
         return (
             <Navbar bg="dark" data-bs-theme="dark">
@@ -18,5 +18,3 @@ class NaiveNavbar extends React.Component {
         );
     }
 }
-
-export default NaiveNavbar;

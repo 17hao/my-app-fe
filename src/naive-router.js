@@ -12,7 +12,7 @@ import charset from './md_files/charset.md';
 import calculus from './md_files/calculus.md';
 import preseeding from './md_files/preseeding.md';
 
-function NaiveRouter(props) {
+export default function NaiveRouter(props) {
     const posts = [
         {
             "path": "charset",
@@ -63,5 +63,3 @@ function NaiveRouter(props) {
         </BrowserRouter>
     )
 }
-
-export default NaiveRouter;
