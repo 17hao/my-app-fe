@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
+import BasicNavbar from './basic-navbar'
 import Home from './home';
 import Blog from './blog';
 import About from './about';
-import NaiveNavbar from "./naive-navbar";
 import MarkdownRender from './markdown-render';
 import initCloudServer from './md_files/init_cloud_server.md';
 import mst from './md_files/mst.md';
@@ -12,7 +12,7 @@ import charset from './md_files/charset.md';
 import calculus from './md_files/calculus.md';
 import preseeding from './md_files/preseeding.md';
 
-export default function NaiveRouter(props) {
+export default function BasicRouter(props) {
     const posts = [
         {
             "path": "charset",
@@ -55,7 +55,7 @@ export default function NaiveRouter(props) {
 
     return (
         <BrowserRouter>
-            <NaiveNavbar />
+            <BasicNavbar />
             <Route exact path="/" render={() => <Home />} />
             <Route exact key="blog" path="/blog" render={() => <Blog posts={posts} />} />
             <Route exact key="about" path="/about" render={() => <About />} />
