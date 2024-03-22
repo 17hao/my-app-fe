@@ -482,5 +482,4 @@ d-i debian-installer/exit/poweroff boolean true
 
 d-i preseed/early_command string umount /media
 d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
-d-i preseed/late_command string in-target apt autoremove -y vim-common
 d-i preseed/late_command string in-target apt install -y vim git curl net-tools psmisc tree
