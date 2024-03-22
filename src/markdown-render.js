@@ -2,9 +2,19 @@ import ReactMarkdown from 'react-markdown';
 import MathJax from 'react-mathjax';
 import RemarkMathPlugin from 'remark-math';
 import emoji from 'emoji-dictionary';
-import CodeBlock from './code-block';
 import gfm from 'remark-gfm';
 import React from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
+function CodeBlock(props) {
+    const { language, value } = props
+    return (
+        <SyntaxHighlighter language={language} style={docco}>
+            {value}
+        </SyntaxHighlighter>
+    );
+}
 
 export default class MarkdownRender extends React.Component {
     constructor() {
