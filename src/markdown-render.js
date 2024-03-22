@@ -1,19 +1,33 @@
-import ReactMarkdown from 'react-markdown';
-import MathJax from 'react-mathjax';
-import RemarkMathPlugin from 'remark-math';
-import emoji from 'emoji-dictionary';
-import gfm from 'remark-gfm';
-import React from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import ReactMarkdown from 'react-markdown'
+import RemarkMathPlugin from 'remark-math'
+import emoji from 'emoji-dictionary'
+import remarkGfm from 'remark-gfm'
+import remarkToc from 'remark-toc'
+import React from 'react'
+import rehypeKatex from 'rehype-katex'
+import rehypeSlug from 'rehype-slug'
+import SyntaxHighlighter from 'react-syntax-highlighter'
+import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import 'katex/dist/katex.min.css'
+import './markdown-render.css'
 
 function CodeBlock(props) {
-    const { language, value } = props
-    return (
-        <SyntaxHighlighter language={language} style={docco}>
-            {value}
-        </SyntaxHighlighter>
-    );
+    const { children, className, node, ...rest } = props
+    const match = /language-(\w+)/.exec(className || '')
+    return match ? (
+        <SyntaxHighlighter
+            {...rest}
+            PreTag="div"
+            children={String(children).replace(/\n$/, '')}
+            language={match[1]}
+            showLineNumbers={true}
+            style={atomOneLight}
+        />
+    ) : (
+        <code {...rest} className={className} style={{ backgroundColor: "#f1f1f1" }}>
+            {children}
+        </code>
+    )
 }
 
 export default class MarkdownRender extends React.Component {
@@ -29,35 +43,25 @@ export default class MarkdownRender extends React.Component {
     render() {
         const newProps = {
             ...this.props,
-            plugins: [
+            remarkPlugins: [
                 RemarkMathPlugin,
-                gfm,
+                remarkGfm,
+                [remarkToc, { heading: "Table of Contents", tight: true }]
             ],
-            renderers: {
-                ...{
-                    text: text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name)),
-                    code: CodeBlock,
-                },
-                math: (props) =>
-                    <MathJax.Node formula={props.value} />,
-                inlineMath: (props) =>
-                    <MathJax.Node inline formula={props.value} />,
+            rehypePlugins: [
+                [rehypeKatex, { strict: false }],
+                rehypeSlug
+            ],
+            components: {
+                text: text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name)),
+                code: CodeBlock,
             },
-            source: this.state.markdown,
+            children: this.state.markdown,
         };
 
-        const style = {
-            paddingTop: "10px",
-            paddingBottom: "20px",
-            paddingLeft: "12%",
-            paddingRight: "12%",
-        }
-
         return (
-            <div style={style}>
-                <MathJax.Provider input="tex">
-                    <ReactMarkdown {...newProps} />
-                </MathJax.Provider>
+            <div className="markdown-render">
+                <ReactMarkdown {...newProps} />
             </div>
         );
     }

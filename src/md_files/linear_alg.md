@@ -1,19 +1,17 @@
 考试前可以看一下这些概念
 
-[toc]
+## Table of Contents
 
-#### 矩阵的一些概念
+## 矩阵的一些概念
 
-$$
-逆矩阵：AA^{-1}=E\\
-伴随矩阵：AA^*=|A|E\\
-等价矩阵：能通过初等行列变化转换，秩相等\\
-相似矩阵：存在可逆矩阵P，P^{-1}AP=B，A相似B\\
-合同矩阵：存在可逆矩阵C，C^{T}AC=B,A与B合同\\
-$$
+- $逆矩阵：AA^{-1}=E$
+- $伴随矩阵：AA^*=|A|E$
+- $等价矩阵：能通过初等行列变化转换，秩相等$
+- $相似矩阵：存在可逆矩阵P，P^{-1}AP=B，A相似B$
+- $合同矩阵：存在可逆矩阵C，C^{T}AC=B,A与B合同$
+- $矩阵相乘的秩: rank(AB) <= min(rank(A), rank(B))$
 
-矩阵相乘的秩: rank(AB) <= min(rank(A), rank(B))
-#### 2个重要的矩阵：伴随矩阵和逆矩阵
+## 2个重要的矩阵：伴随矩阵和逆矩阵
 
 伴随矩阵是对每个位置求代数余子式后进行转置，注意2个点：
 
@@ -39,37 +37,44 @@ $$
 - 如果$r(A)=n-1$，则$r(A*)=1$
 - 如果$r(A)<n-1$，则$r(A*)=0$
 
-#### 矩阵的秩、行列式、向量、线性方程组、矩阵可逆概念串联
+## 矩阵的秩、行列式、向量、线性方程组、矩阵可逆概念串联
 
 向量线性相关的定义：
+$$
+\begin{aligned}
+&a_1x_1+a_2x_2+a_3x_3=0\\
+&存在x_1、x_2、x_3不全为0，则a_1、a_2、a_3线性相关，即任一向量可以用其他几个向量表示
+\end{aligned}
+$$
 
-$$
-a_1x_1+a_2x_2+a_3x_3=0\\
-存在x_1、x_2、x_3不全为0，则a_1、a_2、a_3线性相关，即任一向量可以用其他几个向量表示
-$$
 n元齐次线性方程组 Ax=0：
+$$
+\begin{aligned}
+&齐次线性方程组有多个解（非零解）\Leftrightarrow系数矩阵列向量线性相关\Leftrightarrow r(A)<n\Leftrightarrow det(A)=0\\
+&e.g.~x+y=0\\
+&齐次线性方程组只有零解\Leftrightarrow系数矩阵列向量线性无关\Leftrightarrow r(A)=n\Leftrightarrow det(A)!=0\Leftrightarrow矩阵可逆\\
+\end{aligned}
+$$
 
-$$
-齐次线性方程组有多个解（非零解）\Leftrightarrow系数矩阵列向量线性相关\Leftrightarrow r(A)<n\Leftrightarrow det(A)=0\\
-e.g.~x+y=0\\
-齐次线性方程组只有零解\Leftrightarrow系数矩阵列向量线性无关\Leftrightarrow r(A)=n\Leftrightarrow det(A)!=0\Leftrightarrow矩阵可逆\\
-$$
 n元非齐次线性方程组 Ax=b：
+$$
+\begin{aligned}
+&只有零解\Leftrightarrow det(A)<det(A|b)\\
+&有唯一非零解\Leftrightarrow det(A)==det(A|b)==n\\
+&有无穷多解\Leftrightarrow det(A)==det(A|b)<n\\
+&如果det(A)==0，则r(A)<n，可能只有零解，可能有无穷多解\\
+&如果det(A)\ne0，则r(A)==n，有唯一非零解
+\end{aligned}
+$$
+
+## 线性方程组的解
 
 $$
-只有零解\Leftrightarrow det(A)<det(A|b)\\
-有唯一非零解\Leftrightarrow det(A)==det(A|b)==n\\
-有无穷多解\Leftrightarrow det(A)==det(A|b)<n\\
-如果det(A)==0，则r(A)<n，可能只有零解，可能有无穷多解\\
-如果det(A)\ne0，则r(A)==n，有唯一非零解
-$$
-
-#### 线性方程组的解
-
-$$
-Ax=0与A^TAx=0同解\\
-理由：Ax_0=0,A^T(Ax_0)=0\\
-所以转置矩阵：r(A^TA)=r(A)
+\begin{aligned}
+&Ax=0与A^TAx=0同解\\
+&理由：Ax_0=0,A^T(Ax_0)=0\\
+&所以转置矩阵：r(A^TA)=r(A)
+\end{aligned}
 $$
 
 2个概念：基础解系、通解：
@@ -93,7 +98,7 @@ $$
 2. 求一个特解
 3. 导出组的通解+特解，例如：$k_1a+b$
 
-#### 特征值、特征向量、行列式
+## 特征值、特征向量、行列式
 
 一些性质：
 
@@ -109,7 +114,7 @@ $$
 3. 基础解系是$A$对应于$\lambda_i$的线性无关特征向量，基础解系数量 = 未知数个数 - 系数矩阵的秩
 4. 通解是$A$对应于$\lambda_i$全体特征向量
 
-#### 矩阵等价、相似、合同、正定的条件
+## 矩阵等价、相似、合同、正定的条件
 
 - 矩阵等价的充要条件：r(A)=r(B)
 
@@ -120,7 +125,7 @@ $$
 - 矩阵正定的充要条件：每个特征值大于0，所以行列式也大于0；每个子式行列式大于0
 - 正定二次型的判断：方程组要大于零，从而利用方程组等于零只有零解来求解
 
-#### 相似矩阵、实对称矩阵、特征值、特征向量的联系
+## 相似矩阵、实对称矩阵、特征值、特征向量的联系
 
 1. 实对称矩阵一定相似于对角矩阵
 2. 相似矩阵的特征值相等，如果矩阵和对角阵相似，则特征值是对角阵对角线上的值
@@ -128,7 +133,7 @@ $$
 4. 实对称矩阵不同的特征值对应的特征向量互相正交
 5. 实对称矩阵A的特征向量单位化后组成正交矩阵U，$U^{T}AU=W$，W是对角矩阵
 
-#### 矩阵相似对角化
+## 矩阵相似对角化
 
 n阶矩阵相似对角化的充要条件(2选一)：
 
@@ -146,7 +151,7 @@ n阶矩阵相似对角化的充要条件(2选一)：
 
 矩阵秩为n，则它有n个非零特征值
 
-#### 二次型相关
+## 二次型相关
 
 惯性定理：二次型无论怎样变换成标准型，正平方和负平方的个数不变
 
@@ -160,15 +165,12 @@ n阶矩阵相似对角化的充要条件(2选一)：
 6. 构造正交矩阵Q
 7. x=Qy是所求的正交线性变换，标准型对应的矩阵是$Q^{T}AQ=Q^{-1}AQ$
 
-#### 施密特正交法
+## 施密特正交法
 
 $$
-\beta_1=\alpha_1\\
-\beta_2=\alpha_2-\frac{\beta_1^{T} \alpha_2}{\beta_1^{T} \beta_1}\beta_1\\
-\beta_3=\alpha_3-\frac{\beta_1^{T} \alpha_3}{\beta_1^{T} \beta_1}\beta_1-\frac{\beta_2^{T} \alpha_3}{\beta_2^{T} \beta_2}\beta_2\\
+\begin{align}
+\beta_1&=\alpha_1\\
+\beta_2&=\alpha_2-\frac{\beta_1^{T} \alpha_2}{\beta_1^{T} \beta_1}\beta_1\\
+\beta_3&=\alpha_3-\frac{\beta_1^{T} \alpha_3}{\beta_1^{T} \beta_1}\beta_1-\frac{\beta_2^{T} \alpha_3}{\beta_2^{T} \beta_2}\beta_2\\
+\end{align}
 $$
-
-
-
-
-

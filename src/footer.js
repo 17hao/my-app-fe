@@ -1,12 +1,12 @@
 export default function Footer() {
     const style = {
         textAlign: "center",
-        height: "20px",
+        height: "25px",
     }
 
     return (
         <div style={style}>
-            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">浙ICP备18016225号-2</a>
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer" style={{ color: "#6495ED" }}>浙ICP备18016225号-2</a>
         </div>
     )
 }
