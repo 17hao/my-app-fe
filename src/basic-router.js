@@ -3,7 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import BasicNavbar from './basic-navbar'
 import NaiveNavbar from './naive-navbar'
 import Home from './home';
-import Blog from './blog';
+import Blogs from './blogs';
 import About from './about';
 import MarkdownRender from './markdown-render';
 import initCloudServer from './md_files/init_cloud_server.md';
@@ -50,7 +50,7 @@ export default function BasicRouter(props) {
 
     const blogRoutes = (
         posts.map(post =>
-            <Route key={post.path} path={"/blog/" + post.path} render={() => <MarkdownRender content={post.content} />} />
+            <Route key={post.path} path={"/blogs/" + post.path} render={() => <MarkdownRender content={post.content} />} />
         )
     )
 
@@ -59,7 +59,7 @@ export default function BasicRouter(props) {
             {/* <BasicNavbar /> */}
             <NaiveNavbar />
             <Route exact path="/" render={() => <Home />} />
-            <Route exact key="blog" path="/blog" render={() => <Blog posts={posts} />} />
+            <Route exact key="blogs" path="/blogs" render={() => <Blogs posts={posts} />} />
             <Route exact key="about" path="/about" render={() => <About />} />
             {blogRoutes}
         </BrowserRouter>

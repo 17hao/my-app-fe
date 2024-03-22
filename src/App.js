@@ -1,7 +1,6 @@
 import React from "react";
 import BasicRouter from "./basic-router";
 import Footer from "./footer";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
     const style = {
