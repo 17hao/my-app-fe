@@ -45,10 +45,20 @@ export default class MarkdownRender extends React.Component {
             },
             source: this.state.markdown,
         };
+
+        const style = {
+            paddingTop: "10px",
+            paddingBottom: "20px",
+            paddingLeft: "12%",
+            paddingRight: "12%",
+        }
+
         return (
-            <MathJax.Provider input="tex">
-                <ReactMarkdown {...newProps} />
-            </MathJax.Provider>
+            <div style={style}>
+                <MathJax.Provider input="tex">
+                    <ReactMarkdown {...newProps} />
+                </MathJax.Provider>
+            </div>
         );
     }
 }

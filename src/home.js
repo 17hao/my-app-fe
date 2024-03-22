@@ -2,6 +2,6 @@ import React from 'react';
 
 export default function Home(props) {
     return (
-        <p>This is homepage.</p>
+        <p style={{marginLeft: "3%"}}>This is homepage.</p>
     )
 }
