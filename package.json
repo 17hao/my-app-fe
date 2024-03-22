@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@testing-library/react": "^10.4.7",
+        "bootstrap": "^5.3.3",
         "emoji-dictionary": "^1.0.11",
         "react": "^16.3.1",
         "react-bootstrap": "^2.9.1",
