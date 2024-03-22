@@ -1,17 +1,15 @@
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import BasicNavbar from './basic-navbar'
-import NaiveNavbar from './naive-navbar'
-import Home from './home';
-import Blogs from './blogs';
-import About from './about';
-import MarkdownRender from './markdown-render';
-import initCloudServer from './md_files/init_cloud_server.md';
-import mst from './md_files/mst.md';
-import linearAlg from './md_files/linear_alg.md';
-import charset from './md_files/charset.md';
-import calculus from './md_files/calculus.md';
-import preseeding from './md_files/preseeding.md';
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Home from './home'
+import Blogs from './blogs'
+import About from './about'
+import MarkdownRender from './markdown-render'
+import initCloudServer from './md_files/init_cloud_server.md'
+import mst from './md_files/mst.md'
+import linearAlg from './md_files/linear_alg.md'
+import charset from './md_files/charset.md'
+import calculus from './md_files/calculus.md'
+import preseeding from './md_files/preseeding.md'
 
 export default function BasicRouter(props) {
     const posts = [
@@ -50,18 +48,16 @@ export default function BasicRouter(props) {
 
     const blogRoutes = (
         posts.map(post =>
-            <Route key={post.path} path={"/blogs/" + post.path} render={() => <MarkdownRender content={post.content} />} />
+            <Route key={post.path} path={"/blogs/" + post.path} element={<MarkdownRender content={post.content} />} />
         )
     )
 
     return (
-        <BrowserRouter>
-            {/* <BasicNavbar /> */}
-            <NaiveNavbar />
-            <Route exact path="/" render={() => <Home />} />
-            <Route exact key="blogs" path="/blogs" render={() => <Blogs posts={posts} />} />
-            <Route exact key="about" path="/about" render={() => <About />} />
+        <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact key="blogs" path="/blogs" element={<Blogs posts={posts} />} />
+            <Route exact key="about" path="/about" element={<About />} />
             {blogRoutes}
-        </BrowserRouter>
+        </Routes>
     )
 }

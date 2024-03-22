@@ -94,7 +94,7 @@ $$
 f'(x_0)=\lim_{x\rightarrow x_0}\frac{f(x)-f(x_0)}{x-x_0}(x=x_0+\Delta h,\Delta h\rightarrow0,x\rightarrow x_0)
 $$
 
->  可导一定连续; 连续不一定可导. e.g. f(x) = |x|, x = 0
+> 可导一定连续; 连续不一定可导. e.g. f(x) = |x|, x = 0
 
 #### 常用的导函数
 1. $(sin~x)'=co~sx$

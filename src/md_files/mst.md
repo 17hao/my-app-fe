@@ -1,21 +1,19 @@
-# 目录
-1. [最小生成🌲](#最小生成🌲)
-2. [Prim算法](#Prim算法)
-3. [Kruskal算法](#Kruskal算法)
-    1. [并查集](#并查集)
-    2. [实现](#实现)
-4. [两种算法的比较](#两种算法的比较)
 # 最小生成🌲
-&emsp;&emsp;最小生成树(Minimum Spanning Tree)是一张加权无向连通图的子图, 它满足4个性质:
+介绍最小生成树和2种构造最小生成树的算法。
+
+## Table of Contents
+
+## 简介
+最小生成树(Minimum Spanning Tree)是一张加权无向连通图的子图, 它满足4个性质:
 
 1. 连通图
 2. 无环路
 2. 覆盖所有的节点
 3. 满足上述3个条件的前提下, 所有边的权重之和最小
 
-&emsp;&emsp;介绍2种构建[最小生成树](https://en.wikipedia.org/wiki/Minimum_spanning_tree)的算法：[Prim算法](https://en.wikipedia.org/wiki/Prim%27s_algorithm)和[Kruskal算法](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)。
-## Prim算法
+介绍2种构建[最小生成树](https://en.wikipedia.org/wiki/Minimum_spanning_tree)的算法：[Prim算法](https://en.wikipedia.org/wiki/Prim%27s_algorithm)和[Kruskal算法](https://en.wikipedia.org/wiki/Kruskal%27s_algorithm)。
 
+## Prim算法
 算法步骤:
 
 1. 初始情况下, MST为空

@@ -1,5 +1,7 @@
 import React from "react";
+import { BrowserRouter } from 'react-router-dom'
 import BasicRouter from "./basic-router";
+import NaiveNavbar from './naive-navbar'
 import Footer from "./footer";
 
 export default function App() {
@@ -8,11 +10,12 @@ export default function App() {
     }
 
     return (
-        <div>
+        <BrowserRouter >
             <div className="app" style={style}>
+                <NaiveNavbar />
                 <BasicRouter />
             </div>
             <Footer />
-        </div>
+        </BrowserRouter>
     );
 }
