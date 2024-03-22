@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import BasicNavbar from './basic-navbar'
+import NaiveNavbar from './naive-navbar'
 import Home from './home';
 import Blog from './blog';
 import About from './about';
@@ -55,7 +56,8 @@ export default function BasicRouter(props) {
 
     return (
         <BrowserRouter>
-            <BasicNavbar />
+            {/* <BasicNavbar /> */}
+            <NaiveNavbar />
             <Route exact path="/" render={() => <Home />} />
             <Route exact key="blog" path="/blog" render={() => <Blog posts={posts} />} />
             <Route exact key="about" path="/about" render={() => <About />} />
