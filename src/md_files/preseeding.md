@@ -15,8 +15,7 @@ preseed.cfg 文件
 使用 Wi-Fi 的场景下，只能指定要连接的 Wi-Fi，需要手动回车。可参考[源码](https://salsa.debian.org/installer-team/netcfg/-/blob/master/wireless.c)进一步确认。整个安装流程只有这一步需要人工介入。
 
 TODO
-1. 装有多块硬盘时怎么配置？
-2. boot loader 不会挂载到 `/boot/efi` 目录下，会有问题吗？
+1. 装有多块m2硬盘时怎么配置？
 
 ```text
 # language

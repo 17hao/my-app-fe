@@ -35,20 +35,21 @@ programming languages
 #!/bin/bash
 
 # go
-wget -e use_proxy=yes -e https_proxy=http://127.0.0.1:8889 https://go.dev/dl/go1.20.11.linux-amd64.tar.gz
+GOVERSION=1.20.14
+wget -e use_proxy=yes -e https_proxy=http://127.0.0.1:8889 https://go.dev/dl/go${GOVERSION}.linux-amd64.tar.gz
 
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.11.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go${GOVERSION}.linux-amd64.tar.gz
 
-printf 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
-bash
+printf 'export PATH=$PATH:/usr/local/go/bin\n' >> $HOME/.bashrc
+source .bashrc
 
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 
-rm -rf go1.20.11.linux-amd64.tar.gz
+rm -rf go${GOVERSION}.linux-amd64.tar.gz
 
 # python
-sudo apt install python3 python3-pip python3-venv -y
+sudo apt install python3 pipx python3-pip python3-venv -y
 
 # c
 sudo apt install gcc gdb clang lldb -y
@@ -88,6 +89,11 @@ sudo apt-get update
 
 # Install Docker Engine
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# https://stackoverflow.com/a/48957722/9779481
+sudo groupadd docker
+sudo usermod -aG docker $USER
+# sudo reboot
 ```
 
 mysql
