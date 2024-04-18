@@ -98,8 +98,8 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # https://stackoverflow.com/a/48957722/9779481
-sudo groupadd docker
-sudo usermod -aG docker $USER
+sudo /usr/sbin/groupadd docker
+sudo /usr/sbin/usermod -aG docker $USER
 # sudo reboot
 ```
 
