@@ -10,6 +10,7 @@ cat <<EOF > $HOME/.vimrc
 set nu
 set ts=8 sts=4 sw=4
 set hlsearch
+set mouse=a
 syntax on
 
 map <C-E> $
@@ -41,7 +42,7 @@ wget -e use_proxy=yes -e https_proxy=http://127.0.0.1:8889 https://go.dev/dl/go$
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go${GOVERSION}.linux-amd64.tar.gz
 
 printf 'export PATH=$PATH:/usr/local/go/bin\n' >> $HOME/.bashrc
-source .bashrc
+source .bashrc #fixme
 
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
@@ -61,7 +62,14 @@ git config --global http.proxy http://127.0.0.1:8889
 git config --global user.email sqh1107@gmail.com
 git config --global user.name 17hao
 git config --global core.editor vim
-git config --global core.pager less -+X
+git config --global core.pager "less -+X"
+
+cat <<EOF >> $HOME/.ssh/config
+Host github.com
+  HostName ssh.github.com
+  Port 443
+  ProxyCommand netcat -X connect -x 127.0.0.1:8889 %h %p
+EOF
 ```
 
 docker
