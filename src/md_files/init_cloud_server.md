@@ -42,10 +42,9 @@ wget -e use_proxy=yes -e https_proxy=http://127.0.0.1:8889 https://go.dev/dl/go$
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go${GOVERSION}.linux-amd64.tar.gz
 
 printf 'export PATH=$PATH:/usr/local/go/bin\n' >> $HOME/.bashrc
-source .bashrc #fixme
 
-go env -w GO111MODULE=on
-go env -w GOPROXY=https://goproxy.cn,direct
+/usr/local/go/bin/go env -w GO111MODULE=on
+/usr/local/go/bin/go env -w GOPROXY=https://goproxy.cn,direct
 
 rm -rf go${GOVERSION}.linux-amd64.tar.gz
 
