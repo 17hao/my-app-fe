@@ -19,7 +19,7 @@ TODO
 
 ```text
 # language
-d-i debian-installer/locale string en_US
+d-i debian-installer/locale string en_US.UTF-8
 d-i debian-installer/language string en
 d-i debian-installer/country string CN
 d-i keyboard-configuration/xkb-keymap select us
