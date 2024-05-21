@@ -109,8 +109,8 @@ mysql
 
 export http_proxy="127.0.0.1:8889"
 
-container_dir=$HOME/.docker/mysql
-mkdir $container_dir
+container_dir=$HOME/.container/mysql
+mkdir -p $container_dir
 
 cat <<EOF > $container_dir/my.cnf
 [mysqld]
@@ -167,7 +167,7 @@ redis
 
 export http_proxy="127.0.0.1:8889"
 
-container_dir=$HOME/.docker/redis
+container_dir=$HOME/.container/redis
 mkdir -p $container_dir
 
 cat <<EOF > $container_dir/redis.conf
