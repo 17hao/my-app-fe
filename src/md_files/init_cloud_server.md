@@ -109,7 +109,7 @@ mysql
 
 export http_proxy="127.0.0.1:8889"
 
-container_dir=$HOME/.mysql
+container_dir=$HOME/.docker/mysql
 mkdir $container_dir
 
 cat <<EOF > $container_dir/my.cnf
@@ -167,8 +167,8 @@ redis
 
 export http_proxy="127.0.0.1:8889"
 
-container_dir=$HOME/.redis
-mkdir $container_dir
+container_dir=$HOME/.docker/redis
+mkdir -p $container_dir
 
 cat <<EOF > $container_dir/redis.conf
 requirepass 123456
