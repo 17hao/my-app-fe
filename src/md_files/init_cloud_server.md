@@ -174,31 +174,28 @@ redis
 
 export http_proxy="127.0.0.1:8889"
 
-container_dir=/usr/local/container/redis
-sudo rm -rf $container_dir
-sudo mkdir -p $container_dir/data
-sudo mkdir -p $container_dir/conf
+container_dir=$HOME/.redis
+mkdir $container_dir
 
-user=$(whoami)
-sudo chown -R $user $container_dir
-sudo chgrp -R $user $container_dir
+cat <<EOF > $container_dir/redis.conf
+requirepass 123456
+# RDB
+save 60 1
+# AOF
+appendonly yes
+EOF
 
 container_name="redis-6.2"
 docker stop $container_name
 docker rm $container_name
 
-cat <<EOF > $container_dir/conf/redis.conf
-requirepass 123456
-EOF
-
 docker run -d \
            --name=$container_name \
            -p 16379:6379 \
-           -v $container_dir/data:/data \
-           -v $container_dir/conf:/usr/local/etc/redis \
+           -v $container_dir:/usr/local/etc/redis \
            redis:6.2 \
-           redis-server \
-           /usr/local/etc/redis/redis.conf
+           redis-server /usr/local/etc/redis/redis.conf
 
-docker ps --filter "name=$container_name" --filter "status=running"
+# docker ps --filter "name=$container_name" --filter "status=running"
+# docker run -it --rm --network=host redis:6.2 redis-cli -h 127.0.0.1 -p 16379 -a '123456'
 ```
