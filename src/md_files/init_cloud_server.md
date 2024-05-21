@@ -109,16 +109,10 @@ mysql
 
 export http_proxy="127.0.0.1:8889"
 
-container_dir=/usr/local/container/mysql
-sudo rm -rf $container_dir
-sudo mkdir -p $container_dir/data
-sudo mkdir -p $container_dir/conf
+container_dir=$HOME/.mysql
+mkdir $container_dir
 
-user=$(whoami)
-sudo chown -R $user $container_dir
-sudo chgrp -R $user $container_dir
-
-cat <<EOF > $container_dir/conf/my.cnf
+cat <<EOF > $container_dir/my.cnf
 [mysqld]
 skip-host-cache
 skip-name-resolve
@@ -150,13 +144,12 @@ docker run -d \
            -e MYSQL_ROOT_PASSWORD=123456 \
            --name=$container_name \
            -p 13306:3306 \
-           -v $container_dir/data:/var/lib/mysql \
-           -v $container_dir/conf:/etc/mysql/conf.d \
+           -v $container_dir:/etc/mysql/conf.d \
            mysql:5.7
 
-docker ps --filter "name=$container_name" --filter "status=running"
+#docker ps --filter "name=$container_name" --filter "status=running"
 
-cat <<EOF > $(pwd)/init-mysql-db
+cat <<EOF > $container_dir/init-mysql-db
 #!/bin/bash
 
 docker exec $container_name mysql -uroot -p123456 -e "create user 'admin'@'%' identified by '123456'"
@@ -164,8 +157,8 @@ docker exec $container_name mysql -uroot -p123456 -e "grant all privileges on *.
 docker exec $container_name mysql -uadmin -p123456 -e "create database my_db"
 EOF
 
-chmod 744 $(pwd)/init-mysql-db
-# bash init-mysql-db
+chmod 744 $container_dir/init-mysql-db
+#bash $container_dir/init-mysql-db
 ```
 
 redis
