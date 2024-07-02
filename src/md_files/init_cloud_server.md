@@ -10,7 +10,7 @@ cat <<EOF > $HOME/.vimrc
 set nu
 set ts=8 sts=4 sw=4
 set hlsearch
-set mouse=a
+set clipboard=unnamedplus
 syntax on
 
 map <C-E> $
