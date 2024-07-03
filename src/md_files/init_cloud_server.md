@@ -101,6 +101,13 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo /usr/sbin/groupadd docker
 sudo /usr/sbin/usermod -aG docker $USER
 # sudo reboot
+
+sudo mkdir /etc/systemd/system/docker.service.d
+cat <<EOF > /etc/systemd/system/docker.service.d/http-proxy.conf
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:8889"
+Environment="HTTPS_PROXY=http://127.0.0.1:8889"
+EOF
 ```
 
 mysql
@@ -191,4 +198,37 @@ docker run -d \
 
 # docker ps --filter "name=$container_name" --filter "status=running"
 # docker run -it --rm --network=host redis:6.2 redis-cli -h 127.0.0.1 -p 16379 -a '123456'
+```
+
+zookeeper(optional)
+```bash
+#!/bin/bash
+
+container_dir=$HOME/.container/zookeeper
+mkdir $container_dir
+
+cat <<EOF > $container_dir/zoo.cfg
+standaloneEnabled=false
+tickTime=2000
+dataDir=/data
+clientPort=2181
+initLimit=5
+syncLimit=2
+server.1=localhost:2888:3888
+EOF
+
+container_name="zk-3.9"
+docker stop $container_name
+docker rm $container_name
+
+docker run -d \
+           --name=$container_name \
+           -p 12181:2181 \
+           -v $container_dir/zoo.cfg:/conf/zoo.cfg \
+           zookeeper:3.9
+
+docker ps --filter "name=$container_name" --filter "status=running"
+
+# connect to localhost zookeeper
+# docker run -it --rm --link zk-3.9:zookeeper zookeeper:3.9 zkCli.sh -server zookeeper
 ```
