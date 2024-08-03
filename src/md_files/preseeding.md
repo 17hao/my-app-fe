@@ -95,7 +95,7 @@ d-i preseed/early_command string umount /media
 # 默认使用系统检测到的第一块硬盘
 d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
 
-d-i preseed/late_command string in-target apt install -y vim git curl net-tools psmisc tree
+d-i preseed/late_command string in-target apt install -y vim-gtk3 git curl net-tools psmisc tree
 ```
 
 重新打包 iso 镜像
