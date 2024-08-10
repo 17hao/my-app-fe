@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter } from 'react-router-dom'
-import BasicRouter from "./basic-router";
-import NaiveNavbar from './naive-navbar'
-import Footer from "./footer";
+import BasicRouter from "basic-router";
+import NaiveNavbar from 'naive-navbar'
+import Footer from "footer";
 
 export default function App() {
     const style = {

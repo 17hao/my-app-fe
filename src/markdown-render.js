@@ -9,7 +9,7 @@ import rehypeSlug from 'rehype-slug'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import 'katex/dist/katex.min.css'
-import './markdown-render.css'
+import 'markdown-render.css'
 
 function CodeBlock(props) {
     const { children, className, node, ...rest } = props
