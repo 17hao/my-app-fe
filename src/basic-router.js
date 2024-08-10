@@ -4,60 +4,56 @@ import Home from 'home'
 import Blogs from 'blogs'
 import About from 'about'
 import MarkdownRender from 'markdown-render'
-import initCloudServer from 'md_files/init_cloud_server.md'
-import mst from 'md_files/mst.md'
-import linearAlg from 'md_files/linear_alg.md'
-import charset from 'md_files/charset.md'
-import calculus from 'md_files/calculus.md'
-import preseeding from 'md_files/preseeding.md'
 
-export default function BasicRouter() {
-    const posts = [
-        {
-            "path": "charset",
-            "title": "字符编码",
-            "content": charset,
-        },
-        {
-            "path": "calculus",
-            "title": "微积分笔记",
-            "content": calculus,
-        },
-        {
-            "path": "lineaer_alg",
-            "title": "线性代数笔记",
-            "content": linearAlg,
-        },
-        {
-            "path": "mst",
-            "title": "最小生成树",
-            "content": mst,
-        },
-        {
-            "path": "init_cloud_server",
-            "title": "云服务器配置脚本",
-            "content": initCloudServer,
-        },
-        {
-            "path": "preseeding",
-            "title": "自动化安装Debian",
-            "content": preseeding,
-        }
-    ]
+// const pathTitleMap = {
+//     "calculus": "微积分笔记",
+//     "charset": "字符编码",
+//     "init_cloud_server": "云服务器配置脚本",
+//     "lineaer_alg": "线性代数笔记",
+//     "mst": "最小生成树",
+//     "preseeding": "自动化安装Debian"
+// }
 
+const importAll = r => r.keys().map(r)
+const markdownFiles = importAll(require.context("md_files", false, /\.\/.*\.md$/))
+const promises = markdownFiles.map(async (f) => {
+    return {
+        path: f.split("/")[3].split(".")[0], // e.g. ./calculus.md => calculus
+        text: await fetch(f).then(res => res.text())
+    }
+})
+const blogs = await Promise.all(promises).catch(err => console.error(err))
 
-    const blogRoutes = (
-        posts.map(post =>
-            <Route key={post.path} path={"/blogs/" + post.path} element={<MarkdownRender content={post.content} />} />
+class BasicRouter extends React.Component {
+    state = {
+        blogs: [
+            {
+                path: "",
+                text: "",
+            }
+        ]
+    }
+
+    constructor() {
+        super()
+        this.state = { blogs: blogs }
+    }
+
+    render() {
+        const blogRoutes = this.state.blogs.map(blog => {
+            // console.log(blog)
+            return <Route key={blog.path} path={"/blogs/" + blog.path} element={<MarkdownRender text={blog.text} />} />
+        })
+
+        return (
+            <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route exact key="blogs" path="/blogs" element={<Blogs />} />
+                <Route exact key="about" path="/about" element={<About />} />
+                {blogRoutes}
+            </Routes>
         )
-    )
-
-    return (
-        <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact key="blogs" path="/blogs" element={<Blogs posts={posts} />} />
-            <Route exact key="about" path="/about" element={<About />} />
-            {blogRoutes}
-        </Routes>
-    )
+    }
 }
+
+export default BasicRouter

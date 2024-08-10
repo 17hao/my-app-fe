@@ -31,14 +31,16 @@ function CodeBlock(props) {
 }
 
 export default class MarkdownRender extends React.Component {
-    constructor() {
+    constructor(props) {
         super()
-        this.state = { markdown: '' }
+        this.state = {
+            markdown: props.text
+        }
     }
 
-    componentDidMount() {
-        fetch(this.props.content).then(res => res.text()).then(text => this.setState({ markdown: text }));
-    }
+    // componentDidMount() {
+    //     fetch(this.props.file).then(res => res.text()).then(text => this.setState({ markdown: text }));
+    // }
 
     render() {
         const newProps = {
