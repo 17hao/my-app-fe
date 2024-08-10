@@ -2,8 +2,9 @@ FROM node:16.20.2 AS node
 WORKDIR /app
 COPY package.json .
 RUN npm install --verbose
-COPY src src/
 COPY public public/
+COPY src src/
+COPY jsconfig.json .
 RUN npm run build
 
 FROM nginx:stable
