@@ -1,16 +1,16 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import BasicRouter from "basic-router";
-import NaiveNavbar from "naive-navbar";
-import Footer from "footer";
+import MainRouter from "modules/common/components/main-router";
+import NaiveNavbar from "modules/common/components/naive-navbar";
+import Footer from "modules/common/components/footer";
 import "App.css";
 
 export default function App() {
     return (
-        <BrowserRouter >
+        <BrowserRouter>
             <div className="app">
                 <NaiveNavbar />
-                <BasicRouter />
+                <MainRouter />
             </div>
             <Footer />
         </BrowserRouter>
