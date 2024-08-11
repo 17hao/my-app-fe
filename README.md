@@ -14,4 +14,4 @@ build image `bash build-image.sh`
 
 push image to remote `docker push 17hao/my-app-fe:latest`
 
-start container `docker run --name my-app-fe -p 80:80 -it -d 17hao/my-app-fe`
+start container `docker run --name my-app-fe -p 3000:3000 -it -d 17hao/my-app-fe`
