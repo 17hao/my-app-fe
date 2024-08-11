@@ -1,9 +1,9 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Home from 'home'
-import Blogs from 'blogs'
-import About from 'about'
-import MarkdownRender from 'markdown-render'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "home";
+import Blogs from "blogs";
+import About from "about";
+import MarkdownRender from "markdown-render";
 
 // const pathTitleMap = {
 //     "calculus": "微积分笔记",
@@ -14,15 +14,15 @@ import MarkdownRender from 'markdown-render'
 //     "preseeding": "自动化安装Debian"
 // }
 
-const importAll = r => r.keys().map(r)
-const markdownFiles = importAll(require.context("md_files", false, /\.\/.*\.md$/))
+const importAll = r => r.keys().map(r);
+const markdownFiles = importAll(require.context("md_files", false, /\.\/.*\.md$/));
 const promises = markdownFiles.map(async (f) => {
     return {
         path: f.split("/")[3].split(".")[0], // e.g. ./calculus.md => calculus
         text: await fetch(f).then(res => res.text())
-    }
-})
-const blogs = await Promise.all(promises).catch(err => console.error(err))
+    };
+});
+const blogs = await Promise.all(promises).catch(err => console.error(err));
 
 class BasicRouter extends React.Component {
     state = {
@@ -32,18 +32,18 @@ class BasicRouter extends React.Component {
                 text: "",
             }
         ]
-    }
+    };
 
     constructor() {
-        super()
-        this.state = { blogs: blogs }
-    }
+        super();
+        this.state = { blogs: blogs };
+    };
 
     render() {
         const blogRoutes = this.state.blogs.map(blog => {
             // console.log(blog)
             return <Route key={blog.path} path={"/blogs/" + blog.path} element={<MarkdownRender text={blog.text} />} />
-        })
+        });
 
         return (
             <Routes>
@@ -52,8 +52,8 @@ class BasicRouter extends React.Component {
                 <Route exact key="about" path="/about" element={<About />} />
                 {blogRoutes}
             </Routes>
-        )
-    }
+        );
+    };
 }
 
 export default BasicRouter

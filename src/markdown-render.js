@@ -1,24 +1,24 @@
-import ReactMarkdown from 'react-markdown'
-import RemarkMathPlugin from 'remark-math'
-import emoji from 'emoji-dictionary'
-import remarkGfm from 'remark-gfm'
-import remarkToc from 'remark-toc'
-import React from 'react'
-import rehypeKatex from 'rehype-katex'
-import rehypeSlug from 'rehype-slug'
-import SyntaxHighlighter from 'react-syntax-highlighter'
-import { atomOneLight } from 'react-syntax-highlighter/dist/esm/styles/hljs'
-import 'katex/dist/katex.min.css'
-import 'markdown-render.css'
+import ReactMarkdown from "react-markdown"
+import RemarkMathPlugin from "remark-math"
+import emoji from "emoji-dictionary"
+import remarkGfm from "remark-gfm"
+import remarkToc from "remark-toc"
+import React from "react"
+import rehypeKatex from "rehype-katex"
+import rehypeSlug from "rehype-slug"
+import SyntaxHighlighter from "react-syntax-highlighter"
+import { atomOneLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import "katex/dist/katex.min.css"
+import "markdown-render.css"
 
 function CodeBlock(props) {
     const { children, className, node, ...rest } = props
-    const match = /language-(\w+)/.exec(className || '')
+    const match = /language-(\w+)/.exec(className || "")
     return match ? (
         <SyntaxHighlighter
             {...rest}
             PreTag="div"
-            children={String(children).replace(/\n$/, '')}
+            children={String(children).replace(/\n$/, "")}
             language={match[1]}
             showLineNumbers={true}
             style={atomOneLight}

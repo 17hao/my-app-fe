@@ -2,7 +2,7 @@ export default function Footer() {
     const style = {
         textAlign: "center",
         height: "25px",
-    }
+    };
 
     return (
         <div style={style}>
