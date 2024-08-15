@@ -1,0 +1,18 @@
+@startuml login
+
+hide footbox
+
+participant fe as "Front End"
+participant be as "Back End"
+participant db as "MySQL"
+participant gw as "gateway"
+
+fe -> be: login
+be -> db: query
+be <-- db: account
+be -> be: 生成jwt
+fe <-- be: Set-Cookie: jwt
+fe -> gw: https://host/login-redirect
+fe <-- gw: 302 Location: redirect-url
+
+@enduml
