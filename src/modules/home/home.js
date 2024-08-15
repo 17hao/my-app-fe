@@ -1,7 +1,13 @@
-import React from 'react'
+import React from "react";
+import "modules/home/home.css";
 
 export default function Home() {
     return (
-        <p style={{marginLeft: "3%"}}>This is homepage.</p>
+        <div className='home'>
+            <div className='title'>
+                <div>Welcome!</div>
+            </div>
+            <div>This is the home page.</div>
+        </div>
     )
 }
