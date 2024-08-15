@@ -5,16 +5,17 @@ import { Link } from "react-router-dom"
 
 export default function NaiveNavbar() {
     const navbarStyle = {
-        height: "50px",
-        backgroundColor: "#404040"
+        height: "55px",
+        backgroundColor: "#0f0f0f"
     }
 
     const linkStyle = {
         display: "inline-block",
-        paddingTop: "10px",
+        paddingTop: "13px",
         paddingLeft: "30px",
-        color: "#6495ED",
-        fontSize: "20px"
+        color: "#fcfcfc",
+        fontSize: "23px",
+        textDecoration: "none",
     }
 
     const linkMap = new Map()
@@ -28,10 +29,18 @@ export default function NaiveNavbar() {
         )
     )
 
+    const navItemsStyle = {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+    }
+
     return (
         <Navbar>
             <Nav style={navbarStyle}>
-                {links}
+                <div style={navItemsStyle}>
+                    {links}
+                </div>
             </Nav>
         </Navbar>
     )
