@@ -1,6 +1,5 @@
 import React from "react";
-import { Link, Route, Routes } from "react-router-dom";
-import MarkdownRender from "modules/blog/MarkdownRender";
+import { Link } from "react-router-dom";
 
 // const pathTitleMap = {
 //     "calculus": "微积分笔记",
@@ -11,31 +10,7 @@ import MarkdownRender from "modules/blog/MarkdownRender";
 //     "preseeding": "自动化安装Debian"
 // }
 
-const importAll = r => r.keys().map(r);
-const markdownFiles = importAll(require.context("modules/blog/md_files", false, /\.\/.*\.md$/));
-const promises = markdownFiles.map(async (f) => {
-    return {
-        path: f.split("/")[3].split(".")[0], // e.g. ./calculus.md => calculus
-        text: await fetch(f).then(res => res.text())
-    };
-});
-const blogs = await Promise.all(promises).catch(err => console.error(err));
-
-export default class BlogList extends React.Component {
-    state = {
-        blogs: [
-            {
-                path: "",
-                text: "",
-            }
-        ]
-    };
-
-    constructor() {
-        super();
-        this.state = { blogs: blogs };
-    };
-
+export default class BlogIndex extends React.Component {
     render() {
         const itemStyle = {
             margin: "5px",
@@ -76,19 +51,9 @@ export default class BlogList extends React.Component {
             </Link>
         )
 
-        const blogRoutes = this.state.blogs.map(blog => {
-            // console.log(blog)
-            return <Route key={blog.path} path={"/blogs/" + blog.path} element={<MarkdownRender text={blog.text} />} />
-        });
-
         return (
-            <div>
-                <Routes>
-                    {blogRoutes}
-                </Routes>
-                <div style={{ marginLeft: "3%" }}>
-                    {items}
-                </div>
+            <div style={{ marginLeft: "3%" }}>
+                {items}
             </div>
         )
     }

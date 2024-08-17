@@ -1,6 +1,5 @@
-import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import MainRouter from "modules/common/components/main-router";
+import MainRouter from "modules/common/components/MainRouter";
 import NaiveNavbar from "modules/common/components/naive-navbar";
 import Footer from "modules/common/components/footer";
 import "App.css";

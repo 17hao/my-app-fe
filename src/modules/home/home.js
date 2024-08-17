@@ -1,4 +1,3 @@
-import React from "react";
 import "modules/home/home.css";
 
 export default function Home() {

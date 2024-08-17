@@ -3,11 +3,14 @@ import RemarkMathPlugin from "remark-math"
 import emoji from "emoji-dictionary"
 import remarkGfm from "remark-gfm"
 import remarkToc from "remark-toc"
-import React from "react"
+import { useLayoutEffect, useState } from "react"
 import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
 import SyntaxHighlighter from "react-syntax-highlighter"
 import { atomOneLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import { useParams } from "react-router-dom"
+import { loadBlog } from "modules/blog/BlogLoader";
+
 import "katex/dist/katex.min.css"
 import "modules/blog/MarkdownRender.css"
 
@@ -30,41 +33,35 @@ function CodeBlock(props) {
     )
 }
 
-export default class MarkdownRender extends React.Component {
-    constructor(props) {
-        super()
-        this.state = {
-            markdown: props.text
-        }
-    }
+export function MarkdownRender() {
+    const params = useParams();
+    const [md, setMd] = useState("markdown");
 
-    // componentDidMount() {
-    //     fetch(this.props.file).then(res => res.text()).then(text => this.setState({ markdown: text }));
-    // }
+    useLayoutEffect(() => {
+        setMd(loadBlog(params.path));
+    }, []);
 
-    render() {
-        const newProps = {
-            ...this.props,
-            remarkPlugins: [
-                RemarkMathPlugin,
-                remarkGfm,
-                [remarkToc, { heading: "Table of Contents", tight: true }]
-            ],
-            rehypePlugins: [
-                [rehypeKatex, { strict: false }],
-                rehypeSlug
-            ],
-            components: {
-                text: text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name)),
-                code: CodeBlock,
-            },
-            children: this.state.markdown,
-        };
 
-        return (
-            <div className="markdown-render">
-                <ReactMarkdown {...newProps} />
-            </div>
-        );
-    }
+    const newProps = {
+        remarkPlugins: [
+            RemarkMathPlugin,
+            remarkGfm,
+            [remarkToc, { heading: "Table of Contents", tight: true }]
+        ],
+        rehypePlugins: [
+            [rehypeKatex, { strict: false }],
+            rehypeSlug
+        ],
+        components: {
+            text: text => text.value.replace(/:\w+:/gi, name => emoji.getUnicode(name)),
+            code: CodeBlock,
+        },
+        children: md,
+    };
+
+    return (
+        <div className="markdownRender">
+            <ReactMarkdown {...newProps} />
+        </div>
+    );
 }
