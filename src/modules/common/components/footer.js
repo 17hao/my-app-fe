@@ -6,7 +6,7 @@ export default function Footer() {
 
     return (
         <div style={style}>
-            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer" style={{ color: "#e6e6e6" }}>浙ICP备18016225号-2</a>
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer" style={{ color: "#cccccc" }}>浙ICP备18016225号-2</a>
         </div>
     )
 }
