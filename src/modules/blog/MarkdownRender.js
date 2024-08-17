@@ -7,7 +7,7 @@ import { useLayoutEffect, useState } from "react"
 import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
 import SyntaxHighlighter from "react-syntax-highlighter"
-import { atomOneLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import { github } from "react-syntax-highlighter/dist/esm/styles/hljs"
 import { useParams } from "react-router-dom"
 import { loadBlog } from "modules/blog/BlogLoader";
 
@@ -15,22 +15,26 @@ import "katex/dist/katex.min.css"
 import "modules/blog/MarkdownRender.css"
 
 function CodeBlock(props) {
-    const { children, className, node, ...rest } = props
-    const match = /language-(\w+)/.exec(className || "")
-    return match ? (
-        <SyntaxHighlighter
-            {...rest}
-            PreTag="div"
-            children={String(children).replace(/\n$/, "")}
-            language={match[1]}
-            showLineNumbers={true}
-            style={atomOneLight}
-        />
-    ) : (
-        <code {...rest} className={className} style={{ backgroundColor: "#f1f1f1" }}>
+    const { children, className, node, ...rest } = props;
+    const match = /language-(\w+)/.exec(className || "");
+    if (match) {
+        return (
+            <SyntaxHighlighter
+                {...rest}
+                PreTag="div"
+                children={String(children).replace(/\n$/, "")}
+                language={match[1]}
+                showLineNumbers={true}
+                style={github}
+            />
+        )
+    };
+
+    return (
+        <code {...rest}>
             {children}
         </code>
-    )
+    );
 }
 
 export function MarkdownRender() {
