@@ -13,7 +13,7 @@ export default function MainRouter() {
                 <Route index element={<BlogIndex />} />
                 <Route path=":path" element={<MarkdownRender />} />
             </Route>
-            <Route exact key="about" path="/about" element={<About />} />
+            <Route path="about" element={<About />} />
         </Routes>
     );
 }
