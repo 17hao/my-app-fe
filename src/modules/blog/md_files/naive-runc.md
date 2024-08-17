@@ -17,7 +17,7 @@ go run main.go run
 ```go
 package main
 
-import(
+import (
     "os"
     "os/exec"
     "path/filepath"
@@ -38,77 +38,71 @@ func must(err error) {
 // how to find out cgroup of a particular process?
 // ps axo pid,command,cgroup | grep main
 func cg() {
-    newCgroup: = "/sys/fs/cgroup/system.slice/naive-runc.service"
-    if _,
-    err: = os.Stat(newCgroup);os.IsNotExist(err) {
+    newCgroup := "/sys/fs/cgroup/system.slice/naive-runc.service"
+    if _, err := os.Stat(newCgroup); os.IsNotExist(err) {
         logrus.Info("cgroup is not exist, create cgroup")
         must(os.Mkdir(newCgroup, 0700))
     }
-    must(os.WriteFile(filepath.Join(newCgroup, "memory.max"), [] byte(strconv.FormatInt(int64(10 * 1024 * 1024), 10)), 0700))
-    must(os.WriteFile(filepath.Join(newCgroup, "cgroup.procs"), [] byte(strconv.FormatInt(int64(os.Getpid()), 10)), 0700))
+    must(os.WriteFile(filepath.Join(newCgroup, "memory.max"), []byte(strconv.FormatInt(int64(10*1024*1024), 10)), 0700))
+    must(os.WriteFile(filepath.Join(newCgroup, "cgroup.procs"), []byte(strconv.FormatInt(int64(os.Getpid()), 10)), 0700))
 }
 
 func run() {
     cg()
 
-    cmd: = exec.Command("/proc/self/exe", append([] string {
-        "child"
-    }, os.Args[2: ]...)...)
+    cmd := exec.Command("/proc/self/exe", append([]string{"child"}, os.Args[2:]...)...)
     cmd.Stderr = os.Stderr
     cmd.Stdin = os.Stdin
     cmd.Stdout = os.Stdout
     // list namespaces: lsns|grep exe
-    cmd.SysProcAttr = & unix.SysProcAttr {
-        Cloneflags: unix.CLONE_NEWUTS | unix.CLONE_NEWPID | unix.CLONE_NEWNS | unix.CLONE_NEWUSER | unix.CLONE_NEWCGROUP,
+    cmd.SysProcAttr = &unix.SysProcAttr{
+        Cloneflags:   unix.CLONE_NEWUTS | unix.CLONE_NEWPID | unix.CLONE_NEWNS | unix.CLONE_NEWUSER | unix.CLONE_NEWCGROUP,
         Unshareflags: unix.CLONE_NEWNS,
-        UidMappings: [] syscall.SysProcIDMap {
+        UidMappings: []syscall.SysProcIDMap{
             {
                 ContainerID: 0,
-                HostID: os.Getuid(),
-                Size: 1,
+                HostID:      os.Getuid(),
+                Size:        1,
             },
         },
-        GidMappings: [] syscall.SysProcIDMap {
+        GidMappings: []syscall.SysProcIDMap{
             {
                 ContainerID: 0,
-                HostID: os.Getgid(),
-                Size: 1,
+                HostID:      os.Getgid(),
+                Size:        1,
             },
         },
     }
-    if err: = cmd.Start();
-    err != nil {
+    if err := cmd.Start(); err != nil {
         logrus.WithField("stack", string(debug.Stack())).Errorf("ERR: %v", err)
         return
     }
-    if err: = cmd.Wait();
-    err != nil {
+    if err := cmd.Wait(); err != nil {
         logrus.WithField("stack", string(debug.Stack())).Errorf("ERR: %v", err)
     }
 }
 
 func child() {
     logrus.Infof("child process pid=%d", os.Getpid())
-    must(unix.Sethostname([] byte("container-1")))
+    must(unix.Sethostname([]byte("container-1")))
 
-    rootfs: = "/tmp/rootfs"
-    if _, err: = os.Stat(rootfs);
-    err != nil && os.IsNotExist(err) {
+    rootfs := "/tmp/rootfs"
+    if _, err := os.Stat(rootfs); err != nil && os.IsNotExist(err) {
         logrus.Error("rootfs is not exist")
         os.Exit(1)
     }
-    proc: = filepath.Join(rootfs, "/proc")
+    proc := filepath.Join(rootfs, "/proc")
     must(unix.Mount("proc", proc, "proc", 0, ""))
-    must(unix.Mount(rootfs, rootfs, "", unix.MS_BIND | unix.MS_PRIVATE | unix.MS_REC, ""))
+    must(unix.Mount(rootfs, rootfs, "", unix.MS_BIND|unix.MS_PRIVATE|unix.MS_REC, ""))
 
-    oldroot, err: = unix.Open("/", unix.O_DIRECTORY | unix.O_RDONLY, 0)
+    oldroot, err := unix.Open("/", unix.O_DIRECTORY|unix.O_RDONLY, 0)
     if err != nil {
         logrus.Error("open old root failed")
         os.Exit(1)
     }
     defer unix.Close(oldroot)
 
-    newroot, err: = unix.Open(rootfs, unix.O_DIRECTORY | unix.O_RDONLY, 0)
+    newroot, err := unix.Open(rootfs, unix.O_DIRECTORY|unix.O_RDONLY, 0)
     if err != nil {
         logrus.Error("open new root failed")
         os.Exit(1)
@@ -120,18 +114,14 @@ func child() {
     must(unix.Fchdir(oldroot))
     must(unix.Unmount(".", unix.MNT_DETACH))
     must(unix.Chdir("/"))
-    must(unix.Mount("", "/", "", unix.MS_BIND | unix.MS_REMOUNT | unix.MS_RDONLY, ""))
-    
-    cmd: = exec.Command(`/bin/sh`)
+    must(unix.Mount("", "/", "", unix.MS_BIND|unix.MS_REMOUNT|unix.MS_RDONLY, ""))
+
+    cmd := exec.Command(`/bin/sh`)
     cmd.Stdin = os.Stdin
     cmd.Stdout = os.Stdout
     cmd.Stderr = os.Stderr
-    cmd.Env = [] string {
-        `HOME=/root`,
-        `PS1=\u@\h:\w\$ `
-    }
-    if err: = cmd.Run();
-    err != nil {
+    cmd.Env = []string{`HOME=/root`, `PS1=\u@\h:\w\$ `}
+    if err := cmd.Run(); err != nil {
         logrus.WithField("stack", string(debug.Stack())).Errorf("ERR: %v", err)
         return
     }
@@ -147,9 +137,12 @@ func main() {
         return
     }
     switch os.Args[1] {
-        case "run": run()
-        case "child": child()
-        default: logrus.WithField("stack", string(debug.Stack())).Error("unsupported command, usage: go run main.go run [command] <args>\n")
+    case "run":
+        run()
+    case "child":
+        child()
+    default:
+        logrus.WithField("stack", string(debug.Stack())).Error("unsupported command, usage: go run main.go run [command] <args>\n")
     }
 }
 ```

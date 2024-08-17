@@ -6,8 +6,8 @@ import remarkToc from "remark-toc"
 import { useLayoutEffect, useState } from "react"
 import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
-import SyntaxHighlighter from "react-syntax-highlighter"
-import { github } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useParams } from "react-router-dom"
 import { loadBlog } from "modules/blog/BlogLoader";
 
@@ -17,24 +17,16 @@ import "modules/blog/MarkdownRender.css"
 function CodeBlock(props) {
     const { children, className, node, ...rest } = props;
     const match = /language-(\w+)/.exec(className || "");
-    if (match) {
-        return (
-            <SyntaxHighlighter
-                {...rest}
-                PreTag="div"
-                children={String(children).replace(/\n$/, "")}
-                language={match[1]}
-                showLineNumbers={true}
-                style={github}
-            />
-        )
-    };
-
+    const lang = match ? match[1] : "plaintext";
     return (
-        <code {...rest}>
-            {children}
-        </code>
-    );
+        <SyntaxHighlighter
+            {...rest}
+            children={String(children).replace(/\n$/, "")}
+            language={lang}
+            showLineNumbers={true}
+            style={vs}
+        />
+    )
 }
 
 export function MarkdownRender() {
