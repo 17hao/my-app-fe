@@ -8,7 +8,7 @@ export default function BlogIndex() {
         ["init-cloud-server", "云服务器配置脚本"],
         ["mst", "最小生成树"],
         ["preseed", "自动化安装Debian"],
-        ["iptables", "iptables讲解"],
+        ["iptables", "iptables入门"],
         ["container-network", "简易版docker网络（Bash版）"],
         ["naive-runc", "简易版runc（Golang版）"],
     ]);

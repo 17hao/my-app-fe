@@ -1,5 +1,3 @@
-# 简易版容器运行时
-
 [runc](https://github.com/opencontainers/runc)已经是事实上的容器运行时标准。
 
 用 Golang 实现一个简易版runc。
