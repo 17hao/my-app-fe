@@ -18,14 +18,17 @@ go run main.go run
 
 ```go
 package main
-import("os"
+import(
+    "os"
     "os/exec"
     "path/filepath"
     "runtime/debug"
     "strconv"
     "syscall"
     "github.com/sirupsen/logrus"
-    "golang.org/x/sys/unix")
+    "golang.org/x/sys/unix"
+)
+
 func must(err error) {
     if err != nil {
         panic(err)
