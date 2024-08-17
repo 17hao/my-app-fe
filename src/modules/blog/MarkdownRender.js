@@ -39,7 +39,7 @@ export function MarkdownRender() {
 
     useLayoutEffect(() => {
         setMd(loadBlog(params.path));
-    }, []);
+    }, [params.path]);
 
 
     const newProps = {

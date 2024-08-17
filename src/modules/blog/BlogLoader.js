@@ -14,7 +14,7 @@ export const blogTitles = () => {
 
 export function loadBlog(path) {
     for (var i = 0; i < blogs.length; i++) {
-        if (blogs[i].path == path) {
+        if (blogs[i].path === path) {
             return blogs[i].text;
         }
     }
