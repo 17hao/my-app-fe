@@ -18,6 +18,7 @@ go run main.go run
 
 ```go
 package main
+
 import(
     "os"
     "os/exec"
@@ -25,6 +26,7 @@ import(
     "runtime/debug"
     "strconv"
     "syscall"
+
     "github.com/sirupsen/logrus"
     "golang.org/x/sys/unix"
 )
@@ -34,6 +36,7 @@ func must(err error) {
         panic(err)
     }
 }
+
 // how to find out cgroup of a particular process?
 // ps axo pid,command,cgroup | grep main
 func cg() {
@@ -46,8 +49,10 @@ func cg() {
     must(os.WriteFile(filepath.Join(newCgroup, "memory.max"), [] byte(strconv.FormatInt(int64(10 * 1024 * 1024), 10)), 0700))
     must(os.WriteFile(filepath.Join(newCgroup, "cgroup.procs"), [] byte(strconv.FormatInt(int64(os.Getpid()), 10)), 0700))
 }
+
 func run() {
     cg()
+
     cmd: = exec.Command("/proc/self/exe", append([] string {
         "child"
     }, os.Args[2: ]...)...)
@@ -83,9 +88,11 @@ func run() {
         logrus.WithField("stack", string(debug.Stack())).Errorf("ERR: %v", err)
     }
 }
+
 func child() {
     logrus.Infof("child process pid=%d", os.Getpid())
     must(unix.Sethostname([] byte("container-1")))
+
     rootfs: = "/tmp/rootfs"
     if _, err: = os.Stat(rootfs);
     err != nil && os.IsNotExist(err) {
@@ -95,24 +102,28 @@ func child() {
     proc: = filepath.Join(rootfs, "/proc")
     must(unix.Mount("proc", proc, "proc", 0, ""))
     must(unix.Mount(rootfs, rootfs, "", unix.MS_BIND | unix.MS_PRIVATE | unix.MS_REC, ""))
+
     oldroot, err: = unix.Open("/", unix.O_DIRECTORY | unix.O_RDONLY, 0)
     if err != nil {
         logrus.Error("open old root failed")
         os.Exit(1)
     }
     defer unix.Close(oldroot)
+
     newroot, err: = unix.Open(rootfs, unix.O_DIRECTORY | unix.O_RDONLY, 0)
     if err != nil {
         logrus.Error("open new root failed")
         os.Exit(1)
     }
     defer unix.Close(newroot)
+
     must(unix.Fchdir(newroot))
     must(unix.PivotRoot(".", "."))
     must(unix.Fchdir(oldroot))
     must(unix.Unmount(".", unix.MNT_DETACH))
     must(unix.Chdir("/"))
     must(unix.Mount("", "/", "", unix.MS_BIND | unix.MS_REMOUNT | unix.MS_RDONLY, ""))
+    
     cmd: = exec.Command(`/bin/sh`)
     cmd.Stdin = os.Stdin
     cmd.Stdout = os.Stdout
@@ -127,6 +138,7 @@ func child() {
         return
     }
 }
+
 // su
 // go build main.go
 // ./main run
