@@ -21,7 +21,7 @@ export default function BlogIndex() {
         };
 
         return (
-            <Link key={path} to={"/blogs/" + path} style={itemStyle} >
+            <Link rel="canonical" key={path} to={"/blog/" + path} style={itemStyle} >
                 <div>{title}</div>
             </Link>
         );

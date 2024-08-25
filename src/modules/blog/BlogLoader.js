@@ -1,5 +1,5 @@
 const importAll = r => r.keys().map(r);
-const markdownFiles = importAll(require.context("modules/blog/md_files", false, /\.\/.*\.md$/));
+const markdownFiles = importAll(require.context("modules/blog/markdown", false, /\.\/.*\.md$/));
 const promises = markdownFiles.map(async (f) => {
     return {
         path: f.split("/")[3].split(".")[0], // e.g. ./calculus.md => calculus
