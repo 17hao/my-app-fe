@@ -4,7 +4,7 @@ import { pathToTitle } from "modules/blog/common"
 export default function BlogIndex() {
     const items = Array.from(pathToTitle).map(([path, title]) => {
         const itemStyle = {
-            margin: "5px",
+            margin: "1%",
             color: "black",
             textDecoration: "none",
         };
@@ -17,7 +17,7 @@ export default function BlogIndex() {
     });
 
     return (
-        <div style={{ marginLeft: "3%" }}>
+        <div style={{ marginLeft: "5%" }}>
             {items}
         </div>
     );
