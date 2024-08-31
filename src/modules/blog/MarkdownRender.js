@@ -3,7 +3,7 @@ import RemarkMathPlugin from "remark-math"
 import emoji from "emoji-dictionary"
 import remarkGfm from "remark-gfm"
 import remarkToc from "remark-toc"
-import { useLayoutEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import rehypeKatex from "rehype-katex"
 import rehypeSlug from "rehype-slug"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -13,6 +13,7 @@ import { loadBlog } from "modules/blog/BlogLoader";
 
 import "katex/dist/katex.min.css"
 import "modules/blog/MarkdownRender.css"
+import { pathToTitle } from "./common"
 
 function CodeBlock(props) {
     const { children, className, node, ...rest } = props;
@@ -35,6 +36,14 @@ export function MarkdownRender() {
 
     useLayoutEffect(() => {
         setMd(loadBlog(params.path));
+    }, [params.path]);
+
+    useEffect(() =>{
+        let title = params.path;
+        if (pathToTitle.has(params.path)) {
+            title = pathToTitle.get(params.path);
+        }
+        document.title = title;
     }, [params.path]);
 
 

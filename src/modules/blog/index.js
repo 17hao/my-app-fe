@@ -1,19 +1,8 @@
 import { Link } from "react-router-dom";
+import { pathToTitle } from "modules/blog/common"
 
 export default function BlogIndex() {
-    const pathTitleMap = new Map([
-        ["calculus", "微积分笔记"],
-        ["linear-alg", "线性代数笔记"],
-        ["mst", "最小生成树"],
-        ["charset", "字符编码"],
-        ["init-cloud-server", "云服务器配置脚本"],
-        ["preseed", "自动化安装Debian"],
-        ["iptables", "iptables入门"],
-        ["container-network", "简易版docker网络（Bash版）"],
-        ["naive-runc", "简易版runc（Golang版）"],
-    ]);
-
-    const items = Array.from(pathTitleMap).map(([path, title]) => {
+    const items = Array.from(pathToTitle).map(([path, title]) => {
         const itemStyle = {
             margin: "5px",
             color: "black",

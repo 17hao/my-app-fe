@@ -1,0 +1,11 @@
+export const pathToTitle = new Map([
+    ["calculus", "微积分笔记"],
+    ["linear-alg", "线性代数笔记"],
+    ["mst", "最小生成树"],
+    ["charset", "字符编码"],
+    ["init-cloud-server", "云服务器配置脚本"],
+    ["preseed", "自动化安装Debian"],
+    ["iptables", "iptables入门"],
+    ["container-network", "简易版docker网络（Bash版）"],
+    ["naive-runc", "简易版runc（Golang版）"],
+]);
