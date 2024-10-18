@@ -21,6 +21,7 @@ export default function NaiveNavbar() {
     linkMap.set("/", "Home")
     linkMap.set("/blog", "Blogs")
     linkMap.set("/about", "About")
+    linkMap.set("/lab", "Lab")
 
     const links = (
         Array.from(linkMap).map(([k, v]) =>
