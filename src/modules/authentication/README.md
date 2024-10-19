@@ -30,12 +30,13 @@ db里存储随机生成的盐和哈希后的值。
 
 #================
 
-jwt存储在cookie还是http header？
+jwt存储在哪里？
 
 cookie不能跨域，authorization http header可以跨域
 
 1. https://github.com/IdentityServer/IdentityServer3/issues/2039#issuecomment-288135399
 2. https://github.com/IdentityServer/IdentityServer3/issues/2039#issuecomment-288135399
+3. https://stackoverflow.com/questions/44133536/is-it-safe-to-store-a-jwt-in-localstorage-with-reactjs
 
 
 #================
@@ -52,3 +53,11 @@ csrf和jwt之间的联系：https://security.stackexchange.com/questions/170388/
 #================
 
 使用jwt登录、访问资源：https://medium.com/@maison.moa/using-jwt-json-web-tokens-to-authorize-users-and-protect-api-routes-3e04a1453c3e
+
+#================
+
+实现登录相关参考文章：
+1. https://medium.com/@stheodorejohn/implementing-automatic-redirects-after-login-in-react-protected-routes-b5bac2056400
+2. https://medium.com/@bhairabpatra.iitd/private-routes-in-react-559a7d8d161f
+3. https://dev.to/iamandrewluca/private-route-in-react-router-v6-lg5
+4. https://stackoverflow.com/questions/69864165/error-privateroute-is-not-a-route-component-all-component-children-of-rou

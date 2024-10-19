@@ -3,8 +3,10 @@ import NotFound from "modules/common/components/NotFound";
 import Home from "modules/home/home";
 import BlogIndex from "modules/blog/index";
 import About from "modules/about/about";
-import Login from "modules/account/index";
 import { MarkdownRender } from "modules/blog/MarkdownRender";
+import Login from "modules/authentication/index"
+import Lab from "modules/lab";
+import RequireAuth from "modules/common/components/RequireAuth";
 
 export default function MainRouter() {
     return (
@@ -16,7 +18,8 @@ export default function MainRouter() {
                 <Route path=":path" element={<MarkdownRender />} />
             </Route>
             <Route path="about" element={<About />} />
-            <Route path="lab" element={<Login />} />
+            <Route path="login" element={<Login />} />
+            <Route path="lab" element={<RequireAuth chilren={<Lab />} />} />
             <Route path='*' element={<NotFound />} status={404} />
         </Routes>
     );

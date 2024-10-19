@@ -1,11 +1,18 @@
 import { useState } from "react";
-import "modules/account/index.css";
+import { useLocation, useNavigate } from 'react-router-dom';
+import "modules/authentication/index.css";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("")
 
-    async function login(event) {
+    const navigate = useNavigate();
+
+    const location = useLocation();
+
+    console.log(location);
+
+    async function submitHandler(event) {
         event.preventDefault();
 
         if (username === "" || password === "") {
@@ -15,6 +22,11 @@ export default function Login() {
 
         console.log(username, password);
 
+        window.localStorage.setItem("isAuth", true);
+        navigate(location.state.from);
+        return;
+
+        // todo implement backend
         await fetch("http://localhost:9999/login", {
             method: "POST",
             headers: {
@@ -40,7 +52,7 @@ export default function Login() {
     return (
         <div id="login">
             <h1>Login to Lab</h1>
-            <form id="loginForm" onSubmit={login}>
+            <form id="loginForm" onSubmit={submitHandler}>
                 <label>Username</label>
                 <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}></input>
                 <label>Password</label>
