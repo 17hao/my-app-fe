@@ -27,6 +27,7 @@ db里存储随机生成的盐和哈希后的值。
 1. https://en.wikipedia.org/wiki/Bcrypt
 2. https://stackoverflow.com/questions/536584/non-random-salt-for-password-hashes/536756#536756
 3. https://security.stackexchange.com/questions/379/what-are-rainbow-tables-and-how-are-they-used
+4. https://stackoverflow.com/questions/6832445/how-can-bcrypt-have-built-in-salts
 
 #================
 
@@ -61,3 +62,8 @@ csrf和jwt之间的联系：https://security.stackexchange.com/questions/170388/
 2. https://medium.com/@bhairabpatra.iitd/private-routes-in-react-559a7d8d161f
 3. https://dev.to/iamandrewluca/private-route-in-react-router-v6-lg5
 4. https://stackoverflow.com/questions/69864165/error-privateroute-is-not-a-route-component-all-component-children-of-rou
+
+#================
+
+cors
+1. https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe

@@ -10,7 +10,7 @@ export default function Login() {
 
     const location = useLocation();
 
-    console.log(location);
+    // console.log(location);
 
     async function submitHandler(event) {
         event.preventDefault();
@@ -20,33 +20,40 @@ export default function Login() {
             return;
         }
 
-        console.log(username, password);
+        // console.log(username, password);
 
-        window.localStorage.setItem("isAuth", true);
-        navigate(location.state.from);
-        return;
-
-        // todo implement backend
-        await fetch("http://localhost:9999/login", {
+        await fetch("http://localhost:9998/sign-in", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Origin": "http://localhost:3000"
             },
-            body: {
-                "userName": username,
+            body: JSON.stringify({
+                "name": username,
                 "password": password,
-            }
-        }).then(response => {
-            if (response.status !== 200) {
-                alert(`login failed, error msg: ${response.body}`);
-            } else {
-                console.log(response.body);
-            }
-        }).catch(errors => {
-            console.log(errors);
-            alert(`login failed, error msg: ${errors}`)
-            return;
-        });
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+
+                if (data.code !== "0") {
+                    alert("login failed")
+                    return;
+                }
+
+                if (data.data === "true") {
+                    window.localStorage.setItem("isAuth", true);
+                    navigate(location.state.from);
+                    return;
+                } else {
+                    alert("login failed")
+                }
+            }).catch(errors => {
+                console.log(errors);
+                alert(`login failed, error msg: ${errors}`)
+                return;
+            });
     }
 
     return (
