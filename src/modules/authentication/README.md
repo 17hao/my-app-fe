@@ -67,3 +67,8 @@ csrf和jwt之间的联系：https://security.stackexchange.com/questions/170388/
 
 cors
 1. https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
+
+#================
+
+xhr和fetch的区别：
+1. https://stackoverflow.com/questions/35549547/fetch-api-vs-xmlhttprequest

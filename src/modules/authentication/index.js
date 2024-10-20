@@ -22,38 +22,46 @@ export default function Login() {
 
         // console.log(username, password);
 
-        await fetch("http://localhost:9998/sign-in", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Origin": "http://localhost:3000"
-            },
-            body: JSON.stringify({
-                "name": username,
-                "password": password,
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                // console.log(data);
+        var xhr = new XMLHttpRequest();
 
-                if (data.code !== "0") {
-                    alert("login failed")
-                    return;
-                }
+        xhr.open("POST", "http://localhost:9998/account/verify", true);
 
-                if (data.data === "true") {
-                    window.localStorage.setItem("isAuth", true);
-                    navigate(location.state.from);
-                    return;
-                } else {
-                    alert("login failed")
-                }
-            }).catch(errors => {
-                console.log(errors);
-                alert(`login failed, error msg: ${errors}`)
+        xhr.responseType = "json";
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState !== XMLHttpRequest.DONE) {
                 return;
-            });
+            }
+
+            if (xhr.status !== 200) {
+                alert("Network error");
+                return;
+            }
+
+            const respBody = xhr.response;
+
+            console.log(respBody);
+
+            if (respBody.code !== "0") {
+                alert(`Log in failed. Error message: ${respBody.message}`);
+                return;
+            }
+
+            if (respBody.data === "true") {
+                window.localStorage.setItem("isAuth", true);
+                navigate(location.state.from);
+                return;
+            } else {
+                alert("Password is wrong.")
+            }
+        };
+
+        const requestBody = {
+            "name": username,
+            "password": password,
+        };
+        xhr.send(JSON.stringify(requestBody));
     }
 
     return (
