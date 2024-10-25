@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export https_proxy=http://127.0.0.1:8889
+
 docker stop my-app-fe
 
 docker rm my-app-fe
