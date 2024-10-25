@@ -1,30 +1,26 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
-import "modules/authentication/index.css";
+import "modules/auth/index.css";
 
 export default function Login() {
-    const [username, setUsername] = useState("");
+    const [accountName, setAccountName] = useState("");
     const [password, setPassword] = useState("")
 
     const navigate = useNavigate();
 
     const location = useLocation();
 
-    // console.log(location);
-
     async function submitHandler(event) {
         event.preventDefault();
 
-        if (username === "" || password === "") {
-            alert("username or password is empty")
+        if (accountName === "" || password === "") {
+            alert("accountName or password is empty")
             return;
         }
 
-        // console.log(username, password);
-
         var xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "http://localhost:9998/account/verify", true);
+        xhr.open("POST", "https://api.shiqihao.xyz/account/verify", true);
 
         xhr.responseType = "json";
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -58,7 +54,7 @@ export default function Login() {
         };
 
         const requestBody = {
-            "name": username,
+            "name": accountName,
             "password": password,
         };
         xhr.send(JSON.stringify(requestBody));
@@ -66,10 +62,10 @@ export default function Login() {
 
     return (
         <div id="login">
-            <h1>Login to Lab</h1>
+            <h1>Log in to Lab</h1>
             <form id="loginForm" onSubmit={submitHandler}>
                 <label>Username</label>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}></input>
+                <input type="text" value={accountName} onChange={(e) => setAccountName(e.target.value)}></input>
                 <label>Password</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                 <button id="loginButton">Submit</button>

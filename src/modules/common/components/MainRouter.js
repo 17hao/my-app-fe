@@ -4,7 +4,7 @@ import Home from "modules/home/home";
 import BlogIndex from "modules/blog/index";
 import About from "modules/about/about";
 import { MarkdownRender } from "modules/blog/MarkdownRender";
-import Login from "modules/authentication/index"
+import Login from "modules/auth/index"
 import Lab from "modules/lab";
 import RequireAuth from "modules/common/components/RequireAuth";
 
