@@ -36,17 +36,21 @@ programming languages
 #!/bin/bash
 
 # go
-GOVERSION=1.20.14
+GOVERSION=1.23.2
 wget -e use_proxy=yes -e https_proxy=http://127.0.0.1:8889 https://go.dev/dl/go${GOVERSION}.linux-amd64.tar.gz
 
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go${GOVERSION}.linux-amd64.tar.gz
 
-printf 'export PATH=$PATH:/usr/local/go/bin\n' >> $HOME/.bashrc
+printf 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin\n' >> $HOME/.bashrc
 
-/usr/local/go/bin/go env -w GO111MODULE=on
-/usr/local/go/bin/go env -w GOPROXY=https://goproxy.cn,direct
+source $HOME/.bashrc
+
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
 
 rm -rf go${GOVERSION}.linux-amd64.tar.gz
+
+# source install-go.sh
 
 # python
 sudo apt install python3 pipx python3-pip python3-venv -y
@@ -97,17 +101,17 @@ sudo apt-get update
 # Install Docker Engine
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# https://stackoverflow.com/a/48957722/9779481
-sudo /usr/sbin/groupadd docker
-sudo /usr/sbin/usermod -aG docker $USER
-# sudo reboot
-
-sudo mkdir /etc/systemd/system/docker.service.d
+sudo mkdir -p /etc/systemd/system/docker.service.d
 cat <<EOF > /etc/systemd/system/docker.service.d/http-proxy.conf
 [Service]
 Environment="HTTP_PROXY=http://127.0.0.1:8889"
 Environment="HTTPS_PROXY=http://127.0.0.1:8889"
 EOF
+
+# https://stackoverflow.com/a/48957722/9779481
+sudo /usr/sbin/groupadd docker
+sudo /usr/sbin/usermod -aG docker $USER
+#sudo reboot
 ```
 
 mysql
@@ -156,16 +160,9 @@ docker run -d \
 
 #docker ps --filter "name=$container_name" --filter "status=running"
 
-cat <<EOF > $container_dir/init-mysql-db
-#!/bin/bash
-
-docker exec $container_name mysql -uroot -p123456 -e "create user 'admin'@'%' identified by '123456'"
-docker exec $container_name mysql -uroot -p123456 -e "grant all privileges on *.* to 'admin'@'%'"
-docker exec $container_name mysql -uadmin -p123456 -e "create database my_db"
-EOF
-
-chmod 744 $container_dir/init-mysql-db
-#bash $container_dir/init-mysql-db
+#docker exec $container_name mysql -uroot -p123456 -e "create user 'admin'@'%' identified by '123456'"
+#docker exec $container_name mysql -uroot -p123456 -e "grant all privileges on *.* to 'admin'@'%'"
+#docker exec $container_name mysql -uadmin -p123456 -e "create database my_db"
 ```
 
 redis
