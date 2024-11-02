@@ -19,7 +19,7 @@ export default function NaiveNavbar() {
 
     const linkMap = new Map()
     linkMap.set("/", "Home")
-    linkMap.set("/blog", "Blogs")
+    linkMap.set("/blog", "Blog")
     linkMap.set("/about", "About")
     linkMap.set("/lab", "Lab")
 
