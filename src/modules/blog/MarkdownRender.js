@@ -9,7 +9,6 @@ import rehypeSlug from "rehype-slug"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useParams } from "react-router-dom"
-import { loadBlog } from "modules/blog/BlogLoader";
 
 import "katex/dist/katex.min.css"
 import "modules/blog/MarkdownRender.css"
@@ -35,10 +34,22 @@ export function MarkdownRender() {
     const [md, setMd] = useState("markdown");
 
     useLayoutEffect(() => {
-        setMd(loadBlog(params.path));
+        const loadBlog = async (path) => {
+            try {
+                const response = await fetch(
+                    `https://obj-storage-1304785445.shiqihao.xyz/blog/${path}.md`
+                );
+                const body = await response.text();
+                setMd(body);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
+        loadBlog(params.path);
     }, [params.path]);
 
-    useEffect(() =>{
+    useEffect(() => {
         let title = params.path;
         if (pathToTitle.has(params.path)) {
             title = pathToTitle.get(params.path);
