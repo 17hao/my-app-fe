@@ -38,7 +38,7 @@ https://cloud.githubusercontent.com/assets/1711674/8742352/87da5f4e-2c32-11e5-8a
 NIC --[PREROUTING]-> ROUTING ------[FORWARD]-----------------[POSTROUTING]--> NIC
          <raw>          |             <mangle>                   |  <mangle>
          <mangle>       |             <filter>                   |  <nat(src)>
-         <nat(dst)>        |             <security>                 |  
+         <nat(dst)>     |             <security>                 |  
                         |                                        |   
                         +-[INPUT]-> Local Process -- ROUTING -->[OUTPUT]
                              <filter>                              <raw>
