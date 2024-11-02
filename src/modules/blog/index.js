@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { pathToTitle } from "modules/blog/common"
 
 export default function BlogIndex() {
+    document.title = "Blog";
+
     const items = Array.from(pathToTitle).map(([path, title]) => {
         const itemStyle = {
             margin: "1%",

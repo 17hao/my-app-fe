@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import "modules/auth/index.css";
 
 export default function Login() {
+    document.title = "Login";
+
     const [accountName, setAccountName] = useState("");
     const [password, setPassword] = useState("")
 

@@ -1,6 +1,8 @@
 import "modules/about/about.css"
 
 export default function About() {
+    document.title = "About";
+    
     return (
         <div className="h1">
             <div className="h2">
