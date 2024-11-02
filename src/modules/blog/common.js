@@ -6,6 +6,7 @@ export const pathToTitle = new Map([
     ["init-cloud-server", "云服务器配置脚本"],
     ["preseed", "自动化安装Debian"],
     ["iptables", "iptables入门"],
-    ["container-network", "简易版docker网络（Bash版）"],
+    ["docker-network", "简易版docker网络（Bash版）"],
     ["naive-runc", "简易版runc（Golang版）"],
+    ["ddns", "动手实现DDNS"],
 ]);
