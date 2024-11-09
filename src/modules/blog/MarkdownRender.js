@@ -18,10 +18,12 @@ function CodeBlock(props) {
     const { children, className, node, ...rest } = props;
     const match = /language-(\w+)/.exec(className || "");
     const lang = match ? match[1] : "plaintext";
+    // gofmt uses tabs for indentation and blanks for alignment
+    const newChildren = String(children).replace(/\n$/, "").replace(/\t/g, '    ');
     return (
         <SyntaxHighlighter
             {...rest}
-            children={String(children).replace(/\n$/, "")}
+            children={newChildren}
             language={lang}
             showLineNumbers={true}
             style={vs}
