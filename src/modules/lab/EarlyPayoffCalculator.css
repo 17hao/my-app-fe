@@ -1,0 +1,53 @@
+.calculatorForm {
+    margin: 3%;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.left {
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+.input {
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+input {
+    width: 80px;
+}
+
+.right {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+.details {
+    display: grid;
+    justify-content: center;
+}

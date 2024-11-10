@@ -7,6 +7,7 @@ import { MarkdownRender } from "modules/blog/MarkdownRender";
 import Login from "modules/auth/index"
 import Lab from "modules/lab";
 import RequireAuth from "modules/common/components/RequireAuth";
+import EarlyPayoffCalculator from "modules/lab/EarlyPayoffCalculator";
 
 export default function MainRouter() {
     return (
@@ -19,7 +20,10 @@ export default function MainRouter() {
             </Route>
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
-            <Route path="lab" element={<RequireAuth chilren={<Lab />} />} />
+            <Route path="lab">
+                <Route index element={<RequireAuth chilren={<Lab />} />} />
+                <Route path="early-payoff-calculator" element={<RequireAuth chilren={<EarlyPayoffCalculator />} />} />
+            </Route>
             <Route path='*' element={<NotFound />} status={404} />
         </Routes>
     );
