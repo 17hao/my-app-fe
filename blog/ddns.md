@@ -32,6 +32,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -41,7 +42,16 @@ import (
 	dnspod "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/dnspod/v20210323"
 )
 
-const domain = "your-domain"
+func parseDomain(domain string) (string, string) {
+	strs := strings.Split(domain, ".")
+
+	// e.g. example.com
+	if len(strs) == 2 {
+		return domain, "@"
+	}
+
+	return strings.Join(strs[len(strs)-2:len(strs)], "."), strings.Join(strs[0:len(strs)-2], ".")
+}
 
 func getPublicIP() (string, error) {
 	const url = "https://api.qjqq.cn/api/Local"
@@ -70,6 +80,7 @@ func getPublicIP() (string, error) {
 	}
 	err = json.Unmarshal([]byte(bodyBuilder.String()), &body)
 	if err != nil {
+		logrus.Warnf("http body=%s", bodyBuilder.String())
 		return "", errors.Errorf("getPublicIP err=%+v", err)
 	}
 	if body.Code == 200 {
@@ -79,20 +90,21 @@ func getPublicIP() (string, error) {
 	return "", errors.New(fmt.Sprintf("code=%d msg=%s", body.Code, body.Msg))
 }
 
-func queryDnsARecord(client *dnspod.Client) (*dnspod.RecordListItem, error) {
-	describeRecordListRequest := dnspod.NewDescribeRecordListRequest()
-	describeRecordListRequest.Domain = common.StringPtr(domain)
-	describeRecordListResp, err := client.DescribeRecordList(describeRecordListRequest)
+func queryDnsARecord(client *dnspod.Client, domain string, subdomain string) (*dnspod.RecordListItem, error) {
+	describeRecordFilterListReq := dnspod.NewDescribeRecordFilterListRequest()
+	describeRecordFilterListReq.Domain = common.StringPtr(domain)
+	describeRecordFilterListReq.SubDomain = common.StringPtr(subdomain)
+	describeRecordFilterListReq.RecordType = []*string{common.StringPtr("A")}
+	describeRecordFilterListResp, err := client.DescribeRecordFilterList(describeRecordFilterListReq)
 	if err != nil {
-		logrus.Info(describeRecordListResp.ToJsonString())
-		return nil, errors.Errorf("DescribeRecordList return err, err=%+v", err)
+		logrus.Info(describeRecordFilterListResp.ToJsonString())
+		return nil, errors.Errorf("DescribeRecordFilterList return err, err=%+v", err)
+	}
+	if describeRecordFilterListResp.Response == nil {
+		return nil, errors.New("describeRecordFilterListResp is empty")
 	}
 
-	if describeRecordListResp.Response == nil {
-		return nil, errors.New("describeRecordListResp is empty")
-	}
-
-	for _, record := range describeRecordListResp.Response.RecordList {
+	for _, record := range describeRecordFilterListResp.Response.RecordList {
 		if *record.Type == "A" {
 			return record, nil
 		}
@@ -100,9 +112,10 @@ func queryDnsARecord(client *dnspod.Client) (*dnspod.RecordListItem, error) {
 	return nil, nil
 }
 
-func createDnsARecord(client *dnspod.Client, publicIP string) error {
+func createDnsARecord(client *dnspod.Client, domain string, subdomain string, publicIP string) error {
 	createRecordRequest := dnspod.NewCreateRecordRequest()
 	createRecordRequest.Domain = common.StringPtr(domain)
+	createRecordRequest.SubDomain = common.StringPtr(subdomain)
 	createRecordRequest.RecordType = common.StringPtr("A")
 	createRecordRequest.RecordLine = common.StringPtr("默认")
 	createRecordRequest.Value = common.StringPtr(publicIP)
@@ -114,9 +127,12 @@ func createDnsARecord(client *dnspod.Client, publicIP string) error {
 	return nil
 }
 
-func updateDnsARecord(client *dnspod.Client, existRecord *dnspod.RecordListItem, publicIP string) error {
+func updateDnsARecord(client *dnspod.Client, existRecord *dnspod.RecordListItem,
+	domain string, subdomain string, publicIP string) error {
+
 	modifyRecordRequest := dnspod.NewModifyRecordRequest()
 	modifyRecordRequest.Domain = common.StringPtr(domain)
+	modifyRecordRequest.SubDomain = common.StringPtr(subdomain)
 	modifyRecordRequest.RecordType = existRecord.Type
 	modifyRecordRequest.RecordLine = existRecord.Line
 	modifyRecordRequest.Value = common.StringPtr(publicIP)
@@ -130,13 +146,21 @@ func updateDnsARecord(client *dnspod.Client, existRecord *dnspod.RecordListItem,
 }
 
 func main() {
+	args := os.Args
+	if len(args) <= 1 {
+		logrus.Fatalf("args is empty")
+	}
+
+	domain, subdomain := parseDomain(os.Args[1])
+	logrus.Infof("domain=%s subdomain=%s", domain, subdomain)
+
 	// 公网ip查询
 	// https://github.com/ihmily/ip-info-api?tab=readme-ov-file
 	publicIP, err := getPublicIP()
 	if err != nil {
 		logrus.Fatalf("getPublicIP return err, err=%+v", err)
 	}
-	logrus.Infof("publicIP=%s", publicIP)
+	//logrus.Infof("publicIP=%s", publicIP)
 
 	credential := common.NewCredential(
 		"secretId",
@@ -147,24 +171,28 @@ func main() {
 		logrus.Fatalf("init dnspod client faled, err=%+v", err)
 	}
 
-	// 获取域名的解析记录列表：https://cloud.tencent.com/document/api/1427/56166
-	typeARecord, err := queryDnsARecord(client)
+	// 获取域名的解析记录筛选列
+	// https://cloud.tencent.com/document/api/1427/95521
+	typeARecord, err := queryDnsARecord(client, domain, subdomain)
 	if err != nil {
 		logrus.Fatalf("queryDnsARecord failed, err=%+v", err)
 	}
 
-	// 添加记录：https://cloud.tencent.com/document/api/1427/56180
+	// 添加记录
+	// https://cloud.tencent.com/document/api/1427/56180
 	if typeARecord == nil {
 		logrus.Info("createDnsARecord")
-		if err := createDnsARecord(client, publicIP); err != nil {
+		if err := createDnsARecord(client, domain, subdomain, publicIP); err != nil {
 			logrus.Fatalf("craeteDnsARecord failed, err=%+v", err)
 		}
+		return
 	}
 
-	// 更新记录：https://cloud.tencent.com/document/api/1427/56157
+	// 更新记录
+	// https://cloud.tencent.com/document/api/1427/56157
 	if *typeARecord.Value != publicIP {
 		logrus.Info("updateDnsARecord")
-		if err := updateDnsARecord(client, typeARecord, publicIP); err != nil {
+		if err := updateDnsARecord(client, typeARecord, domain, subdomain, publicIP); err != nil {
 			logrus.Fatalf("updateDnsARecord failed, err=%+v", err)
 		}
 	}
@@ -179,5 +207,5 @@ func main() {
 crontab -e
 
 # 添加下面这行，每2分钟更新一次DNS解析记录
-*/2 * * * * /home/sqh/.local/bin/tencent_ddns >> /var/log/cron.log 2>&1
+*/2 * * * * /home/sqh/.local/bin/tencent_ddns example.com >> /var/log/cron.log 2>&1
 ```
