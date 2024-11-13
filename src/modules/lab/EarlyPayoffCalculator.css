@@ -1,53 +1,58 @@
-.calculatorForm {
-    margin: 3%;
+.title {
+    margin-top: 3%;
+    margin-left: 45%;
 }
 
-.title {
-    display: flex;
-    justify-content: center;
-    margin: 5px;
+.calculatorForm {
+    margin-top: 1%;
+    margin-left: 40%;
 }
 
 .container {
     display: flex;
-    justify-content: center;
+    align-items: start;
 }
 
 .left {
-    width: 70px;
+    width: 100px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: start;
     margin: 5px;
 }
 
 .input {
     width: 90px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: start;
     margin: 5px;
 }
 
-input {
+.inputText {
     width: 80px;
+}
+
+.selection {
+    width: 180px;
+    display: flex;
+    align-items: start;
+    margin: 5px;
 }
 
 .right {
     width: 20px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: start;
     margin: 5px;
 }
 
 .button {
     display: flex;
-    justify-content: center;
+    align-items: start;
     margin: 5px;
 }
 
 .details {
     display: grid;
     justify-content: center;
+    margin: 5px;
 }
