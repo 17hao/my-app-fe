@@ -21,58 +21,41 @@ function EarlyPayoffCalculator() {
         setRepaymentOption(event.target.value);
     }
 
+    function submitHandler(event) {
+        event.preventDefault();
+
+        if (loanAmount === "" || loanTerm === "" || interestRate === "") {
+            alert("输入不合法");
+            return;
+        }
+
+        if (Number(prepaymentYear) < new Date().getFullYear() ||
+            (Number(prepaymentYear) === new Date().getFullYear() && Number(prepaymentMonth) <= new Date().getMonth() + 1)) {
+            alert("提前还贷时间不能早于下月");
+            return;
+        }
+
+        const data = calculate();
+        setBeforePrepaymentData(data.before);
+        setAfterPrepaymentData(data.after);
+    }
+
     function calculate() {
-        let before = [];
-        let after = [];
-
         const currentDate = new Date();
-        const months = (prepaymentYear - currentDate.getFullYear()) * 12 + (prepaymentMonth - currentDate.getMonth() - 1);
-        console.log(`months=${months}`);
-
         let remaingAmount = Number(loanAmount);
-        let remaingMonth = Number(loanTerm);
+        let remaingMonths = Number(loanTerm);
+        let repaymentMonthsPartA = (prepaymentYear - currentDate.getFullYear()) * 12 + (prepaymentMonth - currentDate.getMonth() - 1);
+        let rate = interestRate;
+        const before = fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartA);
 
-        for (let i = 0; i < months; i++) {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            const year = currentDate.getFullYear();
-            const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 获取下一个月并格式化为两位数
-
-            const principalPerMonth = Number((remaingAmount / remaingMonth).toFixed(2));
-            const interestPerMonth = Number((remaingAmount * (interestRate / 100) / 12).toFixed(2));
-
-            before.push({
-                "idx": i + 1,
-                "month": `${year}-${month}`,
-                "repayment": (Number(principalPerMonth) + Number(interestPerMonth)).toFixed(2),
-                "principal": principalPerMonth,
-                "interest": interestPerMonth
-            });
-
-            remaingAmount -= principalPerMonth;
-            remaingMonth -= 1;
-        }
-
+        remaingAmount -= (loanAmount / loanTerm) * repaymentMonthsPartA;
         remaingAmount -= prepaymentAmount;
-
-        for (let i = 0; i < loanTerm - months; i++) {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            const year = currentDate.getFullYear();
-            const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 获取下一个月并格式化为两位数
-
-            const principalPerMonth = Number((remaingAmount / remaingMonth).toFixed(2));
-            const interestPerMonth = Number((remaingAmount * (newInterestRate / 100) / 12).toFixed(2));
-
-            after.push({
-                "idx": i + 1,
-                "month": `${year}-${month}`,
-                "repayment": (Number(principalPerMonth) + Number(interestPerMonth)).toFixed(2),
-                "principal": principalPerMonth,
-                "interest": interestPerMonth
-            });
-
-            remaingAmount -= principalPerMonth;
-            remaingMonth -= 1;
+        remaingMonths = loanTerm - repaymentMonthsPartA;
+        let repaymentMonthsPartB = remaingMonths;
+        if (newInterestRate !== "") {
+            rate = newInterestRate;
         }
+        const after = fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartB);
 
         return {
             "before": before,
@@ -80,20 +63,32 @@ function EarlyPayoffCalculator() {
         };
     }
 
-    function submitHandler(event) {
-        event.preventDefault();
+    function fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonths) {
+        console.log(`remaingAmount=${remaingAmount} remaingMonths=${remaingMonths} currentDate=${currentDate}`);
 
-        if (prepaymentYear < new Date().getFullYear() ||
-            (prepaymentYear === new Date().getFullYear() && prepaymentMonth <= new Date().getMonth() + 1)) {
-            alert("提前还贷时间不能早于下月");
-            return;
+        let res = [];
+
+        for (let i = 0; i < repaymentMonths; i++) {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 获取下一个月并格式化为两位数
+
+            const principalPerMonth = Number((remaingAmount / remaingMonths).toFixed(2));
+            const interestPerMonth = Number((remaingAmount * (rate / 100) / 12).toFixed(2));
+
+            res.push({
+                "idx": i + 1,
+                "month": `${year}-${month}`,
+                "repayment": (Number(principalPerMonth) + Number(interestPerMonth)).toFixed(2),
+                "principal": principalPerMonth,
+                "interest": interestPerMonth
+            });
+
+            remaingAmount -= principalPerMonth;
+            remaingMonths -= 1;
         }
 
-        console.log(`totalAmount=${loanAmount} monthNum=${loanTerm} interest=${interestRate}`);
-
-        const data = calculate();
-        setBeforePrepaymentData(data.before);
-        setAfterPrepaymentData(data.after);
+        return res;
     }
 
     function clearHandler(event) {
@@ -149,7 +144,7 @@ function EarlyPayoffCalculator() {
                                 type="radio"
                                 value="fixedPaymen"
                                 checked={repaymentOption === 'fixedPaymen'}
-                            // onChange={selectLoanType}
+                                readOnly
                             />
                             等额本息
                         </label>
@@ -169,14 +164,14 @@ function EarlyPayoffCalculator() {
                 <div className="container">
                     <div className="left">提前还贷金额</div>
                     <div className="input">
-                        <input className="inputText" type="text" value={prepaymentAmount} onChange={(e) => setPrepaymentAmount(e.target.value)}></input>
+                        <input placeholder="不填为0" className="inputText" type="text" value={prepaymentAmount} onChange={(e) => setPrepaymentAmount(e.target.value)}></input>
                     </div>
                     <div className="right">元</div>
                 </div>
                 <div className="container">
                     <div className="left">新的贷款利率</div>
                     <div className="input">
-                        <input className="inputText" type="text" value={newInterestRate} onChange={(e) => setNewInterestRate(e.target.value)}></input>
+                        <input placeholder="不填利率不变" className="inputText" type="text" value={newInterestRate} onChange={(e) => setNewInterestRate(e.target.value)}></input>
                     </div>
                     <div className="right">%</div>
                 </div>
@@ -214,11 +209,15 @@ function EarlyPayoffCalculator() {
                                 </tr>
                             ))}
                         </tbody>
-                        <tbody>
-                            <tr>
-                                <td colSpan="5">⬇️提前还贷后新的还贷计划⬇️</td>
-                            </tr>
-                        </tbody>
+                        {
+                            afterPrepaymentData.length > 0 ?
+                                <tbody>
+                                    <tr>
+                                        <td colSpan="5">&emsp;&emsp;⬇️提前还贷后新的还款计划⬇️</td>
+                                    </tr>
+                                </tbody>
+                                : <></>
+                        }
                         <tbody>
                             {afterPrepaymentData.map((data, index) => (
                                 <tr key={index}>

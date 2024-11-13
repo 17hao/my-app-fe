@@ -14,10 +14,11 @@ export default function Lab() {
     return (
         <div>
             <div style={{ fontSize: "30px" }}>
-                🛠 Here are some excellent tools
+                🛠 工具集
             </div>
             <div>
-                <Link to={"early-payoff-calculator"}>💰 Loan Early Payoff Calculator</Link>
+                <a>💰</a>
+                <Link to={"early-payoff-calculator"}>提前还贷计算器</Link>
             </div>
             <div>
                 <button onClick={onClickHandler}>Log out</button>
