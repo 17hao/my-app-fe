@@ -186,9 +186,9 @@ function EarlyPayoffCalculator() {
             </form>
 
             <div className="details">
-                <div className="title">还款明细</div>
+                <div className="detailTitle">还款明细</div>
                 <div>
-                    <table border="1">
+                    <table className="detailTable">
                         <thead>
                             <tr>
                                 <th>序号</th>

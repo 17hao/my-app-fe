@@ -56,3 +56,19 @@
     justify-content: center;
     margin: 5px;
 }
+
+.detailTitle {
+    margin-left: 35%;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.detailTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detailTable th,
+.detailTable td {
+    border: 1px solid #333333;
+}
