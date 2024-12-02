@@ -5,12 +5,15 @@ import "modules/lab/EarlyPayoffCalculator.css"
 function EarlyPayoffCalculator() {
     document.title = "calculator";
 
+    const currentDate = new Date();
+    const prepaymentDate = new Date(new Date().setMonth(new Date().getMonth() + 2));
+
     const [loanAmount, setLoanAmount] = useState("");
     const [loanTerm, setLoanTerm] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [repaymentOption, setRepaymentOption] = useState("fixedPrincipal"); // fixed principal | fixed payment
-    const [prepaymentYear, setPrepaymentYear] = useState(new Date().getFullYear());
-    const [prepaymentMonth, setPrepaymentMonth] = useState(new Date().getMonth() + 2);
+    const [prepaymentYear, setPrepaymentYear] = useState(prepaymentDate.getFullYear());
+    const [prepaymentMonth, setPrepaymentMonth] = useState(prepaymentDate.getMonth());
     const [prepaymentAmount, setPrepaymentAmount] = useState("");
     const [newInterestRate, setNewInterestRate] = useState("");
 
@@ -29,8 +32,8 @@ function EarlyPayoffCalculator() {
             return;
         }
 
-        if (Number(prepaymentYear) < new Date().getFullYear() ||
-            (Number(prepaymentYear) === new Date().getFullYear() && Number(prepaymentMonth) <= new Date().getMonth() + 1)) {
+        if (Number(prepaymentYear) < currentDate.getFullYear() ||
+            (Number(prepaymentYear) === currentDate.getFullYear() && Number(prepaymentMonth) <= currentDate.getMonth() + 1)) {
             alert("提前还贷时间不能早于下月");
             return;
         }
@@ -41,7 +44,6 @@ function EarlyPayoffCalculator() {
     }
 
     function calculate() {
-        const currentDate = new Date();
         let remaingAmount = Number(loanAmount);
         let remaingMonths = Number(loanTerm);
         let repaymentMonthsPartA = (prepaymentYear - currentDate.getFullYear()) * 12 + (prepaymentMonth - currentDate.getMonth() - 1);
