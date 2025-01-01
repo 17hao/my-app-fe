@@ -36,8 +36,13 @@ jwt存储在哪里？
 cookie不能跨域，authorization http header可以跨域
 
 1. https://github.com/IdentityServer/IdentityServer3/issues/2039#issuecomment-288135399
-2. https://github.com/IdentityServer/IdentityServer3/issues/2039#issuecomment-288135399
+2. https://www.redotheweb.com/2015/11/09/api-security.html
 3. https://stackoverflow.com/questions/44133536/is-it-safe-to-store-a-jwt-in-localstorage-with-reactjs
+5. https://stackoverflow.com/a/35347022/9779481
+6. https://www.reddit.com/r/Angular2/comments/cubdwa/storing_authentication_tokens_local_storage_or/
+7. https://medium.com/@benjamin.botto/secure-access-token-storage-with-single-page-applications-part-1-9536b0021321
+8. https://medium.com/@ryanchenkie_40935/react-authentication-how-to-store-jwt-in-a-cookie-346519310e81
+   1. 也提到了处理cookie跨域的问题
 
 
 #================
@@ -72,3 +77,27 @@ cors
 
 xhr和fetch的区别：
 1. https://stackoverflow.com/questions/35549547/fetch-api-vs-xmlhttprequest
+
+
+csrf token保存在哪里？
+1. https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#storing-the-csrf-token-value-in-the-dom
+2. https://stackoverflow.com/questions/20504846/why-is-it-common-to-put-csrf-prevention-tokens-in-cookies
+3. https://stackoverflow.com/questions/65854195/csrf-double-submit-cookie-is-basically-not-secure
+
+http only cookie无法通过js设置
+1. https://stackoverflow.com/questions/14691654/set-a-cookie-to-httponly-via-javascript
+
+
+xss 攻击
+1. https://shahjerry33.medium.com/xss-the-localstorage-robbery-d5fbf353c6b0
+2. https://medium.com/redteam/stealing-jwts-in-localstorage-via-xss-6048d91378a0
+
+
+飞书有2个csrf token，lgw_csrf_token和swp_csrf_token。
+访问feishu.cn时，会请求https://www.feishu.cn/lgw/csrf_token，在reponse cookie中携带lgw_csrf_token（httpOnly==false && secure==true）
+登录后会发起csrf token请求获取新的swp_csrf_token，下次请求时更新request cookie中的swp_csrf_token。
+
+
+目前的方案：
+用于用户身份认证的session token存储在http only && secure的cookie里。
+csrf token仿照飞书，存储在cookie && http header。

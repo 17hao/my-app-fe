@@ -22,7 +22,11 @@ export default function Login() {
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "https://api.shiqihao.xyz/account/verify", true);
+        if (process.env.REACT_APP_ENV === "prod") {
+            xhr.open("POST", "https://api.shiqihao.xyz/account/verify", true);
+        } else {
+            xhr.open("POST", "http://127.0.0.1:9000/account/verify", true);
+        }
 
         xhr.responseType = "json";
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -41,18 +45,13 @@ export default function Login() {
 
             console.log(respBody);
 
-            if (respBody.code !== "0") {
+            if (respBody.code !== "0" && respBody.message !== "ok") {
                 alert(`Log in failed. Error message: ${respBody.message}`);
                 return;
             }
 
-            if (respBody.data === "true") {
-                window.localStorage.setItem("isAuth", true);
-                navigate(location.state.from);
-                return;
-            } else {
-                alert("Password is wrong.")
-            }
+            window.localStorage.setItem("sessionToken", respBody.data);
+            navigate(location.state.from);
         };
 
         const requestBody = {
