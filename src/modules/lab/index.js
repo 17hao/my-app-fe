@@ -6,19 +6,22 @@ export default function Lab() {
     const navigate = useNavigate();
 
     function onClickHandler() {
-        alert("log out");
         window.localStorage.clear();
         navigate("/lab");
     }
 
     return (
-        <div>
-            <div style={{ fontSize: "30px" }}>
-                🛠 工具集
+        <div style={{ marginLeft: "30%" }}>
+            <div style={{ margin: "10px", fontSize: "30px" }}>
+                🏭 Laboratory
             </div>
-            <div>
-                <a>💰</a>
+            <div style={{ margin: "10px" }}>
+                <a>💰 </a>
                 <Link to={"early-payoff-calculator"}>提前还贷计算器</Link>
+            </div>
+            <div style={{ margin: "10px" }}>
+                <a>⚔️ </a>
+                <Link to={"xss-attack-demo"}>XSS攻击演示</Link>
             </div>
             <div>
                 <button onClick={onClickHandler}>Log out</button>
