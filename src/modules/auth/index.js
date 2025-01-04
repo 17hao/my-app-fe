@@ -20,46 +20,36 @@ export default function Login() {
             return;
         }
 
-        var xhr = new XMLHttpRequest();
-
-        if (process.env.REACT_APP_ENV === "prod") {
-            xhr.open("POST", "https://api.shiqihao.xyz/account/verify", true);
-        } else {
-            xhr.open("POST", "http://127.0.0.1:9000/account/verify", true);
+        const url = "/account/verify";
+        const response = await fetch(
+            url,
+            {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "name": accountName,
+                    "password": password,
+                })
+            }
+        );
+        if (!response.ok) {
+            alert(`Response status=${response.status}`);
+            return;
         }
 
-        xhr.responseType = "json";
-        xhr.setRequestHeader("Content-Type", "application/json");
+        const respBody = await response.json();
+        console.log(respBody);
+        if (respBody.code !== "0" && respBody.message !== "ok") {
+            alert(`Log in failed. Error message: ${respBody.message}`);
+            return;
+        }
+        window.localStorage.setItem("sessionToken", respBody.data);
 
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState !== XMLHttpRequest.DONE) {
-                return;
-            }
-
-            if (xhr.status !== 200) {
-                alert("Network error");
-                return;
-            }
-
-            const respBody = xhr.response;
-
-            console.log(respBody);
-
-            if (respBody.code !== "0" && respBody.message !== "ok") {
-                alert(`Log in failed. Error message: ${respBody.message}`);
-                return;
-            }
-
-            window.localStorage.setItem("sessionToken", respBody.data);
-            navigate(location.state.from);
-        };
-
-        const requestBody = {
-            "name": accountName,
-            "password": password,
-        };
-        xhr.send(JSON.stringify(requestBody));
-    }
+        navigate(location.state.from);
+    };
 
     return (
         <div id="login">

@@ -6,7 +6,7 @@ import About from "modules/about/about";
 import { MarkdownRender } from "modules/blog/MarkdownRender";
 import Login from "modules/auth/index"
 import Lab from "modules/lab";
-import RequireAuth from "modules/common/components/RequireAuth";
+import RequireAuth from "modules/auth/RequireAuth";
 import EarlyPayoffCalculator from "modules/lab/EarlyPayoffCalculator";
 import XssAttackDemo from "modules/lab/XssAttackDemo";
 
