@@ -20,7 +20,13 @@ export default function Login() {
             return;
         }
 
-        const url = "/account/verify";
+        let url = "";
+        if (process.env.REACT_APP_ENV === "prod") {
+            url = "https://api.shiqihao.xyz/account/verify";
+        } else {
+            url = "/api/account/verify";
+        }
+
         const response = await fetch(
             url,
             {
@@ -46,8 +52,6 @@ export default function Login() {
             alert(`Log in failed. Error message: ${respBody.message}`);
             return;
         }
-        window.localStorage.setItem("sessionToken", respBody.data);
-
         navigate(location.state.from);
     };
 

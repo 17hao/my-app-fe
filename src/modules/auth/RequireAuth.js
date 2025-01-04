@@ -9,8 +9,13 @@ export default function RequireAuth({ chilren }) {
 
     useEffect(() => {
         (async () => {
-            // const url = "http://localhost:9000/account/auth";
-            const url = "/account/auth";
+            let url = "";
+            if (process.env.REACT_APP_ENV === "prod") {
+                url = "https://api.shiqihao.xyz/account/auth";
+            } else {
+                url = "/api/account/auth";
+            }
+            
             const response = await fetch(
                 url,
                 {

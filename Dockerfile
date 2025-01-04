@@ -1,10 +1,12 @@
 FROM node:16.20.2 AS node
 WORKDIR /app
 COPY package.json .
+COPY .npmrc .
 RUN npm install --verbose
 COPY public public/
 COPY src src/
 COPY jsconfig.json .
+COPY .env.production .
 RUN npm run build
 
 FROM nginx:stable

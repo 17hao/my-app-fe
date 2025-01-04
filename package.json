@@ -6,6 +6,7 @@
         "@testing-library/react": "^14.2.2",
         "bootstrap": "^5.3.3",
         "emoji-dictionary": "^1.0.11",
+        "http-proxy-middleware": "^3.0.3",
         "react": "^18.2.0",
         "react-bootstrap": "^2.10.2",
         "react-dom": "^18.2.0",
@@ -42,6 +43,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "proxy": "http://localhost:9000"
+    }
 }
