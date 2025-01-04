@@ -1,5 +1,7 @@
 export default function XssAttackDemo() {
     return (
-        <a>xss attack demo</a>
+        <div>
+            <b>xss attack demo</b>
+        </div >
     );
 };

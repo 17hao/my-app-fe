@@ -16,11 +16,11 @@ export default function Lab() {
                 🏭 Laboratory
             </div>
             <div style={{ margin: "10px" }}>
-                <a>💰 </a>
+                <b>💰 </b>
                 <Link to={"early-payoff-calculator"}>提前还贷计算器</Link>
             </div>
             <div style={{ margin: "10px" }}>
-                <a>⚔️ </a>
+                <b>⚔️ </b>
                 <Link to={"xss-attack-demo"}>XSS攻击演示</Link>
             </div>
             <div>
