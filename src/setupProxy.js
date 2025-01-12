@@ -1,7 +1,8 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function (app) {
-    // available in dev, proxy by nginx in prod
+    // available in development environment
+    // using nginx as proxy in production envrionment
     app.use(
         "/api",
         createProxyMiddleware({

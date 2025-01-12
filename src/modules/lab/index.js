@@ -1,14 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import LogOut from "modules/account/LogOut";
 
 export default function Lab() {
     document.title = "Lab";
-
-    const navigate = useNavigate();
-
-    function onClickHandler() {
-        window.localStorage.clear();
-        navigate("/lab");
-    }
 
     return (
         <div style={{ marginLeft: "30%" }}>
@@ -23,9 +17,7 @@ export default function Lab() {
                 <b>⚔️ </b>
                 <Link to={"xss-attack-demo"}>XSS攻击演示</Link>
             </div>
-            <div>
-                <button onClick={onClickHandler}>Log out</button>
-            </div>
+            <LogOut></LogOut>
         </div>
     );
 }

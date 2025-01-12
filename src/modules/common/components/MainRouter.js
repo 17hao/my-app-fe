@@ -4,9 +4,9 @@ import Home from "modules/home/home";
 import BlogIndex from "modules/blog/index";
 import About from "modules/about/about";
 import { MarkdownRender } from "modules/blog/MarkdownRender";
-import Login from "modules/auth/index"
+import Login from "modules/account/index"
 import Lab from "modules/lab";
-import RequireAuth from "modules/auth/RequireAuth";
+import RequireAuth from "modules/account/RequireAuth";
 import EarlyPayoffCalculator from "modules/lab/EarlyPayoffCalculator";
 import XssAttackDemo from "modules/lab/XssAttackDemo";
 

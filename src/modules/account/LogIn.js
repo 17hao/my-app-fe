@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
-import "modules/auth/index.css";
+import "modules/account/LogIn.css";
 
 export default function Login() {
     document.title = "Login";
@@ -20,11 +20,12 @@ export default function Login() {
             return;
         }
 
+        let path = "/account/verify-v2";
         let url = "";
         if (process.env.REACT_APP_ENV === "prod") {
-            url = "https://api.shiqihao.xyz/account/verify";
+            url = "https://api.shiqihao.xyz" + path;
         } else {
-            url = "/api/account/verify";
+            url = "/api" + path;
         }
 
         const response = await fetch(
@@ -52,7 +53,12 @@ export default function Login() {
             alert(`Log in failed. Error message: ${respBody.message}`);
             return;
         }
-        navigate(location.state.from);
+        window.localStorage.setItem("session_token", respBody.data);
+        if (location.state === null) {
+            navigate("/lab");
+        } else {
+            navigate(location.state.from);
+        }
     };
 
     return (

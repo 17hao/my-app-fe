@@ -7,23 +7,33 @@ import { useState, useEffect } from 'react';
 export default function RequireAuth({ chilren }) {
     const [isAuth, setIsAuth] = useState(null);
 
+    const location = useLocation();
+
     useEffect(() => {
         (async () => {
+            const token = window.localStorage.getItem("session_token");
+            if (token === null) {
+                setIsAuth(false);
+                return;
+            }
+
+            let path = "/account/auth-v2";
             let url = "";
             if (process.env.REACT_APP_ENV === "prod") {
-                url = "https://api.shiqihao.xyz/account/auth";
+                url = "https://api.shiqihao.xyz" + path;
             } else {
-                url = "/api/account/auth";
+                url = "/api" + path;
             }
-            
+
             const response = await fetch(
                 url,
                 {
                     method: "POST",
                     headers: {
                         "Accept": "application/json",
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify()
+                    body: JSON.stringify({ "token": token })
                 }
             );
             if (!response.ok) {
@@ -37,8 +47,6 @@ export default function RequireAuth({ chilren }) {
             setIsAuth(respBody.data);
         })();
     }, []);
-
-    const location = useLocation();
 
     if (isAuth === null) {
         return <div>Loading...</div>; // 加载中
