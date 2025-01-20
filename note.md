@@ -8,9 +8,9 @@ jwt是token生成方案，是oauth协议中token格式的具体实现。
 jwe 和 jws 的区别？
 jwe：json web encryption；jws：json web signature
 jws对token进行签名，中间人劫持请求后可以看到内容，但是无法修改，否则签名校验会失败。
-jwe对token进行非堆成加密，中间人劫持请求后看不到内容，也无法修改。
+jwe对token进行非对称加密，中间人劫持请求后看不到内容，也无法修改。
 
-js lib: https://github.com/panva/jose
+js jws lib: https://github.com/panva/jose
 
 1. https://stackoverflow.com/questions/33589353/what-are-the-pros-cons-of-using-jwe-or-jws
 2. https://stackoverflow.com/a/62095056/9779481
@@ -43,7 +43,6 @@ cookie不能跨域，authorization http header可以跨域
 7. https://medium.com/@benjamin.botto/secure-access-token-storage-with-single-page-applications-part-1-9536b0021321
 8. https://medium.com/@ryanchenkie_40935/react-authentication-how-to-store-jwt-in-a-cookie-346519310e81
    1. 也提到了处理cookie跨域的问题
-
 
 #================
 
@@ -83,6 +82,7 @@ csrf token保存在哪里？
 1. https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#storing-the-csrf-token-value-in-the-dom
 2. https://stackoverflow.com/questions/20504846/why-is-it-common-to-put-csrf-prevention-tokens-in-cookies
 3. https://stackoverflow.com/questions/65854195/csrf-double-submit-cookie-is-basically-not-secure
+
 
 http only cookie无法通过js设置
 1. https://stackoverflow.com/questions/14691654/set-a-cookie-to-httponly-via-javascript

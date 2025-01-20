@@ -207,5 +207,5 @@ func main() {
 crontab -e
 
 # 添加下面这行，每2分钟更新一次DNS解析记录
-*/2 * * * * /home/sqh/.local/bin/tencent_ddns example.com >> /var/log/cron.log 2>&1
+*/2 * * * * /home/sqh/.local/bin/ddns_ipv4 example.com >> /var/log/cron.log 2>&1
 ```
