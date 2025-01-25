@@ -23,7 +23,8 @@ export default function Login() {
         let path = "/account/verify-v2";
         let url = "";
         if (process.env.REACT_APP_ENV === "prod") {
-            url = "https://api.shiqihao.xyz" + path;
+            url = process.env.REACT_APP_BACKEND_HOST + path;
+            console.log(`url=${url}`)
         } else {
             url = "/api" + path;
         }
