@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import LogOut from "modules/account/LogOut";
 
 export default function Lab() {
     document.title = "Lab";
@@ -17,7 +16,6 @@ export default function Lab() {
                 <b>⚔️ </b>
                 <Link to={"xss-attack-demo"}>XSS攻击演示</Link>
             </div>
-            <LogOut></LogOut>
         </div>
     );
 }

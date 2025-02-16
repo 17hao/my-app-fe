@@ -22,8 +22,8 @@ export default function MainRouter() {
             <Route path="about" element={<About />} />
             <Route path="login" element={<Login />} />
             <Route path="lab">
-                <Route index element={<RequireAuth chilren={<Lab />} />} />
-                <Route path="early-payoff-calculator" element={<RequireAuth chilren={<EarlyPayoffCalculator />} />} />
+                <Route index element={<Lab />} />
+                <Route path="early-payoff-calculator" element={<EarlyPayoffCalculator />} />
                 <Route path="xss-attack-demo" element={<RequireAuth chilren={<XssAttackDemo />} />} />
             </Route>
             <Route path='*' element={<NotFound />} status={404} />
