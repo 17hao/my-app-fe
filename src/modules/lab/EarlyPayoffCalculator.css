@@ -66,9 +66,25 @@
 .detailTable {
     width: 100%;
     border-collapse: collapse;
+    margin-left: 5%;
 }
 
-.detailTable th,
+.detailTable th {
+    border: 2px solid #555555;
+    background-color: #333333;
+    color: #ffffff;
+    padding: 8px;
+}
+
 .detailTable td {
-    border: 1px solid #333333;
+    border: 2px solid #555555;
+    background-color: #f0f0f0;
+    padding: 8px;
+}
+
+.detailTable tr:hover {
+    background-color: #d0d0d0;
+}
+.detailTable tr:nth-child(even) {
+    background-color: #e0e0e0;
 }
