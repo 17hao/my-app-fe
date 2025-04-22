@@ -44,25 +44,47 @@ function EarlyPayoffCalculator() {
     }
 
     function calculate() {
-        let remaingAmount = Number(loanAmount);
-        let remaingMonths = Number(loanTerm);
-        let repaymentMonthsPartA = (prepaymentYear - currentDate.getFullYear()) * 12 + (prepaymentMonth - currentDate.getMonth() - 1);
-        let rate = interestRate;
-        const before = fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartA);
+        if (repaymentOption === 'fixedPrincipal') {
+            let remaingAmount = Number(loanAmount);
+            let remaingMonths = Number(loanTerm);
+            let repaymentMonthsPartA = (prepaymentYear - currentDate.getFullYear()) * 12 + (prepaymentMonth - currentDate.getMonth() - 1);
+            let rate = interestRate;
+            const before = fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartA);
 
-        remaingAmount -= (loanAmount / loanTerm) * repaymentMonthsPartA;
-        remaingAmount -= prepaymentAmount;
-        remaingMonths = loanTerm - repaymentMonthsPartA;
-        let repaymentMonthsPartB = remaingMonths;
-        if (newInterestRate !== "") {
-            rate = newInterestRate;
+            remaingAmount -= (loanAmount / loanTerm) * repaymentMonthsPartA;
+            remaingAmount -= prepaymentAmount;
+            remaingMonths = loanTerm - repaymentMonthsPartA;
+            let repaymentMonthsPartB = remaingMonths;
+            if (newInterestRate !== "") {
+                rate = newInterestRate;
+            }
+            const after = fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartB);
+
+            return {
+                "before": before,
+                "after": after,
+            };
+        } else if (repaymentOption === 'fixedPayment') {
+            let remaingAmount = Number(loanAmount);
+            let remaingMonths = Number(loanTerm);
+            let repaymentMonthsPartA = (prepaymentYear - currentDate.getFullYear()) * 12 + (prepaymentMonth - currentDate.getMonth() - 1);
+            let rate = interestRate;
+            const before = fixedPayment(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartA);
+
+            remaingAmount -= (loanAmount / loanTerm) * repaymentMonthsPartA;
+            remaingAmount -= prepaymentAmount;
+            remaingMonths = loanTerm - repaymentMonthsPartA;
+            let repaymentMonthsPartB = remaingMonths;
+            if (newInterestRate !== "") {
+                rate = newInterestRate;
+            }
+            const after = fixedPayment(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartB);
+
+            return {
+                "before": before,
+                "after": after,
+            };
         }
-        const after = fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonthsPartB);
-
-        return {
-            "before": before,
-            "after": after,
-        };
     }
 
     function fixedPrincipal(remaingAmount, remaingMonths, rate, currentDate, repaymentMonths) {
@@ -90,6 +112,28 @@ function EarlyPayoffCalculator() {
             remaingMonths -= 1;
         }
 
+        return res;
+    }
+
+    function fixedPayment(remaingAmount, remaingMonths, rate, currentDate, repaymentMonths) {
+        let res = [];
+        let monthlyRate = rate / 100 / 12;
+        let monthlyPayment = (remaingAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -remaingMonths));
+        for (let i = 0; i < repaymentMonths; i++) {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+            const interest = Number((remaingAmount * monthlyRate).toFixed(2));
+            const principal = Number((monthlyPayment - interest).toFixed(2));
+            res.push({
+                "idx": i + 1,
+                "month": `${year}-${month}`,
+                "repayment": monthlyPayment.toFixed(2),
+                "principal": principal,
+                "interest": interest
+            });
+            remaingAmount -= principal;
+        }
         return res;
     }
 
@@ -144,9 +188,9 @@ function EarlyPayoffCalculator() {
                         <label>
                             <input
                                 type="radio"
-                                value="fixedPaymen"
-                                checked={repaymentOption === 'fixedPaymen'}
-                                readOnly
+                                value="fixedPayment"
+                                checked={repaymentOption === 'fixedPayment'}
+                                onChange={selectLoanType}
                             />
                             等额本息
                         </label>
@@ -236,6 +280,7 @@ function EarlyPayoffCalculator() {
             </div>
         </div>
     );
+
 }
 
 export default EarlyPayoffCalculator;
