@@ -13,7 +13,7 @@ function EarlyPayoffCalculator() {
     const [interestRate, setInterestRate] = useState("");
     const [repaymentOption, setRepaymentOption] = useState("fixedPrincipal"); // fixed principal | fixed payment
     const [prepaymentYear, setPrepaymentYear] = useState(prepaymentDate.getFullYear());
-    const [prepaymentMonth, setPrepaymentMonth] = useState(prepaymentDate.getMonth());
+    const [prepaymentMonth, setPrepaymentMonth] = useState(prepaymentDate.getMonth() + 1);
     const [prepaymentAmount, setPrepaymentAmount] = useState("");
     const [newInterestRate, setNewInterestRate] = useState("");
 
