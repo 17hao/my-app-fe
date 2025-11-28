@@ -147,6 +147,55 @@ function EarlyPayoffCalculator() {
         setAfterPrepaymentData([]);
     }
 
+    const outputDetails =
+        <div>
+            <div className="detailTitle">还款明细</div>
+            <div>
+                <table className="detailTable">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>还款月份</th>
+                            <th>还款金额</th>
+                            <th>本金</th>
+                            <th>利息</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {beforePrepaymentData.map((data, index) => (
+                            <tr key={index}>
+                                <td>{data.idx}</td>
+                                <td>{data.month}</td>
+                                <td>{data.repayment}</td>
+                                <td>{data.principal}</td>
+                                <td>{data.interest}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                    {
+                        afterPrepaymentData.length > 0 ?
+                            <tbody>
+                                <tr>
+                                    <td colSpan="5">&emsp;&emsp;⬇️提前还贷后新的还款计划⬇️</td>
+                                </tr>
+                            </tbody>
+                            : <></>
+                    }
+                    <tbody>
+                        {afterPrepaymentData.map((data, index) => (
+                            <tr key={index}>
+                                <td>{data.idx}</td>
+                                <td>{data.month}</td>
+                                <td>{data.repayment}</td>
+                                <td>{data.principal}</td>
+                                <td>{data.interest}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     return (
         <div>
             <div className="title">提前还贷计算器</div>
@@ -232,51 +281,7 @@ function EarlyPayoffCalculator() {
             </form>
 
             <div className="details">
-                <div className="detailTitle">还款明细</div>
-                <div>
-                    <table className="detailTable">
-                        <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>还款月份</th>
-                                <th>还款金额</th>
-                                <th>本金</th>
-                                <th>利息</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {beforePrepaymentData.map((data, index) => (
-                                <tr key={index}>
-                                    <td>{data.idx}</td>
-                                    <td>{data.month}</td>
-                                    <td>{data.repayment}</td>
-                                    <td>{data.principal}</td>
-                                    <td>{data.interest}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                        {
-                            afterPrepaymentData.length > 0 ?
-                                <tbody>
-                                    <tr>
-                                        <td colSpan="5">&emsp;&emsp;⬇️提前还贷后新的还款计划⬇️</td>
-                                    </tr>
-                                </tbody>
-                                : <></>
-                        }
-                        <tbody>
-                            {afterPrepaymentData.map((data, index) => (
-                                <tr key={index}>
-                                    <td>{data.idx}</td>
-                                    <td>{data.month}</td>
-                                    <td>{data.repayment}</td>
-                                    <td>{data.principal}</td>
-                                    <td>{data.interest}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                {beforePrepaymentData != null && beforePrepaymentData.length > 0 && outputDetails}
             </div>
         </div>
     );
