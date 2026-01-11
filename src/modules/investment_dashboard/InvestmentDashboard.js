@@ -20,7 +20,7 @@ const OP_TYPE_OPTIONS = [
 ];
 
 // 一级分类：value 用英文 code，label 用中文
-const OP_TARGET_L1_TYPE_OPTIONS = [
+const OP_ITEM_L1_TYPE_OPTIONS = [
     { value: "usTreasury", label: "美国国债" },
     { value: "otherBonds", label: "其他债券" },
     { value: "usStock", label: "美股" },
@@ -30,7 +30,7 @@ const OP_TARGET_L1_TYPE_OPTIONS = [
 ];
 
 // 二级分类：按一级分类 code 分组，value 用于请求体，label 用于展示
-const OP_TARGET_L2_TYPE_OPTIONS = {
+const OP_ITEM_L2_TYPE_OPTIONS = {
     usTreasury: [
         { value: "shortTerm", label: "短期国债（0-1Y）" },
         { value: "intermediateTerm", label: "中期国债（3-10Y）" },
@@ -58,9 +58,9 @@ export default function InvestmentDashboard() {
     const [opPlatform, setOpPlatform] = useState("");
     const [opType, setOpType] = useState("");
 
-    const [opTargetSymbol, setOpTargetSymbol] = useState("");
-    const [opTargetL1Type, setOpTargetL1Type] = useState("");
-    const [opTargetL2Type, setOpTargetL2Type] = useState("");
+    const [opItemSymbol, setOpItemSymbol] = useState("");
+    const [opItemL1Type, setOpItemL1Type] = useState("");
+    const [opItemL2Type, setOpItemL2Type] = useState("");
 
     const [amountNumber, setAmountNumber] = useState("");
     const [amountCurrency, setAmountCurrency] = useState("cny");
@@ -114,22 +114,22 @@ export default function InvestmentDashboard() {
     async function submitHandler(event) {
         event.preventDefault();
 
-        const opTargetL2TypeOptions = OP_TARGET_L2_TYPE_OPTIONS[opTargetL1Type] || [];
+        const opItemL2TypeOptions = OP_ITEM_L2_TYPE_OPTIONS[opItemL1Type] || [];
 
-        if (!opDate || !opPlatform || !opType || !opTargetSymbol || !opTargetL1Type || !amountNumber || !amountCurrency || !amountEquivalentCny || (opTargetL2TypeOptions.length > 0 && !opTargetL2Type)) {
+        if (!opDate || !opPlatform || !opType || !opItemSymbol || !opItemL1Type || !amountNumber || !amountCurrency || !amountEquivalentCny || (opItemL2TypeOptions.length > 0 && !opItemL2Type)) {
             alert("请完整填写所有字段");
             return;
         }
 
-        const l2Value = (opTargetL2TypeOptions.length === 0) ? "" : opTargetL2Type;
+        const l2Value = (opItemL2TypeOptions.length === 0) ? "" : opItemL2Type;
 
         const body = {
             opDate: opDate,
             opPlatform: opPlatform,
             opType: opType,
-            opTarget: {
-                symbol: opTargetSymbol,
-                l1Type: opTargetL1Type,
+            opItem: {
+                symbol: opItemSymbol,
+                l1Type: opItemL1Type,
                 l2Type: l2Value,
             },
             opAmount: {
@@ -176,9 +176,9 @@ export default function InvestmentDashboard() {
             setOpDate("");
             setOpPlatform("");
             setOpType("");
-            setOpTargetSymbol("");
-            setOpTargetL1Type("");
-            setOpTargetL2Type("");
+            setOpItemSymbol("");
+            setOpItemL1Type("");
+            setOpItemL2Type("");
             setAmountNumber("");
             setAmountCurrency("cny");
             setAmountEquivalentCny("");
@@ -192,7 +192,7 @@ export default function InvestmentDashboard() {
         }
     }
 
-    const currentL2Options = OP_TARGET_L2_TYPE_OPTIONS[opTargetL1Type] || [];
+    const currentL2Options = OP_ITEM_L2_TYPE_OPTIONS[opItemL1Type] || [];
 
     // 按日期倒序排序（假定为 YYYY-MM-DD 格式）
     const sortedRecords = [...opRecords].sort((a, b) => {
@@ -224,20 +224,20 @@ export default function InvestmentDashboard() {
 
                             // 操作对象：既兼容字符串字段，也兼容嵌套对象
                             let objectText = "";
-                            if (typeof item.opTarget === "string") {
-                                objectText = item.opTarget;
-                            } else if (item.opTarget && typeof item.opTarget === "object") {
-                                const l1Label = OP_TARGET_L1_TYPE_OPTIONS.find(l1 => l1.value === item.opTarget.l1Type)?.label || item.opTarget.l1Type || "";
+                            if (typeof item.opItem === "string") {
+                                objectText = item.opItem;
+                            } else if (item.opItem && typeof item.opItem === "object") {
+                                const l1Label = OP_ITEM_L1_TYPE_OPTIONS.find(l1 => l1.value === item.opItem.l1Type)?.label || item.opItem.l1Type || "";
                                 // 二级分类 label 反查
-                                const allL2 = Object.values(OP_TARGET_L2_TYPE_OPTIONS).flat();
-                                const l2Label = item.opTarget.l2Type
-                                    ? (allL2.find(l2 => l2.value === item.opTarget.l2Type)?.label || item.opTarget.l2Type)
+                                const allL2 = Object.values(OP_ITEM_L2_TYPE_OPTIONS).flat();
+                                const l2Label = item.opItem.l2Type
+                                    ? (allL2.find(l2 => l2.value === item.opItem.l2Type)?.label || item.opItem.l2Type)
                                     : "";
 
-                                if (l2Label == "") {
-                                    objectText = `代号：${item.opTarget.symbol || ""} | 一级分类：${l1Label}`
+                                if (l2Label === "") {
+                                    objectText = `代号：${item.opItem.symbol || ""} | 一级分类：${l1Label}`
                                 } else {
-                                    objectText = `代号：${item.opTarget.symbol || ""} | 一级分类：${l1Label} | 二级分类：${l2Label}`;
+                                    objectText = `代号：${item.opItem.symbol || ""} | 一级分类：${l1Label} | 二级分类：${l2Label}`;
                                 }
                             }
 
@@ -318,23 +318,23 @@ export default function InvestmentDashboard() {
                         <label className="form-label">代号</label>
                         <input
                             type="text"
-                            value={opTargetSymbol}
-                            onChange={(e) => setOpTargetSymbol(e.target.value)}
+                            value={opItemSymbol}
+                            onChange={(e) => setOpItemSymbol(e.target.value)}
                             className="form-control"
                         />
                     </div>
                     <div className="form-group-small">
                         <label className="form-label">一级分类</label>
                         <select
-                            value={opTargetL1Type}
+                            value={opItemL1Type}
                             onChange={(e) => {
-                                setOpTargetL1Type(e.target.value);
-                                setOpTargetL2Type("");
+                                setOpItemL1Type(e.target.value);
+                                setOpItemL2Type("");
                             }}
                             className="form-control"
                         >
                             <option value="">请选择一级分类</option>
-                            {OP_TARGET_L1_TYPE_OPTIONS.map((l1) => (
+                            {OP_ITEM_L1_TYPE_OPTIONS.map((l1) => (
                                 <option key={l1.value} value={l1.value}>{l1.label}</option>
                             ))}
                         </select>
@@ -342,10 +342,10 @@ export default function InvestmentDashboard() {
                     <div className="form-group-last">
                         <label className="form-label">二级分类</label>
                         <select
-                            value={opTargetL2Type}
-                            onChange={(e) => setOpTargetL2Type(e.target.value)}
+                            value={opItemL2Type}
+                            onChange={(e) => setOpItemL2Type(e.target.value)}
                             className="form-control"
-                            disabled={currentL2Options.length === 0 || !opTargetL1Type}
+                            disabled={currentL2Options.length === 0 || !opItemL1Type}
                         >
                             <option value="">请选择二级分类</option>
                             {currentL2Options.map((l2) => (
