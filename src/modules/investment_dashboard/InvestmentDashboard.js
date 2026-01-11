@@ -68,9 +68,18 @@ export default function InvestmentDashboard() {
 
     const [opRecords, setOpRecords] = useState([]);
 
+    // 投资分析数据（资产配置饼图）
+    const [analysisData, setAnalysisData] = useState({
+        invItemAnalysisList: [],
+        invPlatformAnalysisList: [],
+    });
+
+    const [analyzeLoading, setAnalyzeLoading] = useState(false);
+    const [analyzeError, setAnalyzeError] = useState("");
+
     // 查询完整的投资操作流水列表
     async function fetchOperations() {
-        let path = "/investment/operation-logs";
+        let path = "/investment/operations";
         let url = "";
         if (process.env.REACT_APP_ENV === "prod") {
             url = process.env.REACT_APP_BACKEND_HOST + path;
@@ -106,9 +115,59 @@ export default function InvestmentDashboard() {
         }
     }
 
+    // 调用 /investment/analyze 接口，获取投资对象 & 投资平台分布
+    async function fetchAnalyze() {
+        let path = "/investment/analyze";
+        let url = "";
+        if (process.env.REACT_APP_ENV === "prod") {
+            url = process.env.REACT_APP_BACKEND_HOST + path;
+        } else {
+            url = "/api" + path;
+        }
+
+        setAnalyzeLoading(true);
+        setAnalyzeError("");
+
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                },
+            });
+
+            if (!response.ok) {
+                console.error("获取投资分析数据失败，HTTP 状态码:", response.status);
+                setAnalyzeError("获取投资分析数据失败");
+                return;
+            }
+
+            const respBody = await response.json();
+            console.log("fetch analyze response", respBody);
+
+            // 兼容直接返回和 data 包裹两种格式
+            const data = respBody.data || respBody || {};
+
+            setAnalysisData({
+                invItemAnalysisList: Array.isArray(data.invItemAnalysisList)
+                    ? data.invItemAnalysisList
+                    : [],
+                invPlatformAnalysisList: Array.isArray(data.invPlatformAnalysisList)
+                    ? data.invPlatformAnalysisList
+                    : [],
+            });
+        } catch (err) {
+            console.error("获取投资分析数据时发生错误", err);
+            setAnalyzeError("获取投资分析数据时发生错误");
+        } finally {
+            setAnalyzeLoading(false);
+        }
+    }
+
     useEffect(() => {
         document.title = "投资流水录入";
         fetchOperations();
+        fetchAnalyze();
     }, []);
 
     async function submitHandler(event) {
@@ -141,7 +200,7 @@ export default function InvestmentDashboard() {
 
         console.log("submit payload", body);
 
-        let path = "/investment/operation-log";
+        let path = "/investment/operation";
         let url = "";
         if (process.env.REACT_APP_ENV === "prod") {
             url = process.env.REACT_APP_BACKEND_HOST + path;
@@ -184,12 +243,80 @@ export default function InvestmentDashboard() {
             setAmountEquivalentCny("");
 
             alert("提交成功");
-            // 重新拉取完整流水记录列表
+            // 重新拉取完整流水记录列表 & 分析数据
             fetchOperations();
+            fetchAnalyze();
         } catch (err) {
             console.error(err);
             alert("提交时发生错误，请稍后重试");
         }
+    }
+
+    // 颜色列表：用于饼图不同扇区
+    const PIE_COLORS = [
+        "#4e79a7",
+        "#f28e2b",
+        "#e15759",
+        "#76b7b2",
+        "#59a14f",
+        "#edc948",
+        "#b07aa1",
+        "#ff9da7",
+        "#9c755f",
+        "#bab0ab",
+    ];
+
+    // 根据金额字段计算饼图的 conic-gradient 样式
+    function buildPieStyle(list) {
+        if (!Array.isArray(list) || list.length === 0) {
+            return { background: "#f0f0f0" };
+        }
+
+        const values = list.map((item) => Number(item.amount) || 0);
+        const total = values.reduce((sum, v) => sum + v, 0);
+
+        if (!total) {
+            return { background: "#f0f0f0" };
+        }
+
+        let current = 0;
+        const segments = [];
+
+        for (let i = 0; i < list.length; i++) {
+            const value = values[i];
+            if (!value) continue;
+            const start = current;
+            const span = (value / total) * 100;
+            const end = start + span;
+            const color = PIE_COLORS[i % PIE_COLORS.length];
+            segments.push(`${color} ${start}% ${end}%`);
+            current = end;
+        }
+
+        if (segments.length === 0) {
+            return { background: "#f0f0f0" };
+        }
+
+        return {
+            backgroundImage: `conic-gradient(${segments.join(", ")})`,
+        };
+    }
+
+    // 根据 l1Type code 找到中文名称
+    function getL1TypeLabel(code) {
+        if (!code) return "";
+        return (
+            OP_ITEM_L1_TYPE_OPTIONS.find((item) => item.value === code)?.label ||
+            code
+        );
+    }
+
+    // 根据平台 code 找到中文名称
+    function getPlatformLabel(code) {
+        if (!code) return "";
+        return (
+            PLATFORM_OPTIONS.find((item) => item.value === code)?.label || code
+        );
     }
 
     const currentL2Options = OP_ITEM_L2_TYPE_OPTIONS[opItemL1Type] || [];
@@ -203,6 +330,101 @@ export default function InvestmentDashboard() {
 
     return (
         <div className="investment-dashboard-page">
+            {/* 投资分布饼图：投资对象 & 投资平台 */}
+            <div className="investment-dashboard-analysis-section">
+                <div className="analysis-card">
+                    <h2 className="analysis-title">投资对象分布</h2>
+                    {analyzeLoading && (
+                        <div className="analysis-hint">加载中...</div>
+                    )}
+                    {analyzeError && !analyzeLoading && (
+                        <div className="analysis-error">{analyzeError}</div>
+                    )}
+                    {!analyzeLoading && !analyzeError && (
+                        <div className="analysis-content">
+                            <div
+                                className="analysis-pie"
+                                style={buildPieStyle(analysisData.invItemAnalysisList)}
+                            />
+                            <ul className="analysis-legend">
+                                {analysisData.invItemAnalysisList.map((item, index) => (
+                                    <li key={index} className="analysis-legend-item">
+                                        <span
+                                            className="legend-color-block"
+                                            style={{
+                                                backgroundColor:
+                                                    PIE_COLORS[index % PIE_COLORS.length],
+                                            }}
+                                        />
+                                        <span className="legend-text">
+                                            {getL1TypeLabel(item.l1Type)}
+                                            {"："}
+                                            {item.amount ?? "-"}
+                                            {" cny"}
+                                            {" ("}
+                                            {typeof item.percent !== "undefined"
+                                                ? `${item.percent}%`
+                                                : "-"}
+                                            {")"}
+                                        </span>
+                                    </li>
+                                ))}
+                                {(!analysisData.invItemAnalysisList ||
+                                    analysisData.invItemAnalysisList.length === 0) && (
+                                        <li className="analysis-legend-empty">暂无数据</li>
+                                    )}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+
+                <div className="analysis-card">
+                    <h2 className="analysis-title">投资平台分布</h2>
+                    {analyzeLoading && (
+                        <div className="analysis-hint">加载中...</div>
+                    )}
+                    {analyzeError && !analyzeLoading && (
+                        <div className="analysis-error">{analyzeError}</div>
+                    )}
+                    {!analyzeLoading && !analyzeError && (
+                        <div className="analysis-content">
+                            <div
+                                className="analysis-pie"
+                                style={buildPieStyle(analysisData.invPlatformAnalysisList)}
+                            />
+                            <ul className="analysis-legend">
+                                {analysisData.invPlatformAnalysisList.map((item, index) => (
+                                    <li key={index} className="analysis-legend-item">
+                                        <span
+                                            className="legend-color-block"
+                                            style={{
+                                                backgroundColor:
+                                                    PIE_COLORS[index % PIE_COLORS.length],
+                                            }}
+                                        />
+                                        <span className="legend-text">
+                                            {getPlatformLabel(item.opPlatform)}
+                                            {"："}
+                                            {item.amount ?? "-"}
+                                            {" cny"}
+                                            {" ("}
+                                            {typeof item.percent !== "undefined"
+                                                ? `${item.percent}%`
+                                                : "-"}
+                                            {")"}
+                                        </span>
+                                    </li>
+                                ))}
+                                {(!analysisData.invPlatformAnalysisList ||
+                                    analysisData.invPlatformAnalysisList.length === 0) && (
+                                        <li className="analysis-legend-empty">暂无数据</li>
+                                    )}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {/* 表格放在表单上方 */}
             <div className="investment-dashboard-table-section">
                 <h2 className="investment-dashboard-table-title">投资操作流水表</h2>
