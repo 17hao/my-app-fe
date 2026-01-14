@@ -7,7 +7,7 @@
 
 /* 分析区域（饼图 + 图例） */
 .investment-dashboard-analysis-section {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto 24px;
   display: flex;
   gap: 16px;
@@ -47,12 +47,33 @@
   gap: 16px;
 }
 
+.analysis-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.analysis-pie-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
 .analysis-pie {
   width: 180px;
   height: 180px;
   border-radius: 50%;
   border: 1px solid #ddd;
   background-color: #f0f0f0;
+}
+
+.analysis-pie-inner {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 132px;
+  height: 132px;
+  border-width: 0;
 }
 
 .analysis-legend {
@@ -68,9 +89,34 @@
   margin-bottom: 6px;
 }
 
+.analysis-legend-sub {
+  list-style: none;
+  margin: 4px 0 0 24px;
+  padding: 0;
+}
+
+.analysis-legend-sub-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.analysis-total {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
 .analysis-legend-empty {
   color: #999;
   font-size: 18px;
+}
+
+.legend-main-row {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .legend-color-block {
@@ -78,6 +124,11 @@
   height: 16px;
   border-radius: 3px;
   margin-right: 8px;
+}
+
+.legend-color-block-sub {
+  width: 12px;
+  height: 12px;
 }
 
 .legend-text {

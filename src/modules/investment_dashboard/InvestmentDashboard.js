@@ -33,7 +33,7 @@ const OP_ITEM_L1_TYPE_OPTIONS = [
 const OP_ITEM_L2_TYPE_OPTIONS = {
     usTreasury: [
         { value: "shortTerm", label: "短期国债（0-1Y）" },
-        { value: "intermediateTerm", label: "中期国债（3-10Y）" },
+        { value: "intermediateTerm", label: "中期国债（1-10Y）" },
         { value: "longTerm", label: "长期国债（20Y+）" },
     ],
     otherBonds: [
@@ -49,6 +49,8 @@ const OP_ITEM_L2_TYPE_OPTIONS = {
         { value: "hkStock", label: "港股" },
         { value: "ftse100", label: "富时100" },
         { value: "nikkei225", label: "日经225" },
+        { value: "cac40", label: "法国cac40" },
+        { value: "dax", label: "德国dax" },
     ],
 };
 
@@ -68,10 +70,13 @@ export default function InvestmentDashboard() {
 
     const [opRecords, setOpRecords] = useState([]);
 
-    // 投资分析数据（资产配置饼图）
-    const [analysisData, setAnalysisData] = useState({
-        invItemAnalysisList: [],
-        invPlatformAnalysisList: [],
+    // 投资对象成本图例展开的一级分类
+    const [expandedL1Type, setExpandedL1Type] = useState(null);
+
+    // 投资成本数据（资产配置饼图）
+    const [analyzeCostData, setAnalyzeCostData] = useState({
+        itemCostDetails: [],
+        platformCostDetails: [],
     });
 
     const [analyzeLoading, setAnalyzeLoading] = useState(false);
@@ -115,9 +120,9 @@ export default function InvestmentDashboard() {
         }
     }
 
-    // 调用 /investment/analyze 接口，获取投资对象 & 投资平台分布
-    async function fetchAnalyze() {
-        let path = "/investment/analyze";
+    // 调用 /investment/analyze/cost 接口，获取投资对象成本 & 投资平台成本分布
+    async function fetchAnalyzeCostData() {
+        let path = "/investment/analyze/cost";
         let url = "";
         if (process.env.REACT_APP_ENV === "prod") {
             url = process.env.REACT_APP_BACKEND_HOST + path;
@@ -143,17 +148,17 @@ export default function InvestmentDashboard() {
             }
 
             const respBody = await response.json();
-            console.log("fetch analyze response", respBody);
+            console.log("fetch cost response", respBody);
 
             // 兼容直接返回和 data 包裹两种格式
             const data = respBody.data || respBody || {};
 
-            setAnalysisData({
-                invItemAnalysisList: Array.isArray(data.invItemAnalysisList)
-                    ? data.invItemAnalysisList
+            setAnalyzeCostData({
+                itemCostDetails: Array.isArray(data.itemCostDetails)
+                    ? data.itemCostDetails
                     : [],
-                invPlatformAnalysisList: Array.isArray(data.invPlatformAnalysisList)
-                    ? data.invPlatformAnalysisList
+                platformCostDetails: Array.isArray(data.platformCostDetails)
+                    ? data.platformCostDetails
                     : [],
             });
         } catch (err) {
@@ -167,7 +172,7 @@ export default function InvestmentDashboard() {
     useEffect(() => {
         document.title = "投资流水录入";
         fetchOperations();
-        fetchAnalyze();
+        fetchAnalyzeCostData();
     }, []);
 
     async function submitHandler(event) {
@@ -245,7 +250,7 @@ export default function InvestmentDashboard() {
             alert("提交成功");
             // 重新拉取完整流水记录列表 & 分析数据
             fetchOperations();
-            fetchAnalyze();
+            fetchAnalyzeCostData();
         } catch (err) {
             console.error(err);
             alert("提交时发生错误，请稍后重试");
@@ -265,6 +270,20 @@ export default function InvestmentDashboard() {
         "#9c755f",
         "#bab0ab",
     ];
+
+    // 金额格式化：统一保留两位小数
+    function formatAmountTwoDecimals(value) {
+        const num = Number(value);
+        if (!Number.isFinite(num)) return "-";
+        return num.toFixed(2);
+    }
+
+    // 百分比格式化：统一保留两位小数并带上 % 号
+    function formatPercentTwoDecimals(value) {
+        const num = Number(value);
+        if (!Number.isFinite(num)) return "-";
+        return `${num.toFixed(2)}%`;
+    }
 
     // 根据金额字段计算饼图的 conic-gradient 样式
     function buildPieStyle(list) {
@@ -311,6 +330,28 @@ export default function InvestmentDashboard() {
         );
     }
 
+    // 根据 l1Type 和 l2Type code 找到二级分类中文名称
+    function getL2TypeLabel(l1Code, l2Code) {
+        if (!l2Code) return "";
+        const l2List = OP_ITEM_L2_TYPE_OPTIONS[l1Code] || [];
+        return (
+            l2List.find((item) => item.value === l2Code)?.label || l2Code
+        );
+    }
+
+    // 按一级分类聚合投资对象成本，用于子母饼图内圈
+    function aggregateItemCostByL1(details) {
+        if (!Array.isArray(details)) return [];
+        const map = new Map();
+        details.forEach((item) => {
+            const l1 = item.l1Type || "";
+            const amount = Number(item.amount) || 0;
+            if (!l1 || !amount) return;
+            map.set(l1, (map.get(l1) || 0) + amount);
+        });
+        return Array.from(map.entries()).map(([l1Type, amount]) => ({ l1Type, amount }));
+    }
+
     // 根据平台 code 找到中文名称
     function getPlatformLabel(code) {
         if (!code) return "";
@@ -328,12 +369,27 @@ export default function InvestmentDashboard() {
         return db.localeCompare(da);
     });
 
+    // 饼图总成本（用于展示所有金额汇总后的值）
+    const itemCostTotalAmount = (analyzeCostData.itemCostDetails || []).reduce(
+        (sum, item) => sum + (Number(item.amount) || 0),
+        0
+    );
+    const platformCostTotalAmount = (analyzeCostData.platformCostDetails || []).reduce(
+        (sum, item) => sum + (Number(item.amount) || 0),
+        0
+    );
+
+    // 投资对象成本子母饼图内圈数据（一级分类聚合）
+    const itemCostL1Aggregated = aggregateItemCostByL1(
+        analyzeCostData.itemCostDetails || []
+    );
+
     return (
         <div className="investment-dashboard-page">
-            {/* 投资分布饼图：投资对象 & 投资平台 */}
+            {/* 投资成本饼图：投资对象成本 & 投资平台成本 */}
             <div className="investment-dashboard-analysis-section">
                 <div className="analysis-card">
-                    <h2 className="analysis-title">投资对象分布</h2>
+                    <h2 className="analysis-title">投资对象成本分布</h2>
                     {analyzeLoading && (
                         <div className="analysis-hint">加载中...</div>
                     )}
@@ -342,44 +398,122 @@ export default function InvestmentDashboard() {
                     )}
                     {!analyzeLoading && !analyzeError && (
                         <div className="analysis-content">
-                            <div
-                                className="analysis-pie"
-                                style={buildPieStyle(analysisData.invItemAnalysisList)}
-                            />
+                            {/* 普通饼图：按一级分类聚合 */}
+                            <div className="analysis-figure">
+                                <div className="analysis-total">
+                                    总成本：{formatAmountTwoDecimals(itemCostTotalAmount)} cny
+                                </div>
+                                <div
+                                    className="analysis-pie"
+                                    style={buildPieStyle(itemCostL1Aggregated)}
+                                />
+                            </div>
                             <ul className="analysis-legend">
-                                {analysisData.invItemAnalysisList.map((item, index) => (
-                                    <li key={index} className="analysis-legend-item">
-                                        <span
-                                            className="legend-color-block"
-                                            style={{
-                                                backgroundColor:
-                                                    PIE_COLORS[index % PIE_COLORS.length],
-                                            }}
-                                        />
-                                        <span className="legend-text">
-                                            {getL1TypeLabel(item.l1Type)}
-                                            {"："}
-                                            {item.amount ?? "-"}
-                                            {" cny"}
-                                            {" ("}
-                                            {typeof item.percent !== "undefined"
-                                                ? `${item.percent}%`
-                                                : "-"}
-                                            {")"}
-                                        </span>
-                                    </li>
-                                ))}
-                                {(!analysisData.invItemAnalysisList ||
-                                    analysisData.invItemAnalysisList.length === 0) && (
-                                        <li className="analysis-legend-empty">暂无数据</li>
-                                    )}
+                                {itemCostL1Aggregated.map((item, index) => {
+                                    const l1Type = item.l1Type;
+                                    const isExpanded = expandedL1Type === l1Type;
+                                    const l1Label = getL1TypeLabel(l1Type);
+                                    const percentOfTotal = itemCostTotalAmount
+                                        ? (item.amount / itemCostTotalAmount) * 100
+                                        : 0;
+
+                                    const subDetails = (analyzeCostData.itemCostDetails || []).filter(
+                                        (detail) => detail.l1Type === l1Type
+                                    );
+
+                                    const mainColor =
+                                        PIE_COLORS[index % PIE_COLORS.length];
+
+                                    return (
+                                        <li key={l1Type} className="analysis-legend-item">
+                                            <div
+                                                className="legend-main-row"
+                                                onClick={() =>
+                                                    setExpandedL1Type(
+                                                        isExpanded ? null : l1Type
+                                                    )
+                                                }
+                                            >
+                                                <span
+                                                    className="legend-color-block"
+                                                    style={{ backgroundColor: mainColor }}
+                                                />
+                                                <span className="legend-text">
+                                                    {l1Label}
+                                                    {"："}
+                                                    {formatAmountTwoDecimals(item.amount)}
+                                                    {" cny"}
+                                                    {" ("}
+                                                    {formatPercentTwoDecimals(percentOfTotal)}
+                                                    {")"}
+                                                </span>
+                                            </div>
+                                            {isExpanded && (
+                                                <ul className="analysis-legend-sub">
+                                                    {subDetails.length > 0 ? (
+                                                        subDetails.map((detail, subIndex) => {
+                                                            const subColor =
+                                                                PIE_COLORS[
+                                                                    (index + subIndex) %
+                                                                    PIE_COLORS.length
+                                                                ];
+                                                            return (
+                                                                <li
+                                                                    key={subIndex}
+                                                                    className="analysis-legend-sub-item"
+                                                                >
+                                                                    <span
+                                                                        className="legend-color-block legend-color-block-sub"
+                                                                        style={{
+                                                                            backgroundColor:
+                                                                                subColor,
+                                                                        }}
+                                                                    />
+                                                                    <span className="legend-text">
+                                                                        {getL2TypeLabel(
+                                                                            detail.l1Type,
+                                                                            detail.l2Typ
+                                                                        ) ||
+                                                                            detail.l2Typ ||
+                                                                            "-"}
+                                                                        {"："}
+                                                                        {formatAmountTwoDecimals(
+                                                                            detail.amount
+                                                                        )}
+                                                                        {" cny"}
+                                                                        {typeof detail.percent !==
+                                                                            "undefined" &&
+                                                                        detail.percent !== null
+                                                                            ? ` (${formatPercentTwoDecimals(
+                                                                                detail.percent
+                                                                            )})`
+                                                                            : ""}
+                                                                    </span>
+                                                                </li>
+                                                            );
+                                                        })
+                                                    ) : (
+                                                        <li className="analysis-legend-sub-item">
+                                                            <span className="legend-text">
+                                                                暂无二级分类
+                                                            </span>
+                                                        </li>
+                                                    )}
+                                                </ul>
+                                            )}
+                                        </li>
+                                    );
+                                })}
+                                {itemCostL1Aggregated.length === 0 && (
+                                    <li className="analysis-legend-empty">暂无数据</li>
+                                )}
                             </ul>
                         </div>
                     )}
                 </div>
 
                 <div className="analysis-card">
-                    <h2 className="analysis-title">投资平台分布</h2>
+                    <h2 className="analysis-title">投资平台成本分布</h2>
                     {analyzeLoading && (
                         <div className="analysis-hint">加载中...</div>
                     )}
@@ -388,12 +522,17 @@ export default function InvestmentDashboard() {
                     )}
                     {!analyzeLoading && !analyzeError && (
                         <div className="analysis-content">
-                            <div
-                                className="analysis-pie"
-                                style={buildPieStyle(analysisData.invPlatformAnalysisList)}
-                            />
+                            <div className="analysis-figure">
+                                <div className="analysis-total">
+                                    总成本：{formatAmountTwoDecimals(platformCostTotalAmount)} cny
+                                </div>
+                                <div
+                                    className="analysis-pie"
+                                    style={buildPieStyle(analyzeCostData.platformCostDetails)}
+                                />
+                            </div>
                             <ul className="analysis-legend">
-                                {analysisData.invPlatformAnalysisList.map((item, index) => (
+                                {analyzeCostData.platformCostDetails.map((item, index) => (
                                     <li key={index} className="analysis-legend-item">
                                         <span
                                             className="legend-color-block"
@@ -409,14 +548,14 @@ export default function InvestmentDashboard() {
                                             {" cny"}
                                             {" ("}
                                             {typeof item.percent !== "undefined"
-                                                ? `${item.percent}%`
+                                                ? formatPercentTwoDecimals(item.percent)
                                                 : "-"}
                                             {")"}
                                         </span>
                                     </li>
                                 ))}
-                                {(!analysisData.invPlatformAnalysisList ||
-                                    analysisData.invPlatformAnalysisList.length === 0) && (
+                                {(!analyzeCostData.platformCostDetails ||
+                                    analyzeCostData.platformCostDetails.length === 0) && (
                                         <li className="analysis-legend-empty">暂无数据</li>
                                     )}
                             </ul>
