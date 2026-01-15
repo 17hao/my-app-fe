@@ -70,8 +70,9 @@ export default function InvestmentDashboard() {
 
     const [opRecords, setOpRecords] = useState([]);
 
-    // 投资对象成本图例展开的一级分类
-    const [expandedL1Type, setExpandedL1Type] = useState(null);
+    // 弹窗显示的一级分类及其二级分类数据
+    const [modalL1Type, setModalL1Type] = useState(null);
+    const [modalL2Details, setModalL2Details] = useState([]);
 
     // 投资成本数据（资产配置饼图）
     const [analyzeCostData, setAnalyzeCostData] = useState({
@@ -170,7 +171,7 @@ export default function InvestmentDashboard() {
     }
 
     useEffect(() => {
-        document.title = "投资流水录入";
+        document.title = "投资数据看板";
         fetchOperations();
         fetchAnalyzeCostData();
     }, []);
@@ -360,6 +361,24 @@ export default function InvestmentDashboard() {
         );
     }
 
+    // 处理图例点击，打开弹窗显示二级分类
+    function handleLegendClick(l1Type) {
+        const subDetails = (analyzeCostData.itemCostDetails || []).filter(
+            (detail) => detail.l1Type === l1Type && detail.l2Type && detail.l2Type.trim() !== ""
+        );
+        // 只有当有有效的二级分类数据时才打开弹窗
+        if (subDetails.length > 0) {
+            setModalL1Type(l1Type);
+            setModalL2Details(subDetails);
+        }
+    }
+
+    // 关闭弹窗
+    function closeModal() {
+        setModalL1Type(null);
+        setModalL2Details([]);
+    }
+
     const currentL2Options = OP_ITEM_L2_TYPE_OPTIONS[opItemL1Type] || [];
 
     // 按日期倒序排序（假定为 YYYY-MM-DD 格式）
@@ -411,15 +430,10 @@ export default function InvestmentDashboard() {
                             <ul className="analysis-legend">
                                 {itemCostL1Aggregated.map((item, index) => {
                                     const l1Type = item.l1Type;
-                                    const isExpanded = expandedL1Type === l1Type;
                                     const l1Label = getL1TypeLabel(l1Type);
                                     const percentOfTotal = itemCostTotalAmount
                                         ? (item.amount / itemCostTotalAmount) * 100
                                         : 0;
-
-                                    const subDetails = (analyzeCostData.itemCostDetails || []).filter(
-                                        (detail) => detail.l1Type === l1Type
-                                    );
 
                                     const mainColor =
                                         PIE_COLORS[index % PIE_COLORS.length];
@@ -428,11 +442,7 @@ export default function InvestmentDashboard() {
                                         <li key={l1Type} className="analysis-legend-item">
                                             <div
                                                 className="legend-main-row"
-                                                onClick={() =>
-                                                    setExpandedL1Type(
-                                                        isExpanded ? null : l1Type
-                                                    )
-                                                }
+                                                onClick={() => handleLegendClick(l1Type)}
                                             >
                                                 <span
                                                     className="legend-color-block"
@@ -448,59 +458,6 @@ export default function InvestmentDashboard() {
                                                     {")"}
                                                 </span>
                                             </div>
-                                            {isExpanded && (
-                                                <ul className="analysis-legend-sub">
-                                                    {subDetails.length > 0 ? (
-                                                        subDetails.map((detail, subIndex) => {
-                                                            const subColor =
-                                                                PIE_COLORS[
-                                                                    (index + subIndex) %
-                                                                    PIE_COLORS.length
-                                                                ];
-                                                            return (
-                                                                <li
-                                                                    key={subIndex}
-                                                                    className="analysis-legend-sub-item"
-                                                                >
-                                                                    <span
-                                                                        className="legend-color-block legend-color-block-sub"
-                                                                        style={{
-                                                                            backgroundColor:
-                                                                                subColor,
-                                                                        }}
-                                                                    />
-                                                                    <span className="legend-text">
-                                                                        {getL2TypeLabel(
-                                                                            detail.l1Type,
-                                                                            detail.l2Typ
-                                                                        ) ||
-                                                                            detail.l2Typ ||
-                                                                            "-"}
-                                                                        {"："}
-                                                                        {formatAmountTwoDecimals(
-                                                                            detail.amount
-                                                                        )}
-                                                                        {" cny"}
-                                                                        {typeof detail.percent !==
-                                                                            "undefined" &&
-                                                                        detail.percent !== null
-                                                                            ? ` (${formatPercentTwoDecimals(
-                                                                                detail.percent
-                                                                            )})`
-                                                                            : ""}
-                                                                    </span>
-                                                                </li>
-                                                            );
-                                                        })
-                                                    ) : (
-                                                        <li className="analysis-legend-sub-item">
-                                                            <span className="legend-text">
-                                                                暂无二级分类
-                                                            </span>
-                                                        </li>
-                                                    )}
-                                                </ul>
-                                            )}
                                         </li>
                                     );
                                 })}
@@ -756,6 +713,51 @@ export default function InvestmentDashboard() {
                     提交
                 </button>
             </form>
+
+            {/* 二级分类弹窗 */}
+            {modalL1Type && (
+                <div className="modal-overlay" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3 className="modal-title">{getL1TypeLabel(modalL1Type)} - 二级分类详情</h3>
+                            <button className="modal-close-btn" onClick={closeModal}>
+                                ✕
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            {modalL2Details.length > 0 ? (
+                                <ul className="modal-list">
+                                    {modalL2Details.map((detail, index) => {
+                                        const subColor = PIE_COLORS[index % PIE_COLORS.length];
+                                        return (
+                                            <li key={index} className="modal-list-item">
+                                                <span
+                                                    className="modal-color-block"
+                                                    style={{ backgroundColor: subColor }}
+                                                />
+                                                <span className="modal-text">
+                                                    {getL2TypeLabel(detail.l1Type, detail.l2Type) ||
+                                                        detail.l2Type ||
+                                                        "-"}
+                                                    {"："}
+                                                    {formatAmountTwoDecimals(detail.amount)}
+                                                    {" cny"}
+                                                    {typeof detail.percent !== "undefined" &&
+                                                    detail.percent !== null
+                                                        ? ` (${formatPercentTwoDecimals(detail.percent)})`
+                                                        : ""}
+                                                </span>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            ) : (
+                                <div className="modal-empty">暂无二级分类数据</div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
