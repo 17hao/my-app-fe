@@ -113,8 +113,8 @@
 
 .contact-item {
     display: flex;
-    align-items: baseline;
-    gap: 12px;
+    align-items: center;
+    gap: 6px;
     font-size: 20px;
     line-height: 1.6;
 }
