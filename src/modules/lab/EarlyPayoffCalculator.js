@@ -19,6 +19,7 @@ function EarlyPayoffCalculator() {
 
     const [beforePrepaymentData, setBeforePrepaymentData] = useState([]);
     const [afterPrepaymentData, setAfterPrepaymentData] = useState([]);
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     function selectLoanType(event) {
         setRepaymentOption(event.target.value);
@@ -41,6 +42,7 @@ function EarlyPayoffCalculator() {
         const data = calculate();
         setBeforePrepaymentData(data.before);
         setAfterPrepaymentData(data.after);
+        setIsSubmitted(true);
     }
 
     function calculate() {
@@ -145,6 +147,7 @@ function EarlyPayoffCalculator() {
         setInterestRate("");
         setBeforePrepaymentData([]);
         setAfterPrepaymentData([]);
+        setIsSubmitted(false);
     }
 
     const outputDetails =
@@ -280,9 +283,55 @@ function EarlyPayoffCalculator() {
                 </div>
             </form>
 
-            <div className="details">
-                {beforePrepaymentData != null && beforePrepaymentData.length > 0 && outputDetails}
-            </div>
+            {isSubmitted && (
+                <div className="details">
+                    <div className="detailTitle">还款明细</div>
+                    <div>
+                        <table className="detailTable">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>还款月份</th>
+                                    <th>还款金额</th>
+                                    <th>本金</th>
+                                    <th>利息</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {beforePrepaymentData.map((data, index) => (
+                                    <tr key={index}>
+                                        <td>{data.idx}</td>
+                                        <td>{data.month}</td>
+                                        <td>{data.repayment}</td>
+                                        <td>{data.principal}</td>
+                                        <td>{data.interest}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            {
+                                afterPrepaymentData.length > 0 ?
+                                    <tbody>
+                                        <tr>
+                                            <td colSpan="5">&emsp;&emsp;⬇️提前还贷后新的还款计划⬇️</td>
+                                        </tr>
+                                    </tbody>
+                                    : <></>
+                            }
+                            <tbody>
+                                {afterPrepaymentData.map((data, index) => (
+                                    <tr key={index}>
+                                        <td>{data.idx}</td>
+                                        <td>{data.month}</td>
+                                        <td>{data.repayment}</td>
+                                        <td>{data.principal}</td>
+                                        <td>{data.interest}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
         </div>
     );
 
