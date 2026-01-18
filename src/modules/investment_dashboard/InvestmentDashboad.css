@@ -411,3 +411,64 @@
   font-size: 20px;
   padding: 24px 0;
 }
+
+/* 移动端响应式适配 */
+@media (max-width: 768px) {
+  .investment-dashboard-page {
+    padding: 15px 10px;
+  }
+
+  .investment-dashboard-analysis-section {
+    flex-direction: column;
+  }
+
+  .analysis-card {
+    padding: 12px 15px 15px;
+  }
+
+  .analysis-content {
+    flex-direction: column;
+  }
+
+  .investment-dashboard-table-section {
+    padding: 12px 15px 15px;
+    overflow-x: auto;
+  }
+
+  .investment-dashboard-form {
+    padding: 15px 18px;
+    margin: 20px auto 0;
+  }
+
+  .form-control {
+    width: 100%;
+  }
+
+  .modal-content {
+    min-width: 90%;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .investment-dashboard-page {
+    padding: 10px 8px;
+  }
+
+  .analysis-card {
+    padding: 10px 12px 12px;
+  }
+
+  .investment-dashboard-table-section {
+    padding: 10px 12px 12px;
+  }
+
+  .investment-dashboard-form {
+    padding: 12px 15px;
+  }
+
+  .modal-content {
+    min-width: 95%;
+    max-width: 95%;
+  }
+}
