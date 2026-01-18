@@ -401,7 +401,7 @@ export default function InvestmentDashboard() {
     // 投资对象成本子母饼图内圈数据（一级分类聚合）
     const itemCostL1Aggregated = aggregateItemCostByL1(
         analyzeCostData.itemCostDetails || []
-    );
+    ).sort((a, b) => b.amount - a.amount); // 按金额从高到低排序
 
     return (
         <div className="investment-dashboard-page">
