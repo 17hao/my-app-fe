@@ -1,6 +1,323 @@
 .markdownRender {
-    padding-top: 10px;
-    padding-bottom: 20px;
-    padding-left: 12%;
-    padding-right: 12%;
+    padding: 40px 15%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    min-height: calc(100vh - 120px);
+    line-height: 1.8;
+    color: #333;
+    font-size: 16px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .markdownRender {
+        padding: 30px 10%;
+    }
+}
+
+@media (max-width: 768px) {
+    .markdownRender {
+        padding: 20px 5%;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .markdownRender {
+        padding: 15px 3%;
+        font-size: 14px;
+    }
+}
+
+/* 标题样式 */
+.markdownRender h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.8em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid #eaecef;
+    color: #1a1a1a;
+    line-height: 1.3;
+}
+
+.markdownRender h2 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-top: 1.5em;
+    margin-bottom: 0.7em;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid #eaecef;
+    color: #1a1a1a;
+    line-height: 1.3;
+}
+
+.markdownRender h3 {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-top: 1.3em;
+    margin-bottom: 0.6em;
+    color: #2c3e50;
+    line-height: 1.4;
+}
+
+.markdownRender h4 {
+    font-size: 1.25em;
+    font-weight: 600;
+    margin-top: 1.2em;
+    margin-bottom: 0.5em;
+    color: #2c3e50;
+}
+
+.markdownRender h5 {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #2c3e50;
+}
+
+.markdownRender h6 {
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #555;
+}
+
+/* 段落样式 */
+.markdownRender p {
+    margin-top: 0;
+    margin-bottom: 1.2em;
+    text-align: justify;
+}
+
+/* 链接样式 */
+.markdownRender a {
+    color: #0366d6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.markdownRender a:hover {
+    color: #0256b8;
+    text-decoration: underline;
+}
+
+/* 列表样式 */
+.markdownRender ul,
+.markdownRender ol {
+    margin-top: 0;
+    margin-bottom: 1.2em;
+    padding-left: 2em;
+}
+
+.markdownRender li {
+    margin-bottom: 0.4em;
+}
+
+.markdownRender li > p {
+    margin-bottom: 0.4em;
+}
+
+/* 行内代码样式 */
+.markdownRender code {
+    background-color: #f6f8fa;
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 0.9em;
+    border-radius: 3px;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: #e83e8c;
+}
+
+/* 代码块容器样式 */
+.markdownRender pre {
+    background-color: #f6f8fa;
+    padding: 16px;
+    overflow: auto;
+    font-size: 0.9em;
+    line-height: 1.6;
+    border-radius: 6px;
+    margin-top: 0;
+    margin-bottom: 1.2em;
+    border: 1px solid #e1e4e8;
+}
+
+.markdownRender pre code {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 1em;
+    color: inherit;
+    white-space: pre;
+    word-break: normal;
+    display: block;
+}
+
+/* 语法高亮容器 */
+.markdownRender pre > div {
+    background-color: #f6f8fa !important;
+    margin: 0 !important;
+    border-radius: 4px;
+}
+
+/* 引用块样式 */
+.markdownRender blockquote {
+    margin: 0 0 1.2em 0;
+    padding: 0 1em;
+    color: #6a737d;
+    border-left: 4px solid #dfe2e5;
+    background-color: #f8f9fa;
+}
+
+.markdownRender blockquote > :first-child {
+    margin-top: 0;
+}
+
+.markdownRender blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+/* 表格样式 */
+.markdownRender table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 1.2em;
+    overflow: auto;
+    display: block;
+}
+
+.markdownRender table thead {
+    background-color: #f6f8fa;
+}
+
+.markdownRender table th,
+.markdownRender table td {
+    padding: 10px 13px;
+    border: 1px solid #dfe2e5;
+    text-align: left;
+}
+
+.markdownRender table th {
+    font-weight: 600;
+}
+
+.markdownRender table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.markdownRender table tr:hover {
+    background-color: #f1f3f5;
+}
+
+/* 水平分割线 */
+.markdownRender hr {
+    height: 0.25em;
+    padding: 0;
+    margin: 24px 0;
+    background-color: #e1e4e8;
+    border: 0;
+}
+
+/* 图片样式 */
+.markdownRender img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5em auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 强调文本 */
+.markdownRender strong {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.markdownRender em {
+    font-style: italic;
+}
+
+/* 删除线 */
+.markdownRender del {
+    text-decoration: line-through;
+    color: #6a737d;
+}
+
+/* 目录样式 */
+.markdownRender nav {
+    background-color: #f8f9fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 2em;
+}
+
+.markdownRender nav > ul {
+    margin-bottom: 0;
+}
+
+/* KaTeX 数学公式 */
+.markdownRender .katex {
+    font-size: 1.1em;
+}
+
+.markdownRender .katex-display {
+    margin: 1.5em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* 优化代码行号显示 */
+.markdownRender .react-syntax-highlighter-line-number {
+    min-width: 2.5em !important;
+    padding-right: 1em !important;
+    text-align: right;
+    user-select: none;
+    color: #9ca3af;
+}
+
+/* 代码块滚动条样式 */
+.markdownRender pre::-webkit-scrollbar {
+    height: 8px;
+}
+
+.markdownRender pre::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.markdownRender pre::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.markdownRender pre::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* 打印样式 */
+@media print {
+    .markdownRender {
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .markdownRender pre {
+        page-break-inside: avoid;
+    }
+    
+    .markdownRender h1, 
+    .markdownRender h2, 
+    .markdownRender h3, 
+    .markdownRender h4, 
+    .markdownRender h5, 
+    .markdownRender h6 {
+        page-break-after: avoid;
+    }
 }
