@@ -43,6 +43,7 @@ const OP_ITEM_L2_TYPE_OPTIONS = {
     usStock: [
         { value: "sp500", label: "标普500" },
         { value: "ndx100", label: "纳指100" },
+        { value: "crsp_us_total_market", label: "CRSP US Total Market" },
     ],
     globalStock: [
         { value: "aShares", label: "A股" },
