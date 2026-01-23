@@ -4,10 +4,10 @@ import "./InvestmentDashboad.css";
 // 平台：value 用于请求体，label 用于下拉展示
 const PLATFORM_OPTIONS = [
     { value: "cmb", label: "招商银行" },
-    { value: "chinastock", label: "银河证券" },
+    { value: "yinhe", label: "银河证券" },
     { value: "pingan", label: "平安证券" },
     { value: "usmart_sg", label: "盈立证券sg" },
-    { value: "za", label: "众安银行" },
+    { value: "za_bank", label: "众安银行" },
     { value: "ibkr", label: "盈透证券" },
     { value: "hsbc", label: "汇丰银行" },
     { value: "schwab", label: "嘉信理财" },
@@ -605,9 +605,9 @@ export default function InvestmentDashboard() {
                             const opTypeLabel = OP_TYPE_OPTIONS.find(t => t.value === item.opType)?.label || item.opType;
 
                             // 操作对象：既兼容字符串字段，也兼容嵌套对象
-                            let objectText = "";
+                            let opItemDisplay = null;
                             if (typeof item.opItem === "string") {
-                                objectText = item.opItem;
+                                opItemDisplay = <span className="op-item-text">{item.opItem}</span>;
                             } else if (item.opItem && typeof item.opItem === "object") {
                                 const l1Label = OP_ITEM_L1_TYPE_OPTIONS.find(l1 => l1.value === item.opItem.l1Type)?.label || item.opItem.l1Type || "";
                                 // 二级分类 label 反查
@@ -616,11 +616,24 @@ export default function InvestmentDashboard() {
                                     ? (allL2.find(l2 => l2.value === item.opItem.l2Type)?.label || item.opItem.l2Type)
                                     : "";
 
-                                if (l2Label === "") {
-                                    objectText = `代号：${item.opItem.symbol || ""} | 一级分类：${l1Label}`
-                                } else {
-                                    objectText = `代号：${item.opItem.symbol || ""} | 一级分类：${l1Label} | 二级分类：${l2Label}`;
-                                }
+                                opItemDisplay = (
+                                    <div className="op-item-container">
+                                        <div className="op-item-field">
+                                            <span className="op-item-label">编号</span>
+                                            <span className="op-item-symbol">{item.opItem.symbol || ""}</span>
+                                        </div>
+                                        <div className="op-item-field">
+                                            <span className="op-item-label">一级分类</span>
+                                            <span className="op-item-badge op-item-l1">{l1Label}</span>
+                                        </div>
+                                        {l2Label && (
+                                            <div className="op-item-field">
+                                                <span className="op-item-label">二级分类</span>
+                                                <span className="op-item-badge op-item-l2">{l2Label}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
                             }
 
                             // 金额：兼容字符串字段和嵌套对象
@@ -641,7 +654,7 @@ export default function InvestmentDashboard() {
                                     <td>{item.opDate}</td>
                                     <td>{opPlatformLabel}</td>
                                     <td>{opTypeLabel}</td>
-                                    <td>{objectText}</td>
+                                    <td>{opItemDisplay}</td>
                                     <td>{amountText}</td>
                                     <td>{amountCnyText}</td>
                                 </tr>
@@ -657,9 +670,9 @@ export default function InvestmentDashboard() {
                         const opTypeLabel = OP_TYPE_OPTIONS.find(t => t.value === item.opType)?.label || item.opType;
 
                         // 操作对象：既兼容字符串字段，也兼容嵌套对象
-                        let objectText = "";
+                        let opItemDisplay = null;
                         if (typeof item.opItem === "string") {
-                            objectText = item.opItem;
+                            opItemDisplay = <span className="op-item-text">{item.opItem}</span>;
                         } else if (item.opItem && typeof item.opItem === "object") {
                             const l1Label = OP_ITEM_L1_TYPE_OPTIONS.find(l1 => l1.value === item.opItem.l1Type)?.label || item.opItem.l1Type || "";
                             // 二级分类 label 反查
@@ -668,11 +681,24 @@ export default function InvestmentDashboard() {
                                 ? (allL2.find(l2 => l2.value === item.opItem.l2Type)?.label || item.opItem.l2Type)
                                 : "";
 
-                            if (l2Label === "") {
-                                objectText = `代号：${item.opItem.symbol || ""} | 一级分类：${l1Label}`
-                            } else {
-                                objectText = `代号：${item.opItem.symbol || ""} | 一级分类：${l1Label} | 二级分类：${l2Label}`;
-                            }
+                            opItemDisplay = (
+                                <div className="op-item-container">
+                                    <div className="op-item-field">
+                                        <span className="op-item-label">编号</span>
+                                        <span className="op-item-symbol">{item.opItem.symbol || ""}</span>
+                                    </div>
+                                    <div className="op-item-field">
+                                        <span className="op-item-label">一级分类</span>
+                                        <span className="op-item-badge op-item-l1">{l1Label}</span>
+                                    </div>
+                                    {l2Label && (
+                                        <div className="op-item-field">
+                                            <span className="op-item-label">二级分类</span>
+                                            <span className="op-item-badge op-item-l2">{l2Label}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            );
                         }
 
                         // 金额：兼容字符串字段和嵌套对象
@@ -695,9 +721,8 @@ export default function InvestmentDashboard() {
                                     <span className="record-card-header-item">{opPlatformLabel}</span>
                                     <span className="record-card-header-item">{opTypeLabel}</span>
                                 </div>
-                                <div className="record-card-row">
-                                    <span className="record-card-label">操作对象：</span>
-                                    <span className="record-card-value-full">{objectText}</span>
+                                <div className="record-card-row record-card-row-op-item">
+                                    {opItemDisplay}
                                 </div>
                                 <div className="record-card-row-double">
                                     <div className="record-card-item">
