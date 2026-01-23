@@ -75,6 +75,7 @@ export default function InvestmentDashboard() {
     const [pageNum, setPageNum] = useState(1);
     const [pageSize, setPageSize] = useState(5);
     const [totalRecords, setTotalRecords] = useState(0);
+    const [jumpPageInput, setJumpPageInput] = useState("");
 
     // 弹窗显示的一级分类及其二级分类数据
     const [modalL1Type, setModalL1Type] = useState(null);
@@ -420,6 +421,24 @@ export default function InvestmentDashboard() {
         setPageSize(Number(e.target.value));
         setPageNum(1); // 重置到第一页
     };
+    
+    // 处理页面跳转
+    const handleJumpToPage = () => {
+        const targetPage = parseInt(jumpPageInput);
+        if (isNaN(targetPage) || targetPage < 1 || targetPage > totalPages) {
+            alert(`请输入有效的页码（1-${totalPages}）`);
+            return;
+        }
+        setPageNum(targetPage);
+        setJumpPageInput(""); // 清空输入框
+    };
+    
+    // 处理回车键跳转
+    const handleJumpInputKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleJumpToPage();
+        }
+    };
 
     // 饼图总成本（用于展示所有金额汇总后的值）
     const itemCostTotalAmount = (analyzeCostData.itemCostDetails || []).reduce(
@@ -722,15 +741,33 @@ export default function InvestmentDashboard() {
                         >
                             上一页
                         </button>
-                        <span className="pagination-page-info">
-                            第 {pageNum} / {totalPages || 1} 页
-                        </span>
+                        <div className="pagination-page-input-wrapper">
+                            <span>第</span>
+                            <input
+                                type="number"
+                                min="1"
+                                max={totalPages}
+                                value={jumpPageInput}
+                                onChange={(e) => setJumpPageInput(e.target.value)}
+                                onKeyPress={handleJumpInputKeyPress}
+                                placeholder={String(pageNum)}
+                                className="pagination-page-input"
+                            />
+                            <span>/ {totalPages || 1} 页</span>
+                        </div>
                         <button 
                             onClick={handleNextPage}
                             disabled={pageNum >= totalPages}
                             className="pagination-btn"
                         >
                             下一页
+                        </button>
+                        <button
+                            onClick={handleJumpToPage}
+                            disabled={totalPages === 0 || !jumpPageInput}
+                            className="pagination-btn pagination-jump-btn"
+                        >
+                            跳转
                         </button>
                     </div>
                 </div>
