@@ -9,6 +9,7 @@ import Lab from "modules/lab";
 import RequireAuth from "modules/account/RequireAuth";
 import EarlyPayoffCalculator from "modules/lab/EarlyPayoffCalculator";
 import XssAttackDemo from "modules/lab/XssAttackDemo";
+import InvestmentDashboard from "modules/investment_dashboard/InvestmentDashboard";
 
 export default function MainRouter() {
     return (
@@ -25,6 +26,7 @@ export default function MainRouter() {
                 <Route index element={<Lab />} />
                 <Route path="early-payoff-calculator" element={<EarlyPayoffCalculator />} />
                 <Route path="xss-attack-demo" element={<RequireAuth chilren={<XssAttackDemo />} />} />
+                <Route path="investment_dashboard" element={<InvestmentDashboard />} />
             </Route>
             <Route path='*' element={<NotFound />} status={404} />
         </Routes>

@@ -1,0 +1,1057 @@
+/* 页面整体 */
+.investment-dashboard-page {
+  padding: 20px;
+  font-size: 20px;
+  background-color: #f5f5f7;
+}
+
+/* 分析区域（饼图 + 图例） */
+.investment-dashboard-analysis-section {
+  max-width: 1200px;
+  margin: 0 auto 24px;
+  display: flex;
+  gap: 16px;
+}
+
+.analysis-card {
+  flex: 1;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px 18px 18px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.analysis-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.analysis-hint {
+  text-align: center;
+  color: #666;
+  padding: 16px 0;
+}
+
+.analysis-error {
+  text-align: center;
+  color: #d93025;
+  padding: 16px 0;
+}
+
+.analysis-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.analysis-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.analysis-pie-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.analysis-pie {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+}
+
+.analysis-pie-inner {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 132px;
+  height: 132px;
+  border-width: 0;
+}
+
+.analysis-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.analysis-legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.analysis-legend-sub {
+  list-style: none;
+  margin: 4px 0 0 24px;
+  padding: 0;
+}
+
+.analysis-legend-sub-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.analysis-total {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.analysis-legend-empty {
+  color: #999;
+  font-size: 18px;
+}
+
+.legend-main-row {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+
+.legend-main-row:hover {
+  background-color: #f5f5f5;
+}
+
+.legend-color-block {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.legend-color-block-sub {
+  width: 12px;
+  height: 12px;
+}
+
+.legend-text {
+  font-size: 19px;
+  line-height: 1.5;
+  color: #333;
+}
+
+/* 表格区域 */
+.investment-dashboard-table-section {
+  margin-top: 24px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px 20px 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.add-record-btn {
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  background-color: #2f7af9;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(47, 122, 249, 0.3);
+}
+
+.add-record-btn:hover {
+  background-color: #1e5fd8;
+  box-shadow: 0 4px 8px rgba(47, 122, 249, 0.4);
+}
+
+.add-record-btn:active {
+  background-color: #1a50b8;
+  transform: translateY(1px);
+}
+
+.investment-dashboard-table-title {
+  margin: 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  flex: 1;
+  transform: translateX(-30px);
+}
+
+/* 隐藏桌面端表格视图，统一使用移动端卡片样式 */
+.investment-dashboard-table {
+  display: none;
+}
+
+/* 分页控件 */
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pagination-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.pagination-info select {
+  padding: 4px 8px;
+  font-size: 18px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.pagination-info select:focus {
+  outline: none;
+  border-color: #2f7af9;
+  box-shadow: 0 0 0 2px rgba(47, 122, 249, 0.2);
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination-btn {
+  padding: 6px 16px;
+  font-size: 18px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #666;
+}
+
+.pagination-btn:active:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.pagination-btn:disabled {
+  background-color: #f5f5f5;
+  border-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.pagination-page-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+  color: #333;
+  font-weight: 500;
+}
+
+.pagination-page-input {
+  width: 60px;
+  padding: 4px 8px;
+  font-size: 18px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  text-align: center;
+  background-color: #ffffff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pagination-page-input:focus {
+  outline: none;
+  border-color: #2f7af9;
+  box-shadow: 0 0 0 2px rgba(47, 122, 249, 0.2);
+}
+
+/* 表单区域 */
+.investment-dashboard-form {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px 24px;
+  max-width: 640px;
+  margin: 32px auto 0;
+  box-sizing: border-box;
+  border-top: 4px solid #ccc;
+  background-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.investment-dashboard-form-inline {
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  max-width: 100%;
+}
+
+.investment-dashboard-form-title {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group-small {
+  margin-bottom: 10px;
+}
+
+.form-group-last {
+  margin-bottom: 0;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333333;
+}
+
+.form-fieldset {
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  padding: 10px 4px 10px 12px;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+.form-legend {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 0 6px;
+}
+
+.form-control {
+  width: 100%;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #2f7af9;
+  box-shadow: 0 0 0 2px rgba(47, 122, 249, 0.2);
+  background-color: #ffffff;
+}
+
+.submit-button {
+  margin-top: 8px;
+  padding: 10px 24px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2f7af9;
+  color: #ffffff;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(47, 122, 249, 0.3);
+}
+
+.submit-button:hover {
+  background-color: #1e5fd8;
+  box-shadow: 0 4px 8px rgba(47, 122, 249, 0.4);
+}
+
+.submit-button:active {
+  background-color: #1a50b8;
+  transform: translateY(1px);
+}
+
+/* 弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 0;
+  min-width: 400px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content-large {
+  min-width: 600px;
+  max-width: 800px;
+  max-height: 90vh;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: #e8e8e8;
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-list-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-list-item:last-child {
+  border-bottom: none;
+}
+
+.modal-color-block {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.modal-text {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.modal-empty {
+  text-align: center;
+  color: #999;
+  font-size: 18px;
+  padding: 24px 0;
+}
+
+/* 操作对象样式 */
+.op-item-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.op-item-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.op-item-label {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: center;
+  min-height: 22px;
+  line-height: 22px;
+}
+
+.op-item-symbol {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1a1a1a;
+  padding: 3px 10px;
+  background-color: #f0f4ff;
+  border-radius: 4px;
+  border: 1px solid #d0d9f0;
+  min-width: 60px;
+  text-align: center;
+  min-height: 24px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.op-item-badge {
+  font-size: 16px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+  min-width: 60px;
+  text-align: center;
+  min-height: 24px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.op-item-l1 {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #90caf9;
+}
+
+.op-item-l2 {
+  background-color: #f3e5f5;
+  color: #6a1b9a;
+  border: 1px solid #ce93d8;
+}
+
+.op-item-text {
+  font-size: 17px;
+  color: #333;
+}
+
+/* 移动端卡片式记录 - 基础样式（统一所有设备使用此样式） */
+.investment-dashboard-table-mobile {
+  display: block;
+}
+
+.record-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.record-card:last-child {
+  margin-bottom: 0;
+}
+
+.record-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e0e0e0;
+  gap: 8px;
+}
+
+.record-card-header-item {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.record-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  padding-top: 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.record-card-row-op-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 2px;
+}
+
+.record-card-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.record-card-label {
+  font-weight: 600;
+  color: #666;
+  font-size: 17px;
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.record-card-value {
+  color: #333;
+  font-size: 17px;
+  text-align: right;
+  flex: 1;
+  word-break: break-word;
+}
+
+.record-card-value-full {
+  color: #333;
+  font-size: 17px;
+  text-align: left;
+  flex: 1;
+  word-break: break-word;
+}
+
+.record-card-row-double {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding-top: 2px;
+  padding-bottom: 0;
+  border-bottom: none;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.record-card-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(50% - 20px);
+}
+
+.record-card-item:last-child {
+  padding-left: 0;
+}
+
+.record-card-label-inline {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: center;
+  min-height: 22px;
+  line-height: 22px;
+}
+
+.record-card-value-inline {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1a1a1a;
+  padding: 3px 10px;
+  background-color: #f0f4ff;
+  border-radius: 4px;
+  border: 1px solid #d0d9f0;
+  min-width: 60px;
+  text-align: center;
+  min-height: 24px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+}
+
+/* 移动端响应式适配 */
+@media (max-width: 768px) {
+  .investment-dashboard-page {
+    padding: 15px 10px;
+    font-size: 16px;
+  }
+
+  .investment-dashboard-analysis-section {
+    flex-direction: column;
+  }
+
+  .analysis-card {
+    padding: 12px 15px 15px;
+  }
+
+  .analysis-title {
+    font-size: 18px;
+  }
+
+  .analysis-content {
+    flex-direction: column;
+  }
+
+  .analysis-pie {
+    width: 140px;
+    height: 140px;
+  }
+
+  .analysis-total {
+    font-size: 16px;
+  }
+
+  .legend-text {
+    font-size: 15px;
+  }
+
+  .investment-dashboard-table-section {
+    padding: 12px 15px 15px;
+  }
+
+  .table-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .add-record-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+    flex-shrink: 0;
+  }
+
+  .investment-dashboard-table-title {
+    font-size: 18px;
+    flex: 1;
+    text-align: left;
+    padding-left: 50px;
+  }
+
+  .form-label,
+  .form-legend {
+    font-size: 16px;
+  }
+
+  .form-control {
+    font-size: 16px;
+  }
+
+  .submit-button {
+    font-size: 16px;
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .pagination-info {
+    font-size: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .pagination-info select {
+    font-size: 14px;
+  }
+
+  .pagination-buttons {
+    justify-content: center;
+  }
+
+  .pagination-btn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .pagination-page-input-wrapper {
+    font-size: 14px;
+  }
+
+  .pagination-page-input {
+    width: 50px;
+    font-size: 14px;
+  }
+
+  .modal-content {
+    min-width: 90%;
+    max-width: 90%;
+  }
+
+  .modal-content-large {
+    min-width: 95%;
+    max-width: 95%;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-text {
+    font-size: 15px;
+  }
+
+  .op-item-container {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .op-item-label {
+    font-size: 15px;
+    min-height: 20px;
+    line-height: 20px;
+  }
+
+  .op-item-symbol {
+    font-size: 15px;
+    min-height: 22px;
+    line-height: 16px;
+    padding: 3px 8px;
+  }
+
+  .op-item-badge {
+    font-size: 15px;
+    padding: 3px 8px;
+    min-height: 22px;
+    line-height: 16px;
+  }
+
+  .record-card-row-double {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .record-card-label-inline {
+    font-size: 15px;
+    min-height: 20px;
+    line-height: 20px;
+  }
+
+  .record-card-value-inline {
+    font-size: 15px;
+    padding: 3px 8px;
+    min-height: 22px;
+    line-height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .investment-dashboard-page {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+
+  .analysis-card {
+    padding: 10px 12px 12px;
+  }
+
+  .analysis-title {
+    font-size: 16px;
+  }
+
+  .analysis-pie {
+    width: 120px;
+    height: 120px;
+  }
+
+  .analysis-total {
+    font-size: 14px;
+  }
+
+  .legend-text {
+    font-size: 13px;
+  }
+
+  .investment-dashboard-table-section {
+    padding: 10px 12px 12px;
+  }
+
+  .add-record-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .investment-dashboard-table-title {
+    font-size: 16px;
+  }
+
+  .form-label,
+  .form-legend {
+    font-size: 14px;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  .submit-button {
+    font-size: 14px;
+  }
+
+  .pagination-info {
+    font-size: 13px;
+  }
+
+  .pagination-info select {
+    font-size: 13px;
+  }
+
+  .pagination-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .pagination-page-input-wrapper {
+    font-size: 13px;
+  }
+
+  .pagination-page-input {
+    width: 45px;
+    font-size: 13px;
+  }
+
+  .record-card {
+    padding: 10px 12px;
+  }
+
+  .record-card-header-item {
+    font-size: 12px;
+  }
+
+  .record-card-label {
+    font-size: 13px;
+    min-width: 70px;
+  }
+
+  .record-card-value,
+  .record-card-value-full {
+    font-size: 13px;
+  }
+
+  .record-card-row-double {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .record-card-label-inline {
+    font-size: 12px;
+    min-height: 16px;
+    line-height: 16px;
+  }
+
+  .record-card-value-inline {
+    font-size: 13px;
+    padding: 2px 6px;
+    min-height: 20px;
+    line-height: 16px;
+  }
+
+  .modal-content {
+    min-width: 95%;
+    max-width: 95%;
+  }
+
+  .modal-content-large {
+    min-width: 98%;
+    max-width: 98%;
+  }
+
+  .modal-title {
+    font-size: 16px;
+  }
+
+  .modal-text {
+    font-size: 14px;
+  }
+
+  .op-item-container {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .op-item-label {
+    font-size: 12px;
+    min-height: 16px;
+    line-height: 16px;
+  }
+
+  .op-item-symbol {
+    font-size: 13px;
+    padding: 2px 6px;
+    min-height: 20px;
+    line-height: 16px;
+  }
+
+  .op-item-badge {
+    font-size: 13px;
+    padding: 2px 6px;
+    min-height: 20px;
+    line-height: 16px;
+  }
+}
