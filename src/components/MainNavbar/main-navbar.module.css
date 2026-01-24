@@ -1,0 +1,27 @@
+/* 整个导航栏的样式 */
+.navbar {
+    height: 55px;
+    background-color: #0f0f0f;
+}
+
+/* 包含所有链接的容器 */
+.navItems {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/* 每个链接的样式 */
+.navLink {
+    display: inline-block;
+    padding-top: 13px;
+    padding-left: 30px;
+    color: #fcfcfc;
+    font-size: 23px;
+    text-decoration: none;
+}
+
+/* 鼠标悬停时改变颜色（可选） */
+.navLink:hover {
+    color: #f0a500;
+}
