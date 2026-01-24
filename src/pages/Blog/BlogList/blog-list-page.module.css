@@ -1,0 +1,127 @@
+.blogIndexContainer {
+    padding: 40px 15%;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 120px);
+}
+
+@media (max-width: 1200px) {
+    .blogIndexContainer {
+        padding: 30px 10%;
+    }
+}
+
+@media (max-width: 768px) {
+    .blogIndexContainer {
+        padding: 20px 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .blogIndexContainer {
+        padding: 15px 3%;
+    }
+}
+
+.blogIndexTitle {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 0.8em;
+    margin-left: 20%;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid #eaecef;
+    color: #1a1a1a;
+    max-width: 50%;
+}
+
+.blogList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 20%;
+    max-width: 50%;
+}
+
+.blogItem {
+    margin-bottom: 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    border: 1px solid #e1e4e8;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.blogItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #0366d6;
+}
+
+.blogItemLink {
+    display: block;
+    padding: 14px 20px;
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.blogItemLink:hover {
+    color: #0366d6;
+}
+
+.blogItemTitle {
+    font-size: 1.15em;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.blogItemTitle::before {
+    content: '📝';
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+/* 可选：添加分类标签样式 */
+.blogItemMeta {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: #6a737d;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .blogList {
+        max-width: 100%;
+        margin-left: 0;
+    }
+    
+    .blogIndexTitle {
+        font-size: 2em;
+        max-width: 100%;
+        margin-left: 0;
+    }
+    
+    .blogItemTitle {
+        font-size: 1.1em;
+    }
+    
+    .blogItemLink {
+        padding: 16px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .blogIndexTitle {
+        font-size: 1.8em;
+    }
+    
+    .blogItemTitle {
+        font-size: 1em;
+    }
+    
+    .blogItemLink {
+        padding: 14px 16px;
+    }
+}

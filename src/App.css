@@ -16,6 +16,6 @@ html {
     }
 }
 
-.app {
+.root {
     min-height: calc(100vh - 25px);
 }
