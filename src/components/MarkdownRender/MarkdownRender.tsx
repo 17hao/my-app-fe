@@ -10,6 +10,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import "katex/dist/katex.min.css";
+import styles from "@/components/MarkdownRender/markdown-render.module.css";
 
 interface CodeBlockProps {
     children?: React.ReactNode;
@@ -46,7 +47,7 @@ export default function MarkdownRender({ title, markdown }: MarkdownRenderProps)
     }, [title]);
 
     return (
-        <div className="markdownRender">
+        <div className={styles.markdownRender}>
             <ReactMarkdown
                 children={markdown}
                 remarkPlugins={[

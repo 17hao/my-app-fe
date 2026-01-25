@@ -1,31 +1,37 @@
 .markdownRender {
-    padding: 40px 15%;
-    max-width: 1200px;
+    width: 50%;
+    padding: 40px 30px;
     margin: 0 auto;
     background-color: #ffffff;
     min-height: calc(100vh - 120px);
     line-height: 1.8;
     color: #333;
     font-size: 16px;
+    box-sizing: border-box;
 }
 
-/* 响应式设计 */
-@media (max-width: 1200px) {
+/* 响应式设计 - 平板设备 */
+@media (max-width: 1024px) {
     .markdownRender {
-        padding: 30px 10%;
+        width: 70%;
+        padding: 35px 25px;
     }
 }
 
+/* 响应式设计 - 小屏平板和大屏手机 */
 @media (max-width: 768px) {
     .markdownRender {
-        padding: 20px 5%;
+        width: 85%;
+        padding: 25px 20px;
         font-size: 15px;
     }
 }
 
+/* 响应式设计 - 手机竖屏 */
 @media (max-width: 480px) {
     .markdownRender {
-        padding: 15px 3%;
+        width: 95%;
+        padding: 20px 15px;
         font-size: 14px;
     }
 }
