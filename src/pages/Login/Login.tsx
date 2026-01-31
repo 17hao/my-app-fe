@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login, storeAuthToken } from '@/api/auth-api';
 import styles from './login-page.module.css';
 
@@ -6,6 +7,7 @@ import styles from './login-page.module.css';
  * Login Page Component
  */
 const Login: React.FC = () => {
+    const navigate = useNavigate();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -40,8 +42,22 @@ const Login: React.FC = () => {
                 setSuccess(true);
                 setError(null);
                 
-                // Optional: Redirect to home page or dashboard after successful login
-                // window.location.href = '/';
+                // 获取登录前保存的返回地址
+                const returnUrl = localStorage.getItem('returnUrl');
+                
+                // 清除保存的返回地址
+                localStorage.removeItem('returnUrl');
+                
+                // 延迟跳转，让用户看到成功消息
+                setTimeout(() => {
+                    if (returnUrl) {
+                        // 返回原页面并带上参数，告知打开表单
+                        navigate(returnUrl + '?openForm=true');
+                    } else {
+                        // 没有返回地址，跳转到首页
+                        navigate('/');
+                    }
+                }, 500);
             } else {
                 setError('Login failed: No token received');
             }

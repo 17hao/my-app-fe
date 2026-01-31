@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getApiUrl } from "@/config/env";
+import { isAuthenticated } from "@/api/auth-api";
 import { PLATFORM_OPTIONS, OP_TYPE_OPTIONS, OP_ITEM_L1_TYPE_OPTIONS, OP_ITEM_L2_TYPE_OPTIONS, cny, hkd, usd } from "./consts";
 import "./InvestmentDashboad.css";
 
 export default function OperationList() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [opDate, setOpDate] = useState("");
     // 注意：这里存的是 code（value），不是展示文案
     const [opPlatform, setOpPlatform] = useState("");
@@ -29,6 +31,20 @@ export default function OperationList() {
 
     // 控制表单显示/隐藏
     const [showForm, setShowForm] = useState(false);
+
+    // 处理新增记录按钮点击
+    const handleAddRecord = () => {
+        // 检查是否已登录
+        if (!isAuthenticated()) {
+            // 保存当前路径到 localStorage，登录后返回
+            localStorage.setItem('returnUrl', location.pathname);
+            // 跳转到登录页
+            navigate('/login');
+            return;
+        }
+        // 已登录，直接打开表单
+        setShowForm(!showForm);
+    };
 
     // 查询投资操作流水列表（分页）
     async function fetchOperations() {
@@ -68,6 +84,14 @@ export default function OperationList() {
 
     useEffect(() => {
         document.title = "投资操作流水";
+        
+        // 检查是否从登录页返回，如果是则自动打开表单
+        const urlParams = new URLSearchParams(location.search);
+        if (urlParams.get('openForm') === 'true') {
+            setShowForm(true);
+            // 清除 URL 参数
+            navigate(location.pathname, { replace: true });
+        }
     }, []);
 
     // 当分页参数变化时，重新获取数据
@@ -200,7 +224,7 @@ export default function OperationList() {
                 <div className="table-header">
                     <button
                         className="add-record-btn"
-                        onClick={() => setShowForm(!showForm)}
+                        onClick={handleAddRecord}
                     >
                         {showForm ? '收起录入表单' : '+ 新增记录'}
                     </button>
