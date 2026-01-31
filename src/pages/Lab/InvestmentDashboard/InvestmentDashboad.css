@@ -3,6 +3,7 @@
   padding: 20px;
   font-size: 20px;
   background-color: #f5f5f7;
+  min-height: 100vh;
 }
 
 /* 分析区域（饼图 + 图例） */
@@ -1053,5 +1054,94 @@
     padding: 2px 6px;
     min-height: 20px;
     line-height: 16px;
+  }
+
+  .dashboard-action-panel {
+    margin-top: 20px;
+    padding: 0 10px;
+  }
+
+  .action-panel-button {
+    min-width: auto;
+    width: 100%;
+    padding: 12px 20px;
+    gap: 8px;
+  }
+
+  .action-button-icon {
+    font-size: 18px;
+  }
+
+  .action-button-text {
+    font-size: 14px;
+  }
+
+  .action-button-arrow {
+    font-size: 16px;
+  }
+}
+
+/* 底部操作按钮面板 */
+.dashboard-action-panel {
+  max-width: 800px;
+  margin: 30px auto 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.action-panel-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+  min-width: 240px;
+}
+
+.action-panel-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #7c92f0 0%, #8a5ab8 100%);
+}
+
+.action-panel-button:active {
+  transform: translateY(0px);
+}
+
+.action-button-icon {
+  font-size: 20px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.action-button-text {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.action-button-arrow {
+  font-size: 18px;
+  font-weight: bold;
+  animation: arrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
   }
 }
