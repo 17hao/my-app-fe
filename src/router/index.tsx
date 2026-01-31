@@ -7,7 +7,7 @@ import About from "@/pages/About/About";
 import Lab from "@/pages/Lab/Lab";
 import PrepaymentCalculator from "@/pages/Lab/PrepaymentCalculator/PrepaymentCalculator";
 import InvestmentDashboard from "@/pages/Lab/InvestmentDashboard/InvestmentDashboard.jsx";
-// import Login from "modules/account/index";
+import Login from "@/pages/Login/Login";
 // import RequireAuth from "modules/account/RequireAuth";
 
 export default function MainRouter(): React.ReactElement {
@@ -25,7 +25,7 @@ export default function MainRouter(): React.ReactElement {
                 <Route path="prepayment-calculator" element={<PrepaymentCalculator />} />
                 <Route path="investment-dashboard" element={<InvestmentDashboard />} />
             </Route>
-            {/* <Route path="login" element={<Login />} /> */}
+            <Route path="login" element={<Login />} />
             {/* <Route path='*' element={<NotFound />} /> */}
         </Routes>
     );
