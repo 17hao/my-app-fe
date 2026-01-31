@@ -29,8 +29,8 @@ export const OP_ITEM_L1_TYPE_OPTIONS = [
 // 二级分类：按一级分类 code 分组，value 用于请求体，label 用于展示
 export const OP_ITEM_L2_TYPE_OPTIONS: Record<string, Array<{ value: string; label: string }>> = {
     usTreasury: [
-        { value: "shortTerm", label: "短期国债（0-1Y）" },
-        { value: "intermediateTerm", label: "中期国债（1-10Y）" },
+        { value: "shortTerm", label: "短期国债（0-3Y）" },
+        { value: "intermediateTerm", label: "中期国债（3-10Y）" },
         { value: "longTerm", label: "长期国债（20Y+）" },
     ],
     otherBonds: [
