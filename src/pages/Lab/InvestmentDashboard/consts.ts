@@ -49,6 +49,7 @@ export const OP_ITEM_L2_TYPE_OPTIONS: Record<string, Array<{ value: string; labe
         { value: "nikkei225", label: "日本nikkei225" },
         { value: "cac40", label: "法国cac40" },
         { value: "dax", label: "德国dax" },
+        { value: "msci_south_africa_25/50_index", label: "南非 25/50 Index" },
     ],
 };
 
